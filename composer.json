@@ -1,0 +1,8 @@
+{
+    "name": "pnx/pnx-project",
+    "description": "A PreviousNext project starter kit.",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "require": {}
+}
