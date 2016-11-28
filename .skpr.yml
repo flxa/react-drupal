@@ -1,0 +1,52 @@
+cluster: "pnx.cd.pnx.com.au"
+
+channel: '#{{ app_name }}'
+
+package:
+  steps:
+    - "bundle install --path vendor/bundle"
+    - "composer install --no-dev --prefer-dist --no-progress"
+    - "npm install"
+    - "node_modules/.bin/gulp styles:production"
+
+migrate:
+  - "drush updatedb -y"
+  - "drush fra -y"
+  - "drush cc all"
+
+# A list of all environment configuration.
+environments:
+  - name: "dev"
+    spec:
+      domain:
+        - "{{ app_name }}-qa.cd.pnx.com.au"
+      mounts: *mounts
+      crons:  *crons
+  - name: "staging"
+    spec:
+      domain:
+        - "{{ app_name }}-staging.cd.pnx.com.au"
+      mounts: *mounts
+      crons:  *crons
+  - name: "prod"
+    spec:
+      domain:
+        - "{{ app_name }}-prod.cd.pnx.com.au"
+      minInstances: 2
+      maxMemory:    1024
+      mounts:       *mounts
+      crons:        *crons
+
+# Standard mount configuration for all environments.
+mounts: &mounts
+  - name: "public"
+    path: "/data/app/sites/default/files"
+  - name: "private"
+    path: "/private"
+
+# Standard cron runs for all environments.
+crons: &crons
+  - name:       "drush"
+    workingDir: "/data/app"
+    seconds:    3600
+    command:    "drush cron"

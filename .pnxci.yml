@@ -1,0 +1,23 @@
+channel: '#{{ app_name }}'
+
+application: previousnext/lamp:70
+
+prepare: &prepare
+  - make init
+  - make mkdirs
+  - make styleguide
+  - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
+
+test: &test
+  - make lint-php
+  - make db-sync
+  - make updb
+  - make test
+
+test_pr:
+  setup: *prepare
+  steps: *test
+
+test_head:
+  setup: *prepare
+  steps: *test
