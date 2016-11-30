@@ -1,0 +1,19 @@
+// @file
+// The major stylesheet for this theme.
+//
+// We categorize our components by creating headings in this file. See the
+// description on the style guide home page for more information.
+
+// Colors and Sass
+@import 'init/**/*.scss';
+
+// Utilities
+@import 'utils/**/*.scss';
+
+// Base styles.
+@import 'base/**/*.scss';
+
+// Set some padding on the ckedior body.
+body {
+  @include padding(5px 10px);
+}

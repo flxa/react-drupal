@@ -1,0 +1,32 @@
+// Variables
+//
+// Set misc vars here.
+
+// Borders
+$border-width:              1px !default;
+$border-style:              $border-width solid !default;
+$border-radius:             10px !default;
+
+// Spacing
+$spacing-s:                 10px !default;
+$spacing-m:                 30px !default;
+$spacing-l:                 70px !default;
+
+// Set container padding as a portion of the viewport width.
+$container-padding:         6vw !default;
+
+// Set the width that the container will max out at.
+$container-max-width:       1280px !default;
+
+// Drupal RTL support: Rather than include a separate *-rtl.css file, Zen 6 uses
+// Drupal 8's standard [dir='rtl'] selector for RTL language support. You can
+// turn off all RTL CSS by setting the following variable to false.
+$include-rtl:               false;
+
+// Base path for assets (fonts, images...), should not include trailing slash.
+// Providing stylesheets live in the css directory (and not in a sub directory
+// inside the css directory) this will work.
+$asset-base-path:           '../' !default;
+$image-base-path:           'sass/components' !default;
+$font-base-path:            'fonts' !default;
+$icon-base-path:            'sass/base/icons/source' !default;

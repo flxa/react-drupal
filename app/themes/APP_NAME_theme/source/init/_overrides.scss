@@ -1,0 +1,10 @@
+// Overrides
+//
+// Occasionally certain drupal selectors will need to be overridden.
+
+.toolbar {
+  // The admin toolbar is inherting some of our global styles, causing it to look
+  // different when accessed from the amaysim theme.
+  letter-spacing: 0;
+  -moz-osx-font-smoothing: auto;
+}

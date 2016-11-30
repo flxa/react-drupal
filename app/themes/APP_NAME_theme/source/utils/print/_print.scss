@@ -1,0 +1,31 @@
+// Do not print
+//
+// Mixin to remove an element from the print version of the web site.
+//
+// By importing this CSS file as media "all", we allow this print file to be
+// aggregated with other stylesheets, for improved front-end performance.
+//
+// Style guide: utils.print-none
+
+@mixin print-none {
+  @media print {
+    display: none;
+  }
+}
+
+// Only print
+//
+// Mixin to show an element on the print version of the web site.
+//
+// By importing this CSS file as media "all", we allow this print file to be
+// aggregated with other stylesheets, for improved front-end performance.
+//
+// Style guide: utils.print-only
+
+@mixin print-only {
+  display: none;
+
+  @media print {
+    display: block;
+  }
+}

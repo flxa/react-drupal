@@ -1,0 +1,128 @@
+// Grid
+//
+// Simple, custom flex-box based grid system with a float fallback for IE9.
+//
+// Markup: layout.hbs
+//
+// Style guide: layout.layout
+
+// Set default vars for the grid system.
+// These can be overridden when calling the functions below.
+$gutter-width: 40px;
+$container-width: $container-max-width;
+
+// Calculate column width based on number of columns, total column count, container width and gutter widths.
+@function grid-width($columns, $total-columns, $gutter: $gutter-width, $container: $container-width) {
+  $column-width: (($container - (($total-columns) * $gutter)) / $total-columns);
+  $combined-width: $column-width * $columns + ($gutter * ($columns - 1));
+  $width: $combined-width / $container * 100%;
+  @return $width;
+}
+
+@function grid-gutter($gutter: $gutter-width, $container: $container-width) {
+  $gutter-width: (($gutter / $container) * 100%) / 2;
+  @return $gutter-width;
+}
+
+// Simple grid that uses the default $gutter-width and $container-width.
+.grid,
+%grid {
+  display: flex;
+  flex-wrap: wrap;
+  // So as to get even spacing between grid items we set negative margins on
+  // the container.
+  margin-left: -(grid-gutter());
+  margin-right: -(grid-gutter());
+
+  .no-flexbox & {
+    clear: both;
+    overflow: hidden;
+  }
+
+  &__col {
+    @include margin-bottom($gutter-width);
+    // Set default margins for all columns.
+    margin-left: grid-gutter();
+    margin-right: grid-gutter();
+    // Full width on small screens.
+    flex: 0 0 grid-width(1, 1);
+    width: grid-width(1, 1);
+
+    .no-flexbox & {
+      float: left;
+    }
+  }
+
+  &__full-col {
+    @extend %grid__col;
+    clear: both;
+  }
+
+  &__fluid-col {
+    @extend %grid__col;
+
+    // Fill remaining space.
+    @include respond-to(m) {
+      flex: 1;
+    }
+  }
+
+  &__4-col {
+    @extend %grid__col;
+
+    @include respond-to(s) {
+      // 1 of 2 columns on narrow screens.
+      flex: 0 0 grid-width(1, 2);
+      width: grid-width(1, 2);
+    }
+
+    @include respond-to(m) {
+      // 1 of 4 columns on wide screens.
+      flex: 0 0 grid-width(1, 4);
+      width: grid-width(1, 4);
+    }
+  }
+
+  &__3-col {
+    @extend %grid__col;
+
+    @include respond-to(m) {
+      // 1 of 3 columns on wide screens.
+      flex: 0 0 grid-width(1, 3);
+      width: grid-width(1, 3);
+    }
+  }
+
+  &__2-col {
+    @extend %grid__col;
+
+    @include respond-to(m) {
+      // 1 of 2 columns on wide screens.
+      flex: 0 0 grid-width(1, 2);
+      width: grid-width(1, 2);
+    }
+  }
+
+  &__full-height {
+    // Make sure children are full height.
+    display: flex;
+
+    // And full width.
+    > * {
+      flex: 1 1 auto;
+    }
+
+    // Reset.
+    &--off {
+      display: block;
+    }
+  }
+}
+
+// Helper for IE9 support.
+%grid--fallback {
+  .no-flexbox & {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

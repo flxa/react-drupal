@@ -1,0 +1,165 @@
+// Typography
+//
+// Text in its default appearance.
+//
+// Weight: 1
+//
+// Markup: text-defaults.twig
+//
+// Style guide: base.text
+
+$chroma: add-colors('primary', (
+  text:     'grey-mid',
+  text-alt: 'grey',
+  text-bg:  'white',
+  heading:  'grey',
+));
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  @include define-type-sizing;
+  color: color(text);
+  background: color(text-bg);
+
+  // Hide scroll bars on IE.
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Strong (bold)
+//
+// Bold text using the `<strong>` tag. Please note that bold text uses a _semi-bold_ weight
+// (600 instead of 700), so using `font-weight: bold;` will produce text that
+// uses faux bold (and hence will look poor). Instead use the `<strong>` tag or
+// `font-weight: weight(bold);` if implementing in SASS.
+//
+// Weight: 1
+//
+// Markup: text-strong.twig
+//
+// Style guide: base.text.strong
+
+b,
+strong {
+  font-weight: weight(bold);
+}
+
+// Emphasis (italic)
+//
+// Italic text using the `<em>` tag.
+//
+// Weight: 2
+//
+// Markup: text-em.twig
+//
+// Style guide: base.text.em
+
+// Paragraph
+//
+// Text grouped with paragraph tags.
+//
+// Weight: 3
+//
+// Markup: text-p.twig
+//
+// Style guide: base.text.p
+
+p {
+  @include margin(0 0 1);
+}
+
+// Headings
+//
+// `<h1>` through to `<h6>` tag text and the spacing relationship with paragraphs.
+//
+// Weight: 4
+//
+// Markup: text-h.twig
+//
+// Style guide: base.text.h
+
+%text__h-base {
+  @include margin(2 0 1);
+  font-weight: weight(normal);
+  color: color(heading);
+}
+
+h1,
+%h1 {
+  @extend %text__h-base;
+  @include typeset(h1);
+}
+
+h2,
+%h2 {
+  @extend %text__h-base;
+  @include typeset(h2);
+}
+
+h3,
+%h3 {
+  @extend %text__h-base;
+  @include typeset(h3);
+}
+
+h4,
+%h4 {
+  @extend %text__h-base;
+  @include typeset(h4);
+}
+
+h5,
+%h5 {
+  @extend %text__h-base;
+  @include typeset(h5);
+}
+
+h6,
+%h6 {
+  @extend %text__h-base;
+  @include typeset(h6);
+}
+
+// Unordered list
+//
+// The standard approach for a bullet (unordered list) is to use the default
+// `<ul>` tag as shown below.
+//
+// Weight: 5
+//
+// Markup: text-ul.twig
+//
+// Style guide: base.text.ul
+
+// Ordered list
+//
+// An ordered list.
+//
+// Weight: 6
+//
+// Markup: text-ol.twig
+//
+// Style guide: base.text.ol
+
+ul,
+ol {
+  @include margin(0 0 1);
+  @include padding(0 0 0 2);
+
+  // Nested lists have altered spacing.
+  ul,
+  ol {
+    @include margin(.25 0 0)
+  }
+
+  li {
+    @include margin(0 0 .25);
+  }
+}

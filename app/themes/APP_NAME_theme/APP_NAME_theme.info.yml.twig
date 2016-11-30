@@ -1,0 +1,48 @@
+name: APP_NAME_theme
+description: 'A custom theme for APP_NAME'
+base theme: stable
+type: theme
+package: Custom
+core: 8.x
+
+# LIBRARIES
+# Add or override libraries (css and js) for this theme.
+
+libraries:
+  - APP_NAME_theme/global
+
+ckeditor_stylesheets:
+  - css/wysiwyg.css
+
+# Remove individual stylesheets from core, a base theme or module;
+# Un-comment or alter each CSS file as required to exclude it from being loaded.
+
+stylesheets-remove:
+# - '@stable/css/system/components/align.module.css'
+# - 'core/assets/vendor/jquery.ui/themes/base/dialog.css'
+# - 'core/assets/vendor/jquery.ui/themes/base/theme.css'
+# - 'core/assets/vendor/jquery.ui/themes/base/button.css'
+# - 'core/assets/vendor/jquery.ui/themes/base/menu.css'
+
+# Replace or remove entire libraries;
+# Un-comment each library to exclude it's CSS, JS and Dependencies from being loaded.
+
+libraries-override:
+#  core/modernizr:
+#   js:
+#    assets/vendor/modernizr/modernizr.min.js: js/modernizr.min.js
+#  core/drupal.dialog: false
+
+# REGIONS
+# Specify the block regions required by this theme.
+
+regions:
+  header: Header
+  navigation: Navigation
+  highlighted: Highlighted
+  breadcrumb: Breadcrumb
+  help: Help
+  content: Content
+  secondary: 'Secondary content'
+  tertiary: 'Tertiary content'
+  footer: Footer
