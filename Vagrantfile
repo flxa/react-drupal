@@ -9,8 +9,8 @@ Vagrant.configure("2") do |config|
     # Examples:
     #  * Create files directories
     #  * Setup additional databases
-    # lamp.vm.provision :shell, path: "provision.sh"
-    #
+    lamp.vm.provision :shell, path: "provision.sh"
+
     # Modify the host resources.
     # lamp.vm.provider :virtualbox do |vb|
     #   vb.customize [ "modifyvm", :id, "--cpus",   "2" ]
