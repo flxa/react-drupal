@@ -3,7 +3,7 @@
 # Initialise a new project, renaming placeholders to the project name.
 # Default to the current directory name.
 APP_NAME=$1
-TEMPLATE_FILES="app/sites/default/* .skpr.yml .pnxci.yml gulpfile.js package.json app/themes/APP_NAME_theme/*.yml npm-shrinkwrap.json"
+TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.js package.json npm-shrinkwrap.json Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml "
 
 # String replace APP_NAME in templates.
 echo "Using APP_NAME:" $APP_NAME
