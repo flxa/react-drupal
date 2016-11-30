@@ -1,6 +1,6 @@
 cluster: "pnx.cd.pnx.com.au"
 
-channel: '#{{ app_name }}'
+channel: '#APP_NAME'
 
 package:
   steps:
@@ -19,19 +19,19 @@ environments:
   - name: "dev"
     spec:
       domain:
-        - "{{ app_name }}-qa.cd.pnx.com.au"
+        - "APP_NAME-qa.cd.pnx.com.au"
       mounts: *mounts
       crons:  *crons
   - name: "staging"
     spec:
       domain:
-        - "{{ app_name }}-staging.cd.pnx.com.au"
+        - "APP_NAME-staging.cd.pnx.com.au"
       mounts: *mounts
       crons:  *crons
   - name: "prod"
     spec:
       domain:
-        - "{{ app_name }}-prod.cd.pnx.com.au"
+        - "APP_NAME-prod.cd.pnx.com.au"
       minInstances: 2
       maxMemory:    1024
       mounts:       *mounts
