@@ -23,7 +23,7 @@ init:
 	npm install
 
 init-local: init
-	cp $(APP_ROOT)/sites/example.settings.local.php cp $(APP_ROOT)/sites/default/settings.local.php
+	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php
 
 mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/{simpletest,behat}

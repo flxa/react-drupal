@@ -5,7 +5,7 @@
 TPLT_FILES="app/sites/default/* .skpr.yml .pnxci.yml"
 
 # Default to the current directory name.
-APP_NAME=${PWD##*/}
+APP_NAME=$1
 
 echo "Using APP_NAME:" $APP_NAME
 
