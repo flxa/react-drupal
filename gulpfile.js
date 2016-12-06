@@ -18,7 +18,7 @@ options.rootPath = {
   project     : __dirname + '/',
   web         : __dirname + '/app/',
   styleGuide  : __dirname + '/app/styleguide/',
-  theme       : __dirname + '/app/themes/APP_NAME/'
+  theme       : __dirname + '/app/themes/APP_NAME_theme/'
 };
 
 options.theme = {
