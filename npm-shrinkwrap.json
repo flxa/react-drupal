@@ -1891,9 +1891,9 @@
       }
     },
     "kss-node-offscreen-template": {
-      "version": "3.0.0",
-      "from": "git+ssh://git@github.com/previousnext/kss-node-offscreen-template.git",
-      "resolved": "git+ssh://git@github.com/previousnext/kss-node-offscreen-template.git#d073537727ebf12d3b4534b63296b34eacdc46c9"
+      "version": "3.0.1",
+      "from": "kss-node-offscreen-template@>=3.0.1 <4.0.0",
+      "resolved": "https://registry.npmjs.org/kss-node-offscreen-template/-/kss-node-offscreen-template-3.0.1.tgz"
     },
     "lazy-cache": {
       "version": "1.0.4",
