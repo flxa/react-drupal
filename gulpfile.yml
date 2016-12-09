@@ -1,0 +1,27 @@
+developmentUrl: APP_NAME.dev
+httpRoot: app
+
+sass:
+  src: app/themes/APP_NAME_theme/source
+  dest: app/themes/APP_NAME_theme/css
+
+js:
+  src:
+    - app/themes/APP_NAME_theme/js
+    - app/modules/custom
+
+styleguide:
+  title: APP_NAME Style Guide
+  dest: app/styleguide
+  cssFiles:
+    - app/themes/APP_NAME_theme/css/styles.css
+    - app/themes/APP_NAME_theme/css/chroma-kss-styles.css
+    - app/themes/APP_NAME_theme/css/kss-only.css
+  jsFiles:
+    - app/themes/APP_NAME_theme/js/scripts.js
+
+autoprefixer:
+  browsers:
+    - last 2 versions
+    - ie >= 9
+    - and_chr >= 2.3

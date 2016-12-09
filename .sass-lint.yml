@@ -4,7 +4,7 @@ files:
   include: '**/*.s+(a|c)ss'
 options:
   formatter: stylish
-  merge-default-rules: false
+  merge-default-rules: true
 rules:
   brace-style:
     - 1
@@ -15,9 +15,16 @@ rules:
   empty-line-between-blocks:
     - 1
     - ignore-single-line-rulesets: false
+  force-element-nesting: 0
+  mixins-before-declarations:
+    exclude:
+      - respond-to
+      - breakpoint
+      - mq
   nesting-depth:
     - 1
     - max-depth: 4
+  no-important: 1
   no-mergeable-selectors: 1
   no-misspelled-properties:
     - 1
@@ -44,3 +51,5 @@ rules:
   property-sort-order: 0
   space-after-colon: 1
   space-between-parens: 0
+  quotes:
+    style: single
