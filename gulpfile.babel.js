@@ -17,7 +17,7 @@ import * as watch from './gulpfiles/watch';
 /**
  * Build for production and fail on a linting error.
  */
-const build = gulp.series('clean:css', 'styles:production', 'styleguide', 'lint:with-fail');
+const build = gulp.series('styles:production', 'styleguide');
 build.description = 'Build all styles and styleguide (for production).';
 gulp.task('build', build);
 

@@ -10,6 +10,7 @@ prepare: &prepare
 
 test: &test
   - make lint-php
+  - make lint-sass-js
   - make db-sync
   - make updb
   - make test

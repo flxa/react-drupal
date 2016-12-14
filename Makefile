@@ -20,7 +20,7 @@ build: sql-drop sync updb entity-updates import cache-rebuild
 
 init:
 	composer install
-	npm install
+	npm install --loglevel silent
 
 init-local: init
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php
@@ -41,7 +41,7 @@ cache-rebuild:
 	drush -r $(APP_ROOT) cr
 
 styleguide:
-	node_modules/.bin/gulp build
+	./node_modules/.bin/gulp build
 
 sync:
 	skpr exec dev "drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && drush -r $(APP_ROOT) sql-cli < db.sql
@@ -57,6 +57,9 @@ fix-php:
 
 lint-php:
 	./bin/phpcs --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+
+line-sass-js:
+	./node_modules/.bin/gulp lint:with-fail
 
 ci-phpcs: ci-prepare
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml

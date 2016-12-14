@@ -6,8 +6,8 @@ package:
   steps:
     - "bundle install --path vendor/bundle"
     - "composer install --no-dev --prefer-dist --no-progress --optimize-autoloader"
-    - "npm install"
-    - "node_modules/.bin/gulp styles:production"
+    - "npm install --loglevel silent"
+    - "node_modules/.bin/gulp build"
 
 migrate:
   - "drush updatedb -y"
