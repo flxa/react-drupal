@@ -22,7 +22,7 @@ let watchFiles = {
     '!' + config.sass.src + '/style-guide/**/*.scss'
   ],
 
-  js: config.js.src,
+  js: config.js.src + '/**/*.js',
 
   styleguide: [
     config.sass.src + '/**/*.twig',
