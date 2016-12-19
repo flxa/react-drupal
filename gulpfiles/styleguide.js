@@ -18,16 +18,16 @@ import replace from 'gulp-replace';
 import config from './config';
 import * as clean from './clean';
 
-// Ensure CSS paths are relative to the styleguide.
+// Ensure CSS paths are relative to the styleguide. Unless they are external.
 let cssFiles = [];
 if (config.styleguide.cssFiles) {
-  cssFiles = config.styleguide.cssFiles.map(c => path.relative(config.styleguide.dest, c));
+  cssFiles = config.styleguide.cssFiles.map(c => c.startsWith('http') ? c : path.relative(config.styleguide.dest, c));
 }
 
-// Ensure JS paths are relative to the styleguide.
+// Ensure JS paths are relative to the styleguide. Unless they are external.
 let jsFiles = [];
 if (config.styleguide.jsFiles) {
-  jsFiles = config.styleguide.jsFiles.map(j => path.relative(config.styleguide.dest, j));
+  jsFiles = config.styleguide.jsFiles.map(j => j.startsWith('http') ? j : path.relative(config.styleguide.dest, j));
 }
 
 // Kss config.
