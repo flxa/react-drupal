@@ -13,6 +13,7 @@ js:
 styleguide:
   title: APP_NAME Style Guide
   dest: app/styleguide
+  builder: node_modules/kss-node-offscreen-template
   cssFiles:
     - https://fonts.googleapis.com/css?family=Open+Sans:400,700
     - app/themes/APP_NAME_theme/css/styles.css

@@ -37,7 +37,7 @@ let kssOptions = {
     config.sass.dest + '/style-guide/'
   ],
   destination: config.styleguide.dest,
-  builder: 'builder/twig',
+  builder: config.styleguide.builder,
   css: cssFiles,
   js: jsFiles,
   homepage: 'homepage.md',
