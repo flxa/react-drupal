@@ -56,7 +56,8 @@ jsSrc = jsSrc.map(f => f + '/**/*.js');
 // to lint and minified files to ignore.
 config.jsFiles = [
   ...jsSrc,
-  ...jsMin
+  ...jsMin,
+  '!**/vendor/**/*.js'
 ];
 
 export default config;

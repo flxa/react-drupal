@@ -29,6 +29,24 @@ autoprefixer:
     - ie >= 9
     - and_chr >= 2.3
 
+
+modernizr:
+  dest: app/themes/APP_NAME_theme/js/vendor/modernizr/
+  options:
+    - prefixes
+    - addTest
+    - setClasses
+    - testStyles
+  tests:
+    - details
+    - inputtypes
+    - touchevents
+  excludeTests:
+    - hidden
+    - svg
+    - input
+    - sizes
+
 svg:
   svgo:
     src:
