@@ -28,3 +28,24 @@ autoprefixer:
     - last 2 versions
     - ie >= 9
     - and_chr >= 2.3
+
+svg:
+  svgo:
+    src:
+      - app/themes/APP_NAME_theme/source
+      - app/themes/APP_NAME_theme/images/messages
+    plugins:
+      removeDimensions: true
+  sprites:
+    messages:
+      src: app/themes/APP_NAME_theme/images/messages
+      dest: app/themes/APP_NAME_theme/images
+      config:
+        svg:
+          xmlDeclaration: false
+          rootAttributes:
+            style: "display: none;"
+        mode:
+          symbol:
+            dest: .
+            sprite: messages.svg
