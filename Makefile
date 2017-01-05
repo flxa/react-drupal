@@ -1,11 +1,12 @@
 #!/usr/bin/make -f
 
-PHPCS_FOLDERS=app/modules/custom
-PHPCS_EXTENSIONS=php,module,inc,install,test,profile,theme
-BUILD_LOGS_DIR=./build/logs
-ARCH=$(shell uname -m)
-APP_ROOT=./app
+APP_ROOT=$(CURDIR)/app
 APP_URL=http://EXAMPLE.dev
+
+BUILD_LOGS_DIR=$(CURDIR)/build/logs
+
+PHPCS_FOLDERS=$(CURDIR)/app/modules/custom
+PHPCS_EXTENSIONS=php,module,inc,install,test,profile,theme
 
 CONFIG_DIR=$(CURDIR)/config-export
 CONFIG_DELETE=$(CURDIR)/drush/config-delete.yml
@@ -19,7 +20,7 @@ list:
 build: sql-drop sync updb entity-updates import cache-rebuild
 
 init:
-	composer install
+	composer install --prefer-dist --no-progress
 	npm install --loglevel silent
 
 init-local: init
