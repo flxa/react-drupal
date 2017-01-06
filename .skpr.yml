@@ -9,7 +9,7 @@ package:
     - "npm install --loglevel silent"
     - "node_modules/.bin/gulp build"
 
-migrate:
+deploySteps:
   - "drush updatedb -y"
   - "drush fra -y"
   - "drush cc all"
