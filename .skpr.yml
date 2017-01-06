@@ -20,18 +20,24 @@ environments:
     spec:
       domain:
         - "APP_NAME-qa.cd.pnx.com.au"
+      healthCheck:
+        path: /healthz/d8.php
       mounts: *mounts
       crons:  *crons
   - name: "staging"
     spec:
       domain:
         - "APP_NAME-staging.cd.pnx.com.au"
+      healthCheck:
+        path: /healthz/d8.php
       mounts: *mounts
       crons:  *crons
   - name: "prod"
     spec:
       domain:
         - "APP_NAME-prod.cd.pnx.com.au"
+      healthCheck:
+        path: /healthz/d8.php
       minInstances: 2
       maxMemory:    1024
       mounts:       *mounts
