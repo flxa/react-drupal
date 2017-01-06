@@ -4,7 +4,6 @@ channel: '#APP_NAME'
 
 package:
   steps:
-    - "bundle install --path vendor/bundle"
     - "composer install --no-dev --prefer-dist --no-progress --optimize-autoloader"
     - "npm install --loglevel silent"
     - "node_modules/.bin/gulp build"
