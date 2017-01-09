@@ -1,4 +1,4 @@
-NEW PROJECT
+APP_NAME
 ===========
 
 **Maintainer**: Name
@@ -6,8 +6,8 @@ NEW PROJECT
 **Site**: http://www.example.com
 
 **Environments**
-* **QA** - http://PROJECT.qa.previousnext.com.au
-* **Staging** - http://PROJECT.staging.previousnext.com.au
+* **QA** - http://APP_NAME.qa.previousnext.com.au
+* **Staging** - http://APP_NAME.staging.previousnext.com.au
 * **Prod** - TBD
 
 ## Important
