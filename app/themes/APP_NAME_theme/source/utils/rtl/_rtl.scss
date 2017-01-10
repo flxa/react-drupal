@@ -7,7 +7,7 @@ $include-rtl: true !default;
 //
 // Style guide: utils.rtl
 
-@mixin rtl() {
+@mixin rtl {
   [dir="rtl"] & {
     @content;
   }

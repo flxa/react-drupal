@@ -17,7 +17,7 @@ CONFIG_SKIP_MODULES=devel
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-build: sql-drop sync updb entity-updates import cache-rebuild
+build: sql-drop db-sync updb entity-updates import cache-rebuild login
 
 init:
 	composer install --prefer-dist --no-progress
@@ -44,7 +44,7 @@ cache-rebuild:
 styleguide:
 	./node_modules/.bin/gulp build
 
-sync:
+db-sync:
 	skpr exec dev "drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && drush -r $(APP_ROOT) sql-cli < db.sql
 
 import:
@@ -59,7 +59,7 @@ fix-php:
 lint-php:
 	./bin/phpcs --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
-line-sass-js:
+lint-sass-js:
 	./node_modules/.bin/gulp lint:with-fail
 
 ci-phpcs: ci-prepare
@@ -84,4 +84,4 @@ test-init:
 login:
 	drush uli --uri=$(APP_URL)
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide sync import export phpcbf phpcs ci-phpcs ci-prepare ci-test test test-init login
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-phpcs ci-prepare ci-test test test-init login

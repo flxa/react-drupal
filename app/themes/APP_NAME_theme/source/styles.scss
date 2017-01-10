@@ -12,7 +12,7 @@
 // Weight: -1
 //
 // Style guide: sass
-@import 'init/**/*.scss';
+@import 'init/**/*';
 
 // Utilities
 //
@@ -23,7 +23,7 @@
 // Style guide: utils
 
 // Now include our utils.
-@import 'utils/**/*.scss';
+@import 'utils/**/*';
 
 // Defaults
 //
@@ -35,7 +35,7 @@
 // Style guide: base
 
 @import 'base/normalize';
-@import 'base/**/*.scss';
+@import 'base/**/*';
 
 // Layout
 //
@@ -44,7 +44,7 @@
 //
 // Style guide: layout
 
-@import 'layout/**/*.scss';
+@import 'layout/**/*';
 
 // Forms
 //
@@ -64,4 +64,4 @@
 //
 // Style guide: components
 
-@import 'components/**/*.scss';
+@import 'components/**/*';

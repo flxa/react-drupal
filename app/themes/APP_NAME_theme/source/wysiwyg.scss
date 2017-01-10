@@ -5,13 +5,13 @@
 // description on the style guide home page for more information.
 
 // Colors and Sass
-@import 'init/**/*.scss';
+@import 'init/**/*';
 
 // Utilities
-@import 'utils/**/*.scss';
+@import 'utils/**/*';
 
 // Base styles.
-@import 'base/**/*.scss';
+@import 'base/**/*';
 
 // Set some padding on the ckedior body.
 body {

@@ -1,3 +1,5 @@
+// sass-lint:disable no-important no-vendor-prefixes
+
 // Overrides
 //
 // Occasionally certain drupal selectors will need to be overridden.
@@ -7,4 +9,8 @@
   // different when accessed from the amaysim theme.
   letter-spacing: 0;
   -moz-osx-font-smoothing: auto;
+
+  ul li.menu-item {
+    margin-bottom: 0 !important;
+  }
 }

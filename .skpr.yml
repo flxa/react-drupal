@@ -10,8 +10,8 @@ package:
 
 deploySteps:
   - "drush updatedb -y"
-  - "drush fra -y"
-  - "drush cc all"
+  - "drush config-import -y"
+  - "drush cr"
 
 # A list of all environment configuration.
 environments:
@@ -38,7 +38,7 @@ environments:
       healthCheck:
         path: /healthz/d8.php
       minInstances: 2
-      maxMemory:    1024
+      maxMemory:    512
       mounts:       *mounts
       crons:        *crons
 
