@@ -5,7 +5,7 @@ channel: '#APP_NAME'
 package:
   steps:
     - "composer install --no-dev --prefer-dist --no-progress --optimize-autoloader"
-    - "npm install --loglevel silent"
+    - "npm install --loglevel silent &> /tmp/npminstall.log"
     - "node_modules/.bin/gulp build"
 
 deploySteps:
