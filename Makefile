@@ -23,7 +23,7 @@ init:
 	composer install --prefer-dist --no-progress
 	npm install --loglevel silent
 
-init-local: init
+init-local: init styleguide-init styleguide
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php
 
 mkdirs:
@@ -40,6 +40,12 @@ entity-updates:
 
 cache-rebuild:
 	drush -r $(APP_ROOT) cr
+
+styleguide-init:
+	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+	. ~/.bashrc
+	nvm install
+	npm rebuild node-sass
 
 styleguide:
 	./node_modules/.bin/gulp build

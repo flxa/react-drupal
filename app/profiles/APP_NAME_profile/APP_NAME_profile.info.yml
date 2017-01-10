@@ -1,0 +1,52 @@
+name: APP_NAME_profile
+type: profile
+description: 'Base profile for APP_NAME.'
+version: VERSION
+core: 8.x
+dependencies:
+  - admin_toolbar
+  - admin_toolbar_tools
+  - automated_cron
+  - block
+  - block_content
+  - breakpoint
+  - ckeditor
+  - config
+  - contextual
+  - ctools
+  - datetime
+  - dynamic_page_cache
+  - editor
+  - field
+  - field_ui
+  - file
+  - filter
+  - help
+  - history
+  - image
+  - link
+  - menu_ui
+  - metatag
+  - node
+  - options
+  - page_cache
+  - path
+  - pathauto
+  - quickedit
+  - rdf
+  - search
+  - shortcut
+  - system
+  - taxonomy
+  - text
+  - token
+  - toolbar
+  - tour
+  - update
+  - user
+  - views_ui
+  - pathauto
+  - views
+themes:
+  - APP_NAME_theme
+  - seven

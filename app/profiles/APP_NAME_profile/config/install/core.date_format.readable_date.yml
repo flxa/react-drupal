@@ -1,0 +1,8 @@
+uuid: 80acf0ae-3ac4-4ed6-a563-3ee88ed3cac6
+langcode: en
+status: true
+dependencies: {  }
+id: readable_date
+label: 'Readable Date'
+locked: false
+pattern: 'jS F Y'
