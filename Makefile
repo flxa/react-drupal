@@ -30,16 +30,16 @@ mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/{simpletest,behat}
 
 sql-drop:
-	drush -r $(APP_ROOT) sql-drop -y
+	bin/drush -r $(APP_ROOT) sql-drop -y
 
 updb:
-	drush -r $(APP_ROOT) updb -y
+	bin/drush -r $(APP_ROOT) updb -y
 
 entity-updates:
-	drush -r $(APP_ROOT) entity-updates -y
+	bin/drush -r $(APP_ROOT) entity-updates -y
 
 cache-rebuild:
-	drush -r $(APP_ROOT) cr
+	bin/drush -r $(APP_ROOT) cr
 
 styleguide-init:
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
@@ -51,13 +51,13 @@ styleguide:
 	./node_modules/.bin/gulp build
 
 db-sync:
-	skpr exec dev "drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && drush -r $(APP_ROOT) sql-cli < db.sql
+	skpr exec dev "bin/drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && bin/drush -r $(APP_ROOT) sql-cli < db.sql
 
 import:
-	drush -r $(APP_ROOT) cimy -y --skip-modules=$(CONFIG_SKIP_MODULES) --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
+	bin/drush -r $(APP_ROOT) cimy -y --skip-modules=$(CONFIG_SKIP_MODULES) --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
 
 export:
-	drush -r $(APP_ROOT) cexy -y --skip-modules=$(CONFIG_SKIP_MODULES) --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	bin/drush -r $(APP_ROOT) cexy -y --skip-modules=$(CONFIG_SKIP_MODULES) --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
 	./bin/phpcbf --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
