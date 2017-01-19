@@ -1,6 +1,6 @@
 channel: '#APP_NAME'
 
-application: previousnext/lamp:70
+application: previousnext/lamp:latest
 
 prepare: &prepare
   - make init

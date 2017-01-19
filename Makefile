@@ -14,6 +14,8 @@ CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
 CONFIG_INSTALL=$(CURDIR)/config-install
 CONFIG_SKIP_MODULES=devel
 
+DRUSH_PATH=bin/drush
+
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
@@ -30,16 +32,16 @@ mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/{simpletest,behat}
 
 sql-drop:
-	bin/drush -r $(APP_ROOT) sql-drop -y
+	$(DRUSH_PATH) -r $(APP_ROOT) sql-drop -y
 
 updb:
-	bin/drush -r $(APP_ROOT) updb -y
+	$(DRUSH_PATH) -r $(APP_ROOT) updb -y
 
 entity-updates:
-	bin/drush -r $(APP_ROOT) entity-updates -y
+	$(DRUSH_PATH) -r $(APP_ROOT) entity-updates -y
 
 cache-rebuild:
-	bin/drush -r $(APP_ROOT) cr
+	$(DRUSH_PATH) -r $(APP_ROOT) cr
 
 styleguide-init:
 	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
@@ -51,13 +53,13 @@ styleguide:
 	./node_modules/.bin/gulp build
 
 db-sync:
-	skpr exec dev "bin/drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && bin/drush -r $(APP_ROOT) sql-cli < db.sql
+	skpr exec dev "bin/drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && $(DRUSH_PATH) -r $(APP_ROOT) sql-cli < db.sql
 
 import:
-	bin/drush -r $(APP_ROOT) cimy -y --skip-modules=$(CONFIG_SKIP_MODULES) --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
+	$(DRUSH_PATH) -r $(APP_ROOT) cimy -y --skip-modules=$(CONFIG_SKIP_MODULES) --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
 
 export:
-	bin/drush -r $(APP_ROOT) cexy -y --skip-modules=$(CONFIG_SKIP_MODULES) --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	$(DRUSH_PATH) -r $(APP_ROOT) cexy -y --skip-modules=$(CONFIG_SKIP_MODULES) --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
 	./bin/phpcbf --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
@@ -88,6 +90,6 @@ test-init:
 	echo "create database d8_testing;" | sudo mysql
 
 login:
-	drush uli --uri=$(APP_URL)
+	$(DRUSH_PATH) uli --uri=$(APP_URL)
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-phpcs ci-prepare ci-test test test-init login
