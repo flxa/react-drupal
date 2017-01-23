@@ -19,7 +19,7 @@ $settings['file_public_path'] = skpr_config('file.public') ?: 'sites/default/fil
 $config['system.file.path.temporary'] = skpr_config('file.tmp') ?: '/tmp';
 $settings['file_private_path'] = skpr_config('file.private') ?: '/private';
 
-$settings['install_profile'] = 'amaysim_profile';
+$settings['install_profile'] = 'APP_NAME_profile';
 
 if (skpr_config('smtp.username') && skpr_config('smtp.password')) {
   $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: 'email-smtp.us-east-1.amazonaws.com';
