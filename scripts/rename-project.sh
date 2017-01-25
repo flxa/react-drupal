@@ -4,16 +4,16 @@
 # Default to the current directory name.
 APP_NAME=$1
 
-TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.yml package.json npm-shrinkwrap.json README.md Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml app/profiles/APP_NAME_profile/* "
+TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.yml package.json README.md Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml app/profiles/APP_NAME_profile/* "
 
 # String replace APP_NAME in templates.
 echo "Using APP_NAME:" $APP_NAME
 find $TEMPLATE_FILES -type f -exec sed -i '' -e "s/APP_NAME/$APP_NAME/g" {} \;
 
 # Rename profile files
-mv app/profiles/APP_NAME_profile/APP_NAME_profile.install app/themes/APP_NAME_profile/${APP_NAME}_profile.install
-mv app/profiles/APP_NAME_profile/APP_NAME_profile.info.yml app/themes/APP_NAME_profile/${APP_NAME}_profile.info.yml
-mv app/profiles/APP_NAME_profile/APP_NAME_profile.post_update.php app/themes/APP_NAME_profile/${APP_NAME}_profile.post_update.php
+mv app/profiles/APP_NAME_profile/APP_NAME_profile.install app/profiles/APP_NAME_profile/${APP_NAME}_profile.install
+mv app/profiles/APP_NAME_profile/APP_NAME_profile.info.yml app/profiles/APP_NAME_profile/${APP_NAME}_profile.info.yml
+mv app/profiles/APP_NAME_profile/APP_NAME_profile.post_update.php app/profiles/APP_NAME_profile/${APP_NAME}_profile.post_update.php
 mv app/profiles/APP_NAME_profile app/profiles/${APP_NAME}_profile
 
 # Rename theme files
