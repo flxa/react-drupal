@@ -4,7 +4,7 @@
 # Default to the current directory name.
 APP_NAME=$1
 
-TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.yml package.json README.md Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml app/profiles/APP_NAME_profile/* "
+TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.yml Makefile package.json README.md Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml app/profiles/APP_NAME_profile/* "
 
 # String replace APP_NAME in templates.
 echo "Using APP_NAME:" $APP_NAME

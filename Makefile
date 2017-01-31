@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 APP_ROOT=$(CURDIR)/app
-APP_URL=http://EXAMPLE.dev
+APP_URL=http://APP_NAME.dev
 
 BUILD_LOGS_DIR=$(CURDIR)/build/logs
 
