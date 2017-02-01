@@ -20,7 +20,8 @@
         "html2text/html2text": "~4.0.1",
         "monolog/monolog": "~1.9",
         "drupal/monolog": "^1.0@alpha",
-        "swiftmailer/swiftmailer": "~5.4"
+        "swiftmailer/swiftmailer": "~5.4",
+        "drupal/swiftmailer": "^1.0@alpha"
     },
     "require-dev": {
         "drupal/coder": "~8.2",
