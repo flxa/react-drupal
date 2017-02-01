@@ -19,6 +19,7 @@
         "drush/drush": "~8.1",
         "html2text/html2text": "~4.0.1",
         "monolog/monolog": "~1.9",
+        "drupal/monolog": "^1.0@alpha",
         "swiftmailer/swiftmailer": "~5.4"
     },
     "require-dev": {
