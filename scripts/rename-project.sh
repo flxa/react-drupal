@@ -4,10 +4,20 @@
 # Default to the current directory name.
 APP_NAME=$1
 
-TEMPLATE_FILES=".skpr.yml .pnxci.yml gulpfile.yml Makefile package.json README.md Vagrantfile app/sites/default/* app/themes/APP_NAME_theme/*.yml app/profiles/APP_NAME_profile/* app/profiles/APP_NAME_profile/config/install/*"
+TEMPLATE_FILES=".pnxci.yml \
+.skpr.yml \
+app/profiles/APP_NAME_profile/* \
+app/profiles/APP_NAME_profile/config/install/* \
+app/sites/default/* \
+app/themes/APP_NAME_theme/*.yml \
+gulpfile.yml \
+Makefile \
+package.json \
+README.md \
+Vagrantfile"
 
 # String replace APP_NAME in templates.
-echo "Using APP_NAME:" $APP_NAME
+echo "Running find and replace using APP_NAME:" $APP_NAME
 find $TEMPLATE_FILES -type f -exec sed -i '' -e "s/APP_NAME/$APP_NAME/g" {} \;
 
 # Rename profile files
