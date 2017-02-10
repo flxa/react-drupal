@@ -39,7 +39,7 @@ $settings['hash_salt'] = !empty($settings['hash_salt']) ? $settings['hash_salt']
 
 // PreviousNext domains (local / dev)
 $settings['trusted_host_patterns'][] = '^127\.0\.0\.1$';
-$settings['trusted_host_patterns'][] = '^previousnext\-pr[0-9]+\.APP_NAME\.ci\.pnx\.com\.au$';
+$settings['trusted_host_patterns'][] = '^APP_NAME\-pr[0-9]+\.ci\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^APP_NAME\-\w+\.cd\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.dev') . '$';
 $settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.qa.previousnext.com.au') . '$';
