@@ -13,15 +13,13 @@
         "drupal/core": "~8.2",
         "drupal/ctools": "~3.0",
         "drupal/metatag": "~1.0",
+        "drupal/monolog": "^1.0@alpha",
         "drupal/pathauto": "~1.0",
         "drupal/slushi_cache": "~1.0",
+        "drupal/swiftmailer": "^1.0@alpha",
         "drupal/token": "~1.0",
         "drush/drush": "~8.1",
-        "html2text/html2text": "~4.0.1",
-        "monolog/monolog": "~1.9",
-        "drupal/monolog": "^1.0@alpha",
-        "swiftmailer/swiftmailer": "~5.4",
-        "drupal/swiftmailer": "^1.0@alpha"
+        "html2text/html2text": "~4.0.1"
     },
     "require-dev": {
         "drupal/coder": "~8.2",
