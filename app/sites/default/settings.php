@@ -25,6 +25,9 @@ if (skpr_config('smtp.username') && skpr_config('smtp.password')) {
   $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: 'email-smtp.us-east-1.amazonaws.com';
   $config['swiftmailer.transport']['smtp_username'] = skpr_config('smtp.username') ?: '';
   $config['swiftmailer.transport']['smtp_password'] = skpr_config('smtp.password') ?: '';
+  $config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '25';
+  $config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: 'tls';
+  $config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
 }
 
 $config_directories['sync'] = __DIR__ . '/../../../config-export';
