@@ -91,6 +91,18 @@ test-init:
 	chmod 777 $(APP_ROOT)/test-output.html;
 	echo "create database d8_testing;" | sudo mysql
 
+phantomjs: phantomjs-stop phantom-init
+	${PHANTOMJS_BIN} --ssl-protocol=any --ignore-ssl-errors=true ${CURDIR}/vendor/jcalderonzumba/gastonjs/src/Client/main.js 8510 1024 768 2>&1 >> /dev/null &
+	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make
+
+phantom-init:
+	if [ ! -d ${PHANTOMJS_DIR} ]; then mkdir -p ${PHANTOMJS_DIR}; wget https://dl.dropboxusercontent.com/u/10201421/phantomjs-2.1.1-linux-$(ARCH).tar.bz2 -O ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2; tar -xvf ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C ${PHANTOMJS_DIR}; else echo "PhantomJS already exists"; fi
+
+phantomjs-stop:
+  # Terminate all the phantomjs and php instances so that we can start fresh.
+	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make | awk '{print $$1}' | xargs -I {} kill {}
+	ps axo pid,command | grep php | grep -v grep | grep -v phpstorm | grep -v make | awk '{print $$1}' | xargs -I {} kill {}
+
 login:
 	$(DRUSH) uli --uri=$(APP_URL)
 
