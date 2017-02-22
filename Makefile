@@ -19,7 +19,9 @@ DRUSH=$(CURDIR)/bin/drush -r $(APP_ROOT)
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-build: sql-drop db-sync updb entity-updates import cache-rebuild login
+build: sql-drop db-sync deploy login
+
+deploy: updb entity-updates import cache-rebuild
 
 init:
 	composer install --prefer-dist --no-progress

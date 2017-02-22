@@ -9,9 +9,7 @@ package:
     - "node_modules/.bin/gulp build"
 
 deploySteps:
-  - "drush updatedb -y"
-  - "drush config-import -y"
-  - "drush cr"
+  - make deploy
 
 # A list of all environment configuration.
 environments:
