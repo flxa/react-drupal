@@ -17,7 +17,7 @@ $databases['default']['default'] = array(
 $config['cron_safe_threshold'] = '0';
 $settings['file_public_path'] = skpr_config('file.public') ?: 'sites/default/files';
 $config['system.file.path.temporary'] = skpr_config('file.tmp') ?: '/tmp';
-$settings['file_private_path'] = skpr_config('file.private') ?: '/private';
+$settings['file_private_path'] = skpr_config('file.private') ?: 'sites/default/files/private';
 
 $settings['install_profile'] = 'APP_NAME_profile';
 
