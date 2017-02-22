@@ -72,7 +72,7 @@ lint-php:
 lint-sass-js:
 	./node_modules/.bin/gulp lint:with-fail
 
-ci-phpcs: ci-prepare
+ci-lint-php: ci-prepare
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
 	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
@@ -94,4 +94,4 @@ test-init:
 login:
 	$(DRUSH) uli --uri=$(APP_URL)
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-phpcs ci-prepare ci-test test test-init login
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login
