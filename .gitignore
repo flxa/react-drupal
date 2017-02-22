@@ -50,3 +50,11 @@ Thumbs.db
 /vendor
 /styleguide
 /node_modules
+/app/test-output.html
+/build/logs
+
+# Dev files #
+#############
+.vagrant
+.idea
+/app/sites/default/settings.local.php
