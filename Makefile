@@ -14,7 +14,7 @@ CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
 CONFIG_INSTALL=$(CURDIR)/config-install
 CONFIG_SKIP_MODULES=devel
 
-DRUSH=./bin/drush -r $(APP_ROOT)
+DRUSH=$(CURDIR)/bin/drush -r $(APP_ROOT)
 
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
