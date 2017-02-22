@@ -79,9 +79,12 @@ ci-lint-php: ci-prepare
 ci-prepare:
 	mkdir -p $(BUILD_LOGS_DIR)
 
-ci-test:
-	mkdir -p app/sites/simpletest
-	export SIMPLETEST_BASE_URL="http://127.0.0.1";export SIMPLETEST_DB="mysql://drupal:drupal@localhost/local";./bin/phpunit -c app/core app/modules/custom --log-junit build/logs/phpunit/phpunit.xml
+test-ci:
+	mkdir -p $(APP_ROOT)/sites/simpletest
+	export SIMPLETEST_BASE_URL="http://127.0.0.1";export SIMPLETEST_DB="mysql://drupal:drupal@localhost/local";./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
+	killall phantomjs
+
+ci-test: phantomjs test-ci phantomjs-stop
 
 test:
 	export BROWSERTEST_OUTPUT_FILE="/vagrant/app/test-output.html";export SIMPLETEST_BASE_URL=$(APP_URL);export SIMPLETEST_DB="mysql://root:@localhost/d8_testing";./bin/phpunit -c app/core $(APP_ROOT)/modules/custom/$(folder);cat $(APP_ROOT)/test-output.html;echo "" > $(APP_ROOT)/test-output.html
