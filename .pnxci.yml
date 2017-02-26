@@ -9,10 +9,10 @@ prepare: &prepare
   - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
 
 test: &test
-  - make lint-php
+  - make ci-lint-php
   - make lint-sass-js
   - make build
-  - make test
+  - make ci-test
 
 test_pr:
   setup: *prepare
