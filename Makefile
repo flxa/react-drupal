@@ -81,7 +81,7 @@ ci-prepare:
 
 test-ci:
 	mkdir -p $(APP_ROOT)/sites/simpletest
-	export SIMPLETEST_BASE_URL="http://127.0.0.1";export SIMPLETEST_DB="mysql://drupal:drupal@localhost/local";./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
+	-export SIMPLETEST_BASE_URL="http://127.0.0.1";export SIMPLETEST_DB="mysql://drupal:drupal@localhost/local";./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
 	killall phantomjs
 
 ci-test: phantomjs test-ci phantomjs-stop
