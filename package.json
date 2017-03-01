@@ -30,7 +30,7 @@
     "gulp-svgmin": "^1.2.3",
     "js-yaml": "^3",
     "kss": "^3.0.0-beta",
-    "kss-node-offscreen-template": "^3",
+    "kss-offscreen-twig": "^1",
     "merge-stream": "^1.0.1",
     "node-sass": "^4",
     "sass-lint": "^1",
