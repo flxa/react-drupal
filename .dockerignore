@@ -3,13 +3,15 @@ node_modules
 .git
 
 # Ignore drupal text files
-app/CHANGELOG.txt
-app/COPYRIGHT.txt
-app/INSTALL*.txt
+app/core/CHANGELOG.txt
+app/core/COPYRIGHT.txt
+app/core/INSTALL*.txt
+app/core/LICENSE.txt
+app/core/MAINTAINERS.txt
+app/core/UPDATE.txt
 app/LICENSE.txt
-app/MAINTAINERS.txt
-app/UPGRADE.txt
 app/README.txt
+app/modules/README.txt
+app/profiles/README.txt
 app/sites/README.txt
-app/sites/all/modules/README.txt
-app/sites/all/themes/README.txt
+app/themes/README.txt
