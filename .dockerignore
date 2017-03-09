@@ -1,3 +1,17 @@
 vendor/bundle
 node_modules
 .git
+
+# Ignore drupal text files
+app/core/CHANGELOG.txt
+app/core/COPYRIGHT.txt
+app/core/INSTALL*.txt
+app/core/LICENSE.txt
+app/core/MAINTAINERS.txt
+app/core/UPDATE.txt
+app/LICENSE.txt
+app/README.txt
+app/modules/README.txt
+app/profiles/README.txt
+app/sites/README.txt
+app/themes/README.txt
