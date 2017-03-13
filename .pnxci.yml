@@ -21,3 +21,7 @@ test_pr:
 test_head:
   setup: *prepare
   steps: *test
+
+patch:
+  steps:
+    - sh scripts/patchy.sh
