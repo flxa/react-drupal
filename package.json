@@ -1,4 +1,4 @@
-{
+:w{
   "name": "APP_NAME",
   "author": "PreviousNext",
   "description": "The node.js requirements to build this project.",
@@ -37,5 +37,8 @@
     "support-for": "^1",
     "typey": "^1"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.15.2"
+  }
 }
