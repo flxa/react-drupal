@@ -37,8 +37,5 @@
     "support-for": "^1",
     "typey": "^1"
   },
-  "private": true,
-  "dependencies": {
-    "express": "^4.15.2"
-  }
+  "private": true
 }
