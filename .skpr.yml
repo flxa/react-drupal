@@ -20,7 +20,7 @@ environments:
       healthCheck:
         path: /healthz/d8.php
       mounts: *mounts
-      crons:  *crons
+      jobs:   *jobs
   - name: "staging"
     spec:
       domain:
@@ -28,7 +28,7 @@ environments:
       healthCheck:
         path: /healthz/d8.php
       mounts: *mounts
-      crons:  *crons
+      jobs:   *jobs
   - name: "prod"
     spec:
       domain:
@@ -38,7 +38,7 @@ environments:
       minInstances: 2
       maxMemory:    512
       mounts:       *mounts
-      crons:        *crons
+      jobs:         *jobs
 
 # Standard mount configuration for all environments.
 mounts: &mounts
@@ -50,8 +50,13 @@ mounts: &mounts
     beta: true
 
 # Standard cron runs for all environments.
-crons: &crons
+jobs: &jobs
   - name:       "drush"
     workingDir: "/data/app"
-    seconds:    3600
+    schedule:   "0 * * * *"
     command:    "drush cron"
+  - name:       "backup"
+    workingDir: "/data/app"
+    schedule:   "0 0 * * *"
+    command:    'drush archive-dump --overwrite --destination=/tmp/drupal.tar.gz && backup /tmp/drupal.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV.tar.gz"'
+
