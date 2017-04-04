@@ -44,8 +44,10 @@ environments:
 mounts: &mounts
   - name: "public"
     path: "/data/app/sites/default/files"
+    beta: true
   - name: "private"
     path: "/private"
+    beta: true
 
 # Standard cron runs for all environments.
 crons: &crons
