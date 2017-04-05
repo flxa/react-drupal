@@ -53,10 +53,10 @@ mounts: &mounts
 jobs: &jobs
   - name:       "drush"
     workingDir: "/data/app"
-    schedule:   "0 * * * *"
+    schedule:   "@hourly"
     command:    "drush cron"
   - name:       "backup"
     workingDir: "/data/app"
-    schedule:   "0 0 * * *"
+    schedule:   "@daily"
     command:    'drush archive-dump --overwrite --destination=/tmp/drupal.tar.gz && backup /tmp/drupal.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV.tar.gz"'
 
