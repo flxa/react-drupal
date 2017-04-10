@@ -102,7 +102,7 @@ phantomjs: phantomjs-stop phantom-init
 	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make
 
 phantom-init:
-	if [ ! -d ${PHANTOMJS_DIR} ]; then mkdir -p ${PHANTOMJS_DIR}; wget https://dl.dropboxusercontent.com/u/10201421/phantomjs-2.1.1-linux-$(ARCH).tar.bz2 -O ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2; tar -xvf ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C ${PHANTOMJS_DIR}; else echo "PhantomJS already exists"; fi
+	if [ ! -d ${PHANTOMJS_DIR} ]; then mkdir -p ${PHANTOMJS_DIR}; wget --no-check-certificate https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-$(ARCH).tar.bz2 -O ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2; tar -xvf ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C ${PHANTOMJS_DIR}; else echo "PhantomJS already exists"; fi
 
 phantomjs-stop:
   # Terminate all the phantomjs and php instances so that we can start fresh.
