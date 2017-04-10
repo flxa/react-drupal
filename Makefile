@@ -14,6 +14,9 @@ CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
 CONFIG_INSTALL=$(CURDIR)/config-install
 CONFIG_SKIP_MODULES=devel
 
+PHANTOMJS_DIR=$(HOME)/.phantomjs
+PHANTOMJS_BIN=$(HOME)/.phantomjs/phantomjs-2.1.1-linux-$(ARCH)/bin/phantomjs
+
 DRUSH=$(CURDIR)/bin/drush -r $(APP_ROOT)
 
 list:
