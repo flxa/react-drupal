@@ -12,12 +12,15 @@ libraries:
   - APP_NAME_theme/global
 
 ckeditor_stylesheets:
-  - css/wysiwyg.css
+  - css/ckeditor.css
 
 # Replace or remove entire libraries;
 # Un-comment each library to exclude it's CSS, JS and Dependencies from being loaded.
 
 libraries-override:
+  core/modernizr:
+    js:
+      assets/vendor/modernizr/modernizr.min.js: src/vendor/modernizr/modernizr.min.js
 #  core/html5shiv: false
 #  system/base: false
 #  core/normalize: false
@@ -29,9 +32,7 @@ libraries-override:
 #        assets/vendor/jquery.ui/themes/base/core.css: false
 #      theme:
 #        assets/vendor/jquery.ui/themes/base/theme.css: false
-#  core/modernizr:
-#   js:
-#    assets/vendor/modernizr/modernizr.min.js: js/vendor/modernizr/modernizr.min.js
+
 #  core/drupal.dialog: false
 
 # REGIONS
