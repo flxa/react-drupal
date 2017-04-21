@@ -1,0 +1,55 @@
+// Typey
+//
+// Typey is used to manage and resize units and font sizes. Some documentation is available in
+// [Jacks typey repo](https://github.com/jptaranto/typey).
+//
+// Style guide: 1.5
+
+@import 'typey';
+
+$base-unit:               rem;
+// Enable REM fallbacks if the project is IE8+
+// Ensure use of mixins, instead of functions.
+$rem-fallback:            false;
+
+$base-font-size:          16px;
+// The base line height is used when specify unitless spacing for margins.
+// e.g. @include margin(1) will output margin: 20px; (converted to rem).
+$base-line-height:        20px;
+
+// Ratio line-height is the simplest line height method, and is expressed as a unitless
+// ratio of the font-size.
+$line-height-method:      ratio;
+$base-line-height-ratio:  20 / 16;
+
+$font-weight: (
+  bold:          700,
+  normal:        400
+);
+
+// Line height ratios are specified as caculcations rather than actual values.
+// This allows us to see the pixel value of the line height, rather than a ratio
+// which is less useful. For instance (40/32) means the line-height is 40px.
+$typestyles: (
+  default:       16px (21/16) normal,
+  small:         14px (18/14),
+  large:         18px (24/18),
+  h1:            32px (40/32) bold,
+  h2:            28px (36/28) bold,
+  h3:            24px (32/24) bold,
+  h4:            21px (26/21) bold,
+  h5:            18px (24/18) bold,
+  h6:            16px (21/16) bold,
+  label:         16px (21/16) bold,
+  form:          16px (21/16),
+  button:        21px (26/21),
+  main-menu:     14px (18/14) bold uppercase,
+  mobile-menu:   18px (24/18),
+);
+
+// Font stacks
+$font-base:      Helvetica, Arial, sans-serif;
+
+$typefaces: (
+  base:          $font-base,
+);

@@ -1,0 +1,44 @@
+// Grid system
+//
+// A simple 12 column grid system.
+//
+// Markup: grid.twig
+//
+// Style guide: 3.1
+
+$container-padding:         6vw;
+$container-max-width:       1280px;
+
+$column-padding: 30px;
+$column-count: 12;
+
+.grid__container,
+%grid__container {
+  max-width: $container-max-width;
+  padding-left: $container-padding;
+  padding-right: $container-padding;
+}
+
+.grid__row,
+%grid__row {
+  @extend %clearfix;
+  @include margin(0 (-$column-padding / 2));
+}
+
+.grid__col,
+%grid__col {
+  @include margin-bottom(1);
+  float: left;
+  padding: 0 $column-padding / 2;
+  width: 100%;
+}
+
+$count: 1;
+@while $count <= $column-count {
+  .grid--col-#{$count} {
+    @include respond-to(tablet-portrait-up) {
+      width: $count / $column-count * 100%;
+    }
+  }
+  $count: $count + 1;
+}

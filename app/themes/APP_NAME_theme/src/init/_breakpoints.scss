@@ -1,0 +1,34 @@
+// Breakpoints
+//
+// Use the `respond-to()` mixin to use named breakpoints. Documentation is
+// available in the [Breakpoint wiki pages](https://github.com/at-import/breakpoint/wiki/Respond-To).
+//
+// *Mobile first breakpoints*
+// * `big-phone-up`  - 400px+
+// * `tablet-portrait-up` - 600px+
+// * `tablet-landscape-up` - 900px+
+// * `laptop-up` - 1200px+
+// * `desktop-up` - 1600px+
+//
+// *Device specific breakpoints*
+// * `small-phone-only` - 0 to 399px
+// * `phone-only` - 0 to 599px
+// * `tablet-portrait-only` -  600px to 899px
+// * `tablet-landscape-only` - 900px to 1199px
+// * `laptop-only` - 1200px to 1599px
+//
+// Style guide: 1.2
+
+@import 'breakpoint';
+
+@include add-breakpoint('big-phone-up', 400px);
+@include add-breakpoint('tablet-portrait-up', 600px);
+@include add-breakpoint('tablet-landscape-up', 900px);
+@include add-breakpoint('laptop-up', 1200px);
+@include add-breakpoint('desktop-up', 1600px);
+
+@include add-breakpoint('small-phone-only', max-width 399px);
+@include add-breakpoint('phone-only', max-width 599px);
+@include add-breakpoint('tablet-portrait-only', 600px 899px);
+@include add-breakpoint('tablet-landscape-only', 900px 1199px);
+@include add-breakpoint('laptop-only', 1200px 1599px);

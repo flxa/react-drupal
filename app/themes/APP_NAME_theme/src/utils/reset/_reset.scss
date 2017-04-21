@@ -1,0 +1,46 @@
+// Reset
+//
+// Reset various elements to a base state.
+//
+// Style guide: 2.6
+
+// Reset list
+//
+// Safely reset `ul` and `ol` and their children `li` elements.
+//
+// Markup: reset-list.twig
+//
+// Style guide: 2.6.1
+
+.reset--list,
+%reset--list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// Reset fieldset
+//
+// Safely reset `fieldset` and their children `legend` elements.
+//
+// Markup: reset-fieldset.twig
+//
+// Style guide: 2.6.2
+
+.reset--fieldset,
+%reset--fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+
+  legend {
+    padding: 0;
+    display: table;
+  }
+}

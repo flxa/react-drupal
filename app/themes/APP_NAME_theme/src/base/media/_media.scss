@@ -1,0 +1,69 @@
+// Media
+//
+// Images, videos and other embedded media.
+//
+// Style guide: 4.5
+
+// Image
+//
+// Responsive images.
+//
+// Markup: image.twig
+//
+// Style guide: 4.5.1
+
+img {
+  max-width: 100%;
+  height: auto;
+  // Remove that tiny bit of spacing below inline images.
+  vertical-align: text-bottom;
+}
+
+// Video
+//
+// Responsive videos.
+//
+// Markup: video.twig
+//
+// Style guide: 4.5.2
+
+.video,
+%video {
+  @include margin(0 0 1);
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+
+  embed,
+  object,
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+video {
+  width: 100%;
+  height: auto;
+}
+
+// Figure
+//
+// A captioned image using the `figure` and `figcaption` elements.
+//
+// Markup: figure.twig
+//
+// Style guide: 4.5.3
+
+figure {
+  @include margin(0 0 1);
+}
+
+figcaption {
+  @include typeset(small);
+  @include margin-top(5px);
+  text-align: right;
+}

@@ -1,0 +1,143 @@
+// sass-lint:disable mixins-before-declarations no-vendor-prefixes
+
+// Input fields
+//
+// Input fields make up the majority of form fields, the most common types are details below.
+//
+// Style guide: 5.1
+
+$chroma: add-colors('primary', (
+    form-text:          'grey-mid',
+    form-border:        'grey-xlight',
+    form-placeholder:   'grey-mid',
+    form-bg:            'white',
+    form-error:         'red',
+    form-focus:         'grey-mid',
+));
+
+$form-element-padding:  15px;
+$form-element-height:   50px;
+$form-border-radius:    8px;
+
+// Text
+//
+// The standard `input[type="text"]` element, with a label and help text.
+//
+// Markup: input-text.twig
+//
+// Style guide: 5.1.1
+
+// Base styles for inputs/selects/etc.
+%input__text-base {
+  @include typeset(form);
+  @include typeface(base);
+  color: color(form-text);
+  background-color: color(form-bg);
+  border: $border-width solid color(form-border);
+  border-radius: $form-border-radius;
+  appearance: none;
+
+  // Text input (placeholder)
+  //
+  // Although placeholder text should generally be avoided, the styling of this text
+  // is shown here.
+  //
+  // Markup: input-text-placeholder.twig
+  //
+  // Style guide: 5.1.2
+
+  @include placeholder(color(form-placeholder), normal);
+
+  &:focus {
+    border-color: color(form-focus);
+    outline: none;
+  }
+
+  // Override mozilla default invalid styling.
+  &:-moz-ui-invalid {
+    box-shadow: none;
+  }
+
+  &.error {
+    border-color: color(form-error);
+    box-shadow: none;
+  }
+}
+
+.input__text,
+%input__text,
+[type='text'],
+[type='search'],
+[type='tel'],
+[type='url'],
+[type='email'],
+[type='password'],
+[type='date'],
+[type='time'],
+[type='number'] {
+  @extend %input__text-base;
+  @include padding(0 $form-element-padding 0 $form-element-padding / 2);
+  height: spacing($form-element-height);
+  text-indent: spacing($form-element-padding / 2);
+}
+
+// Checkbox (multiple)
+//
+// The standard `input[type="checkbox"]` element, using a fieldset and legend as
+// the accessible way to group and label multiple checkbox inputs.
+//
+// Optionally a tooltip can be used by using the `aria-describedby` attribute
+// on the fieldset itself.
+//
+// Markup: input-checkbox.twig
+//
+// Style guide: 5.1.3
+
+// Checkbox (single)
+//
+// Used for things like accepting terms and conditions and opting in to
+// communications.
+//
+// Markup: input-checkbox-single.twig
+//
+// Style guide: 5.1.4
+
+// Radios (multiple)
+//
+// The standard `input[type="radio"]` element, using a fieldset and legend as
+// the accessible way to group and label multiple radio inputs.
+//
+// Optionally a tooltip can be used by using the `aria-describedby` attribute
+// on the fieldset itself.
+//
+// Markup: input-radio.twig
+//
+// Style guide: 5.1.5
+
+.form__radio,
+%form__radio,
+.form__checkbox,
+%form__checkbox {
+  @include margin(0 0 $spacing-xs);
+  @include padding-left(20px);
+  position: relative;
+
+  label {
+    @include typeset(default);
+    cursor: pointer;
+  }
+
+  [type='radio'],
+  [type='checkbox'] {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    margin: 0;
+  }
+}
+
+[type='radio'],
+[type='checkbox'] {
+  float: left;
+  margin: 4px 6px 5px 0;
+}

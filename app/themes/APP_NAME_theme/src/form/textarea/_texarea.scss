@@ -1,0 +1,17 @@
+@import 'form/input/input';
+
+// Textarea
+//
+// A textarea field is used for multiple lines of text input.
+//
+// Markup: textarea.twig
+//
+// Style guide: 5.3
+
+%textarea,
+textarea {
+  @extend %input__text-base;
+  @include padding(10px 15px);
+  height: line-height(4 * $form-element-height);
+  width: 100%;
+}

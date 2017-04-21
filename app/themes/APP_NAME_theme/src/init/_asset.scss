@@ -1,0 +1,30 @@
+// Assets
+//
+// [Eyeglass](https://github.com/sass-eyeglass/eyeglass) incorporates an asset management system that
+// can be used with the `asset-url()` function. All assets are relative to the `src` directory.
+//
+// e.g. `asset-url(components/nav/hamburger.png)`
+//
+// Style guide: 1.3
+
+@import 'assets';
+
+// Inline SVG
+//
+// [Eyeglass Inline SVG](https://github.com/strarsis/eyeglass-inline-svg) allows us to inline svg files
+// as a correctly url-encoded data URI. use the `embed-svg()` function, with a url relative to the `src` directory.
+//
+// e.g. `embed-svg(form/select/select-arrow.svg)`
+//
+// Style guide: 1.4
+
+// Use eyeglass-inline-svg.
+@import 'inline-svg';
+
+// Add a manual path to the sass dir for inline-svg.
+$sass-path: './app/themes/APP_NAME_theme/src/';
+
+// A helper function for inline-svg.
+@function embed-svg($file) {
+  @return inline-svg-file($sass-path + $file);
+}
