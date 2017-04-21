@@ -7,6 +7,7 @@ httpRoot: app
 sass:
   # Source *.scss files to build.
   # @see gulpfiles/styles.js
+  # @see gulpfiles/config.js
   src: app/themes/APP_NAME_theme/src
   # Destination of compiled CSS.
   # @see gulpfiles/styles.js
@@ -15,6 +16,7 @@ sass:
 js:
   # ESLint will run on these directories.
   # @see gulpfiles/lint.js
+  # @see gulpfiles/config.js
   src:
     - app/themes/APP_NAME_theme/src
     - app/modules/custom
@@ -27,13 +29,12 @@ styleguide:
   builder: node_modules/kss-offscreen-twig
   # Add .css files for the style guide here.
   cssFiles:
-    - https://fonts.googleapis.com/css?family=Open+Sans:400,700
     - app/themes/APP_NAME_theme/css/styles.css
     - app/themes/APP_NAME_theme/css/style-guide/chroma-kss-styles.css
     - app/themes/APP_NAME_theme/css/style-guide/kss-only.css
   # Add .js files for the style guide here.
   jsFiles:
-    - app/core/misc/jquery.min.js
+    - app/core/assets/vendor/jquery/jquery.js
 
 autoprefixer:
   # Standard browser compatibility settings.
