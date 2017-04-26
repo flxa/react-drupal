@@ -43,38 +43,18 @@
   }
 }
 
-// background-extend()
+// rtl()
 //
-// Allows form elements to quickly implement placeholder browser prefixes.
+// Includes Right-To-Left langauge support. Can be turned off globally by
+// setting `$include-rtl: false;`.
 //
 // Style guide: 2.7.2
 
-@mixin background-extend {
-  position: relative;
-  overflow: visible;
-  padding-left: 1px;
-  padding-right: 1px;
+$include-rtl: true !default;
 
-  &::before,
-  &::after {
-    content: '';
-    background-color: inherit;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 0;
-    width: 200%;
-    display: block;
-  }
-
-  &::before {
-    left: 100%;
-    margin-left: -1px;
-  }
-
-  &::after {
-    right: 100%;
-    margin-right: -1px;
+@mixin rtl {
+  [dir="rtl"] & {
+    @content;
   }
 }
 
@@ -101,20 +81,5 @@
 
   @media print {
     display: block;
-  }
-}
-
-$include-rtl: true !default;
-
-// rtl()
-//
-// Includes Right-To-Left langauge support. Can be turned off globally by
-// setting `$include-rtl: false;`.
-//
-// Style guide: 2.7.5
-
-@mixin rtl {
-  [dir="rtl"] & {
-    @content;
   }
 }

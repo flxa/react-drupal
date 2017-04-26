@@ -19,7 +19,7 @@ To set up the project install the correct version of node, and all package requi
 
 ```
 nvm install
-npm install
+yarn install
 ```
 
 To build the style guide, run:
