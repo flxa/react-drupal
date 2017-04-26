@@ -1,0 +1,20 @@
+// Label
+//
+// The form `label` element must be present for all form elements, and have a `for` attribute that matches the `id` of the
+// associated form element.
+//
+// Markup: label.twig
+//
+// Style guide: 5.5
+
+$chroma: add-colors('primary', (
+    label: 'black'
+));
+
+%label,
+label {
+  @include typeset(label);
+  color: color(label);
+  display: block;
+  margin-bottom: $spacing-xs;
+}

@@ -1,12 +1,5 @@
-global:
-  version: 1.x
+styles:
+  version: VERSION
   css:
     theme:
       css/styles.css: {}
-components:
-  version: 1.x
-  js:
-    sass/components/example/example.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupal

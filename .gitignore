@@ -46,13 +46,17 @@ Thumbs.db
 /app/themes/contrib
 
 # Continuous Integration #
-#########################
+##########################
 /bin
 /vendor
-/styleguide
-/node_modules
 /app/test-output.html
 /build/logs
+
+# Front end #
+#############
+/app/styleguide
+/node_modules
+/app/themes/APP_NAME_theme/css
 
 # Dev files #
 #############

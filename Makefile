@@ -29,7 +29,7 @@ deploy: updb entity-updates import cache-rebuild
 
 init:
 	composer install --prefer-dist --no-progress
-	npm install --loglevel silent
+	yarn
 
 init-local: init styleguide-init styleguide
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php

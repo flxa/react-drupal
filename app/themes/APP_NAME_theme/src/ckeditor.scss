@@ -1,0 +1,12 @@
+// sass-lint:disable no-url-domains no-url-protocols
+
+// A custom CSS file for ckeditor.
+
+@import 'init/**/*';
+@import 'vendor/normalize/normalize.css';
+@import 'base/**/*';
+
+body {
+  @include typeface(base);
+  @include margin(20px);
+}

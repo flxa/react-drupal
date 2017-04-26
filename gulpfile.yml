@@ -1,64 +1,93 @@
+# The url served by Browsersync.
+# @see gulpfiles/browsersync.js
 developmentUrl: APP_NAME.dev
+# The root directory.
 httpRoot: app
 
 sass:
-  src: app/themes/APP_NAME_theme/source
+  # Source *.scss files to build.
+  # @see gulpfiles/styles.js
+  # @see gulpfiles/config.js
+  src: app/themes/APP_NAME_theme/src
+  # Destination of compiled CSS.
+  # @see gulpfiles/styles.js
   dest: app/themes/APP_NAME_theme/css
 
 js:
+  # ESLint will run on these directories.
+  # @see gulpfiles/lint.js
+  # @see gulpfiles/config.js
   src:
-    - app/themes/APP_NAME_theme/js
+    - app/themes/APP_NAME_theme/src
     - app/modules/custom
 
+# @see gulpfiles/styleguide.js
 styleguide:
   title: APP_NAME Style Guide
+  # Directory the style guide builds to.
   dest: app/styleguide
   builder: node_modules/kss-offscreen-twig
+  # Add .css files for the style guide here.
   cssFiles:
-    - https://fonts.googleapis.com/css?family=Open+Sans:400,700
     - app/themes/APP_NAME_theme/css/styles.css
     - app/themes/APP_NAME_theme/css/style-guide/chroma-kss-styles.css
     - app/themes/APP_NAME_theme/css/style-guide/kss-only.css
+  # Add .js files for the style guide here.
   jsFiles:
-    - https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js
-    - app/themes/APP_NAME_theme/js/scripts.js
+    - app/core/assets/vendor/jquery/jquery.js
 
 autoprefixer:
+  # Standard browser compatibility settings.
+  # @see https://github.com/ai/browserslist#queries
   browsers:
     - last 2 versions
-    - ie >= 9
+    - ie >= 10
     - and_chr >= 2.3
 
-
+# @see gulpfiles/modernizr.js
+# @see https://modernizr.com/docs
 modernizr:
-  dest: app/themes/APP_NAME_theme/js/vendor/modernizr/
+  # Modernizr is shipped as a precompiled, minified js file.
+  dest: app/themes/APP_NAME_theme/src/vendor/modernizr/
+  # Options to include.
   options:
     - prefixes
     - addTest
     - setClasses
     - testStyles
+  # Tests to include. Others are picked up automatically by gulp.
   tests:
     - details
     - inputtypes
     - touchevents
+  # Some tests are added automatically but are incorrect, exclude them here.
   excludeTests:
+    - video
     - hidden
     - svg
     - input
     - sizes
 
+# @see gulpfiles/svg.js
 svg:
   svgo:
+    # Directories that contain .svg files to be minified with svgo.
     src:
-      - app/themes/APP_NAME_theme/source
-      - app/themes/APP_NAME_theme/images/messages
+      - app/themes/APP_NAME_theme/src
+    # List of options for SVGO.
+    # @see https://github.com/svg/svgo
     plugins:
-      removeDimensions: true
+      removeDimensions: false
+      removeViewbox: false
   sprites:
-    messages:
-      src: app/themes/APP_NAME_theme/images/messages
-      dest: app/themes/APP_NAME_theme/images
+    # Copy this object for each sprite you want to create.
+    message:
+      # The source directory for the svg files to combine.
+      src: app/themes/APP_NAME_theme/src/components/message/icons
+      # The destination directory for the outputted file.
+      dest: app/themes/APP_NAME_theme/src/components/message
       config:
+        # Use these options best practice for the sprite.
         svg:
           xmlDeclaration: false
           rootAttributes:
@@ -66,4 +95,5 @@ svg:
         mode:
           symbol:
             dest: .
-            sprite: messages.svg
+            # The file name for the sprite.
+            sprite: message-icons.svg

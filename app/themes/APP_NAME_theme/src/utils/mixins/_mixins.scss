@@ -1,0 +1,85 @@
+// sass-lint:disable no-vendor-prefixes
+
+// Mixins
+//
+// Style guide: 2.7
+
+// placholder($color, $style)
+//
+// Allows form elements to quickly implement placeholder browser prefixes.
+//
+// $color - A Hex color to use for placeholder text.
+// $style - A font-style to use for placeholder test.
+//
+// Style guide: 2.7.1
+
+@mixin placeholder($color, $style) {
+  &::-webkit-input-placeholder {
+    // Chrome/Opera/Safari
+    color: $color;
+    opacity: 1;
+    font-style: $style;
+  }
+
+  &::-moz-placeholder {
+    // Firefox 19+
+    color: $color;
+    opacity: 1;
+    font-style: $style;
+  }
+
+  &:-ms-input-placeholder {
+    // IE 10+
+    color: $color;
+    opacity: 1;
+    font-style: $style;
+  }
+
+  &:-moz-placeholder {
+    // Firefox 18-
+    color: $color;
+    opacity: 1;
+    font-style: $style;
+  }
+}
+
+// rtl()
+//
+// Includes Right-To-Left langauge support. Can be turned off globally by
+// setting `$include-rtl: false;`.
+//
+// Style guide: 2.7.2
+
+$include-rtl: true !default;
+
+@mixin rtl {
+  [dir="rtl"] & {
+    @content;
+  }
+}
+
+// print-none()
+//
+// Do not display for printed media.
+//
+// Style guide: 2.7.3
+
+@mixin print-none {
+  @media print {
+    display: none;
+  }
+}
+
+// print-only()
+//
+// Only display for printed media.
+//
+// Style guide: 2.7.4
+
+@mixin print-only {
+  display: none;
+
+  @media print {
+    display: block;
+  }
+}

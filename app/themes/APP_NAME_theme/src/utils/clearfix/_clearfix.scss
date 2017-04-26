@@ -1,0 +1,18 @@
+// Clearfix
+//
+// Allows the bottom of an element to extend to the bottom of all floated child
+// elements. This method uses the latest, greatest, simplest clearfix method
+// from CSS Mojo: http://cssmojo.com/the-very-latest-clearfix-reloaded/
+//
+// Markup: clearfix.twig
+//
+// Style guide: 2.3
+
+.clearfix,
+%clearfix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}

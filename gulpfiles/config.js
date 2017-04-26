@@ -41,10 +41,8 @@ config.sassOptions = {
   }
 };
 
-// We want to watch/lint all the js files provided in gulpfile.yml and any js
-// files that might live inside sass components.
+// We want to watch/lint all the js files provided in gulpfile.yml.
 let jsSrc = [
-  config.sass.src,
   ...config.js.src
 ];
 // Create a new array to exclude any files that might already be minified.
