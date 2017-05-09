@@ -28,8 +28,8 @@ build: sql-drop db-sync deploy login
 deploy: updb entity-updates import cache-rebuild
 
 init:
-	composer install --prefer-dist --no-progress
-	yarn
+	composer install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	yarn install --non-interactive --no-progress
 
 init-local: init styleguide-init styleguide
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php

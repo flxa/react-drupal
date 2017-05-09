@@ -4,9 +4,8 @@ channel: '#APP_NAME'
 
 package:
   steps:
-    - "composer install --no-dev --prefer-dist --no-progress --optimize-autoloader"
-    - "yarn"
-    - "node_modules/.bin/gulp build"
+    - make init
+    - make styleguide
 
 deploySteps:
   - make deploy
