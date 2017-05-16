@@ -31,6 +31,10 @@ init:
 	composer install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	yarn install --non-interactive --no-progress
 
+init-package:
+	composer install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	yarn install --non-interactive --no-progress
+
 init-local: init styleguide-init styleguide
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php
 

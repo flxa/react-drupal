@@ -3,8 +3,9 @@ cluster: "pnx.cd.pnx.com.au"
 channel: '#APP_NAME'
 
 package:
+  image: previousnext/php:7.0-dev
   steps:
-    - make init
+    - make init-package
     - make styleguide
 
 deploySteps:
@@ -58,4 +59,3 @@ jobs: &jobs
     workingDir: "/data/app"
     schedule:   "@daily"
     command:    'drush archive-dump --overwrite --destination=/tmp/drupal.tar.gz && backup /tmp/drupal.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV.tar.gz"'
-

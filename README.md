@@ -32,5 +32,7 @@ $ vagrant ssh
 
 ```bash
 # Uses the default make target.
-$ make
+$ make init
+$ make build
+$ make styleguide
 ```
