@@ -36,3 +36,36 @@ $ make init
 $ make build
 $ make styleguide
 ```
+
+## Docker for Local Development
+
+In order to use Docker for local development, you will need Docker for Mac Beta 17.05 or above from the
+[Edge Channel][1]. This version supports the cached volume strategy which makes performance for Drupal
+acceptable.
+
+### Running
+
+You can spin up a local environment with the following command:
+
+` docker-compose up -d`
+
+### Drupal settings
+
+You will need to change the host name of the database in `settings.php` to what is specified in
+ `docker-compose.yml` (e.g. mariadb instead of localhost).
+
+### Make
+
+You will need to prefix any commands you want to run with `docker-compose exec php`. For example:
+
+`docker-compose exec php make init`
+
+You can add a bash alias on your host to make this shorter. E.g.
+
+`alias de='docker-compose exec php'`
+
+so the command becomes:
+
+`de make init`
+
+[1]: https://docs.docker.com/docker-for-mac/install/
