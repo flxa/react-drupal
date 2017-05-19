@@ -1,0 +1,31 @@
+version: "3"
+services:
+  php:
+    image: previousnext/php:7.1-dev
+    ports:
+      - "80:80"
+    volumes:
+      - .:/data:cached
+    links:
+      - mariadb
+#      - elasticsearch
+#      - solr
+  mariadb:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      # Required for running the official mysql image.
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=local
+      - MYSQL_USER=drupal
+      - MYSQL_PASSWORD=drupal
+#  elasticsearch:
+#    image: elasticsearch
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#  solr:
+#    image: previousnext/solr
+#    ports:
+#      - "8983:8983"
