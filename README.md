@@ -68,4 +68,10 @@ so the command becomes:
 
 `de make init`
 
+### Browsing the site
+
+The docker site will be avaiable on [http://127.0.0.1/](http://127.0.0.1/)
+
+You can only have one project running at a time.
+
 [1]: https://docs.docker.com/docker-for-mac/install/
