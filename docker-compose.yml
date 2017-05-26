@@ -7,10 +7,15 @@ services:
     volumes:
       - .:/data:cached
     links:
-      - mariadb
-#      - elasticsearch
-#      - solr
-  mariadb:
+      - db
+      - mail
+#      - search
+  xdebug:
+    image: nickschuch/d4m-tcp-forwarder
+    network_mode: host
+    environment:
+      - PORT=9000
+  db:
     image: mariadb
     ports:
       - "3306:3306"
@@ -20,12 +25,14 @@ services:
       - MYSQL_DATABASE=local
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
-#  elasticsearch:
-#    image: elasticsearch
-#    ports:
-#      - "9200:9200"
-#      - "9300:9300"
-#  solr:
+    #    volumes:
+    #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "8002:8025"
+
+#  search:
 #    image: previousnext/solr
 #    ports:
 #      - "8983:8983"

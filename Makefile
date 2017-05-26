@@ -1,24 +1,29 @@
 #!/usr/bin/make -f
 
-APP_ROOT=$(CURDIR)/app
+APP_ROOT=./app
 APP_URL=http://APP_NAME.dev
 
-BUILD_LOGS_DIR=$(CURDIR)/build/logs
+BUILD_LOGS_DIR=./build/logs
 
-PHPCS_FOLDERS=$(CURDIR)/app/modules/custom
+PHPCS_FOLDERS=./app/modules/custom
 PHPCS_EXTENSIONS=php,module,inc,install,test,profile,theme
 
-CONFIG_DIR=$(CURDIR)/config-export
-CONFIG_DELETE=$(CURDIR)/drush/config-delete.yml
-CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
-CONFIG_INSTALL=$(CURDIR)/config-install
+CONFIG_DIR=./config-export
+CONFIG_DELETE=./drush/config-delete.yml
+CONFIG_IGNORE=./drush/config-ignore.yml
+CONFIG_INSTALL=./config-install
 CONFIG_SKIP_MODULES=devel
 
 ARCH=$(shell uname -m)
 PHANTOMJS_DIR=$(HOME)/.phantomjs
 PHANTOMJS_BIN=$(HOME)/.phantomjs/phantomjs-2.1.1-linux-$(ARCH)/bin/phantomjs
 
-DRUSH=$(CURDIR)/bin/drush -r $(APP_ROOT)
+DRUSH=./bin/drush -r $(APP_ROOT) -l $(APP_URL)
+GULP=./node_modules/.bin/gulp
+COMPOSER=composer
+YARN=yarn
+PHPCBF=./bin/phpcbf
+PHPCS=./bin/phpcs
 
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
@@ -28,14 +33,14 @@ build: sql-drop db-sync deploy login
 deploy: updb entity-updates import cache-rebuild
 
 init:
-	composer install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
-	yarn install --non-interactive --no-progress
+	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	$(YARN) install --non-interactive --no-progress
 
 init-package:
-	composer install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
-	yarn install --non-interactive --no-progress
+	$(COMPOSER) install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	$(YARN) install --non-interactive --no-progress
 
-init-local: init styleguide-init styleguide
+init-local: init
 	cp $(APP_ROOT)/sites/example.settings.local.php $(APP_ROOT)/sites/default/settings.local.php
 
 mkdirs:
@@ -43,6 +48,10 @@ mkdirs:
 
 sql-drop:
 	$(DRUSH) sql-drop -y
+
+db-dump:
+	mkdir mariadb-init
+	$(DRUSH) sql-dump > mariadb-init/db.sql
 
 updb:
 	$(DRUSH) updb -y
@@ -60,7 +69,7 @@ styleguide-init:
 	npm rebuild node-sass
 
 styleguide:
-	./node_modules/.bin/gulp build
+	$(GULP) build
 
 db-sync:
 	skpr exec dev "bin/drush sql-dump |gzip > /tmp/db.sql.gz" && skpr rsync dev:/tmp/db.sql.gz . && gunzip db.sql.gz -f && $(DRUSH) sql-cli < db.sql
@@ -72,13 +81,13 @@ export:
 	$(DRUSH) cexy -y --skip-modules=$(CONFIG_SKIP_MODULES) --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
-	./bin/phpcbf --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+	$(PHPCBF) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
 lint-php:
-	./bin/phpcs --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+	$(PHPCS) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
 lint-sass-js:
-	./node_modules/.bin/gulp lint:with-fail
+	$(GULP) lint:with-fail
 
 ci-lint-php: ci-prepare
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
@@ -103,7 +112,7 @@ test-init:
 	echo "create database d8_testing;" | sudo mysql
 
 phantomjs: phantomjs-stop phantom-init
-	${PHANTOMJS_BIN} --ssl-protocol=any --ignore-ssl-errors=true ${CURDIR}/vendor/jcalderonzumba/gastonjs/src/Client/main.js 8510 1024 768 2>&1 >> /dev/null &
+	${PHANTOMJS_BIN} --ssl-protocol=any --ignore-ssl-errors=true ${PROJECT_ROOT}/vendor/jcalderonzumba/gastonjs/src/Client/main.js 8510 1024 768 2>&1 >> /dev/null &
 	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make
 
 phantom-init:
@@ -115,6 +124,8 @@ phantomjs-stop:
 	ps axo pid,command | grep php | grep -v grep | grep -v phpstorm | grep -v make | awk '{print $$1}' | xargs -I {} kill {}
 
 login:
-	$(DRUSH) uli --uri=$(APP_URL)
+	$(DRUSH) uli
+
+-include Makefile.local
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login

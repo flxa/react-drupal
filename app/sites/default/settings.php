@@ -12,7 +12,7 @@ $databases['default']['default'] = array(
   'database' => skpr_config('db.name') ?: 'local',
   'username' => skpr_config('db.username') ?: 'drupal',
   'password' => skpr_config('db.password') ?: 'drupal',
-  'host' => skpr_config('db.host') ?: 'localhost',
+  'host' => skpr_config('db.host') ?: 'db',
 );
 $config['cron_safe_threshold'] = '0';
 $settings['file_public_path'] = skpr_config('file.public') ?: 'sites/default/files';
@@ -22,7 +22,7 @@ $settings['file_private_path'] = skpr_config('file.private') ?: 'sites/default/f
 $settings['install_profile'] = 'APP_NAME_profile';
 
 if (skpr_config('smtp.username') && skpr_config('smtp.password')) {
-  $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: 'email-smtp.us-east-1.amazonaws.com';
+  $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: 'mail';
   $config['swiftmailer.transport']['smtp_username'] = skpr_config('smtp.username') ?: '';
   $config['swiftmailer.transport']['smtp_password'] = skpr_config('smtp.password') ?: '';
   $config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '25';
@@ -30,7 +30,7 @@ if (skpr_config('smtp.username') && skpr_config('smtp.password')) {
   $config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
 }
 
-$config_directories['sync'] = __DIR__ . '/../../../config-export';
+$config_directories['sync'] = DRUPAL_ROOT . '/../config-export';
 
 // * Stops twig cache from being built on shared file storage.
 // * In the project root to avoid collisions and for security.
@@ -42,6 +42,7 @@ $settings['hash_salt'] = !empty($settings['hash_salt']) ? $settings['hash_salt']
 
 // PreviousNext domains (local / dev)
 $settings['trusted_host_patterns'][] = '^127\.0\.0\.1$';
+$settings['trusted_host_patterns'][] = '^localhost$';
 $settings['trusted_host_patterns'][] = '^APP_NAME\-pr[0-9]+\.ci\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^APP_NAME\-\w+\.cd\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.dev') . '$';

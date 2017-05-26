@@ -56,17 +56,8 @@ You will need to change the host name of the database in `settings.php` to what 
 
 ### Make
 
-You will need to prefix any commands you want to run with `docker-compose exec php`. For example:
-
-`docker-compose exec php make init`
-
-You can add a bash alias on your host to make this shorter. E.g.
-
-`alias de='docker-compose exec php'`
-
-so the command becomes:
-
-`de make init`
+In order to set paths correctly for running commands with docker, copy 
+`Makefile.local.example` to `Makefile.local`.
 
 ### Browsing the site
 
