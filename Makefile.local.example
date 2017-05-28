@@ -10,6 +10,13 @@ DRUSH=$(DOCKER_RUN) $(PROJECT_DIR)/bin/drush -r $(APP_ROOT) -l $(APP_URL)
 GULP=$(DOCKER_RUN) $(PROJECT_DIR)/node_modules/.bin/gulp
 COMPOSER=$(DOCKER_RUN) composer
 YARN=$(DOCKER_RUN) yarn
+PHPUNIT=$(DOCKER_RUN) ./bin/phpunit
+CONFIG_DIR=$(PROJECT_DIR)/config-export
+CONFIG_DELETE=$(PROJECT_DIR)/drush/config-delete.yml
+CONFIG_IGNORE=$(PROJECT_DIR)/drush/config-ignore.yml
 
 styleguide-init:
 	@echo "No action required"
+
+test:
+	$(PHPUNIT) --stop-on-failure $(APP_ROOT)/modules/custom/$(folder)
