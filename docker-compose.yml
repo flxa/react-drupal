@@ -10,6 +10,9 @@ services:
       - db
       - mail
 #      - search
+    environment:
+      - SIMPLETEST_BASE_URL=http://php
+      - SIMPLETEST_DB=mysql://root:root@db/d8_testing
   xdebug:
     image: nickschuch/d4m-tcp-forwarder
     network_mode: host
