@@ -11,9 +11,11 @@ GULP=$(DOCKER_RUN) $(PROJECT_DIR)/node_modules/.bin/gulp
 COMPOSER=$(DOCKER_RUN) composer
 YARN=$(DOCKER_RUN) yarn
 PHPUNIT=$(DOCKER_RUN) ./bin/phpunit
+
 CONFIG_DIR=$(PROJECT_DIR)/config-export
 CONFIG_DELETE=$(PROJECT_DIR)/drush/config-delete.yml
 CONFIG_IGNORE=$(PROJECT_DIR)/drush/config-ignore.yml
+CONFIG_INSTALL=$(PROJECT_DIR)/config-install
 
 styleguide-init:
 	@echo "No action required"

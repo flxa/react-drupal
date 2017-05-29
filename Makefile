@@ -8,10 +8,10 @@ BUILD_LOGS_DIR=./build/logs
 PHPCS_FOLDERS=./app/modules/custom
 PHPCS_EXTENSIONS=php,module,inc,install,test,profile,theme
 
-CONFIG_DIR=./config-export
-CONFIG_DELETE=./drush/config-delete.yml
-CONFIG_IGNORE=./drush/config-ignore.yml
-CONFIG_INSTALL=./config-install
+CONFIG_DIR=$(CURDIR)/config-export
+CONFIG_DELETE=$(CURDIR)/drush/config-delete.yml
+CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
+CONFIG_INSTALL=$(CURDIR)/config-install
 CONFIG_SKIP_MODULES=devel
 
 ARCH=$(shell uname -m)

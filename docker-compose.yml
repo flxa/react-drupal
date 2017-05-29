@@ -13,6 +13,7 @@ services:
     environment:
       - SIMPLETEST_BASE_URL=http://php
       - SIMPLETEST_DB=mysql://root:root@db/d8_testing
+      - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
   xdebug:
     image: nickschuch/d4m-tcp-forwarder
     network_mode: host
