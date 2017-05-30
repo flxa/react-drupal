@@ -83,13 +83,16 @@ export:
 fix-php:
 	$(PHPCBF) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
-lint-php:
+lint-php: psalm
 	$(PHPCS) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+
+psalm:
+	./bin/psalm --show-info=0
 
 lint-sass-js:
 	$(GULP) lint:with-fail
 
-ci-lint-php: ci-prepare
+ci-lint-php: ci-prepare psalm
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
 	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
 
