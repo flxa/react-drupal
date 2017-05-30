@@ -66,3 +66,22 @@ The docker site will be avaiable on [http://127.0.0.1/](http://127.0.0.1/)
 You can only have one project running at a time.
 
 [1]: https://docs.docker.com/docker-for-mac/install/
+
+### Xdebug
+
+**From the browser**
+
+This will work automatically due to the service "xdebug" declared in the docker-composer.yaml.
+
+This will take all xdebug traffic and forward it onto your OSX laptop.
+
+**From the CLI**
+
+Given xdebug is provided no context of which host to send its xdebug data to, you will need to
+set the following configuration on the CLI before running 
+
+```bash
+export PHP_IDE_CONFIG="serverName=localhost";export XDEBUG_CONFIG="remote_host=192.168.65.1";
+```
+
+The IP address 192.168.65.1 is common umongst all Docker for Mac installations
