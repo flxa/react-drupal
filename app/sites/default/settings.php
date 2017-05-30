@@ -75,7 +75,12 @@ if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 
 $settings['slushi_cache_melt_time'] = 86400;
 
-// Check if module is enabled.
+// Allow local settings overrides.
+foreach (glob(__DIR__ . '/settings.*.php') as $filename) {
+  include_once $filename;
+}
+
+// Check if module is enabled. Should come last.
 Database::setMultipleConnectionInfo($databases);
 $bootstrap_config = BootstrapConfigStorageFactory::get($class_loader);
 $modules = $bootstrap_config->read('core.extension');
@@ -85,9 +90,4 @@ if ($modules && isset($modules['module']['slushi_cache'])) {
   // on the autoloader.
   $settings['cache']['bins']['render'] = 'cache.backend.slushi';
   $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.slushi';
-}
-
-// Allow local settings overrides.
-foreach (glob(__DIR__ . '/settings.*.php') as $filename) {
-  include_once $filename;
 }
