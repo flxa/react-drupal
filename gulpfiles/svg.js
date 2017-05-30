@@ -16,6 +16,12 @@ import config from './config';
 // Glob for svg files to minify.
 let svgoFiles = config.svg.svgo.src.map(p => p + '/**/*.svg');
 
+// Exclude all outputted sprite files as they will error svgo.
+for (let key in config.svg.sprites) {
+  let spritePath = '!' + config.svg.sprites[key].dest + '/' + config.svg.sprites[key].config.mode.symbol.sprite;
+  svgoFiles.push(spritePath);
+}
+
 // gulp-svgmin needs its plugin config provided in comma separated objects.
 // @see https://github.com/ben-eb/gulp-svgmin
 let svgoPlugins = [];
