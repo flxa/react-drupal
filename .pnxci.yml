@@ -6,6 +6,7 @@ prepare: &prepare
   - make init
   - make mkdirs
   - make styleguide
+  - cp app/sites/default/test.settings.php app/sites/default/settings.test.php
   - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
 
 test: &test
