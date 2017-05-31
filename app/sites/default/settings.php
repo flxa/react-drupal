@@ -12,7 +12,7 @@ $databases['default']['default'] = array(
   'database' => skpr_config('db.name') ?: 'local',
   'username' => skpr_config('db.username') ?: 'drupal',
   'password' => skpr_config('db.password') ?: 'drupal',
-  'host' => skpr_config('db.host') ?: 'db',
+  'host' => skpr_config('db.host') ?: '127.0.0.1',
 );
 $config['cron_safe_threshold'] = '0';
 $settings['file_public_path'] = skpr_config('file.public') ?: 'sites/default/files';
