@@ -7,7 +7,7 @@ services:
     # workstation. Meaning that you can interact on "localhost".
     network_mode: host
     volumes:
-      - .:/data:cached
+      - .:/data
     environment:
       - SIMPLETEST_BASE_URL=http://127.0.0.1
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
