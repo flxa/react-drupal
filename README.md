@@ -14,7 +14,7 @@ APP_NAME
 
 Important project notes go here...
 
-## Getting started
+## Vagrant for Local Development
 
 1. Spin up a local VM environment
 
