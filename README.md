@@ -43,6 +43,26 @@ In order to use Docker for local development, you will need Docker for Mac Beta 
 [Edge Channel][1]. This version supports the cached volume strategy which makes performance for Drupal
 acceptable.
 
+### Bash Aliases
+
+The docker-compose files are split based on operating system.
+
+This allows us to do cool things on a "per OS" basis eg. `network_mode: host` for Linux.
+
+Add the following to our bash alias.
+
+**OSX**
+
+```bash
+alias docker-compose='docker-compose -f docker-compose.osx.yml'
+```
+
+**Linux**
+
+```bash
+alias docker-compose='docker-compose -f docker-compose.linux.yml'
+```
+
 ### Running
 
 You can spin up a local environment with the following command:

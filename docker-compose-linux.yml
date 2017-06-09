@@ -1,28 +1,21 @@
 version: "3"
+
 services:
   php:
     image: previousnext/php:7.1-dev
-    # You will notice that we are forwarding port which do not belong to PHP.
-    # We have to declare them here because these "sidecar" services are sharing
-    # THIS containers network stack.
-    ports:
-      - "80:80"
-      - "8983:8983"
-      - "8025:8025"
+    # This makes the container run on the same network stack as your
+    # workstation. Meaning that you can interact on "localhost".
+    network_mode: host
     volumes:
-      - .:/data:cached
+      - .:/data
     environment:
       - SIMPLETEST_BASE_URL=http://127.0.0.1
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
-  xdebug:
-    image: nickschuch/d4m-tcp-forwarder
-    network_mode: host
-    environment:
-      - PORT=9000
+
   db:
     image: mariadb
-    network_mode: service:php
+    network_mode: host
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=local
@@ -30,12 +23,11 @@ services:
       - MYSQL_PASSWORD=drupal
     #    volumes:
     #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
+
   mail:
     image: mailhog/mailhog
-    network_mode: service:php
-    ports:
-      - "8025:8025"
+    network_mode: host
 
 #  search:
-#    image: previousnext/solr
-#    network_mode: service:php
+#    image: previousnext/solr:5.x
+#    network_mode: host
