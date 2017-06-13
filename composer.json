@@ -12,6 +12,7 @@
         "drupal/admin_toolbar": "~1.14",
         "drupal/core": "~8.2",
         "drupal/ctools": "~3.0",
+        "drupal/ds": "~3.1",
         "drupal/metatag": "~1.0",
         "drupal/monolog": "^1.0@alpha",
         "drupal/pathauto": "~1.0",
