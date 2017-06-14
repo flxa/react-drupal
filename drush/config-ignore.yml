@@ -1,1 +1,4 @@
-{}
+ignore:
+  - devel.settings
+  - system.menu.devel
+  - stage_file_proxy.settings
