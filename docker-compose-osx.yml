@@ -37,13 +37,21 @@ services:
     #    volumes:
     #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
 
+#  varnish:
+#    image: previousnext/varnish:4.x-dev
+#    network_mode: service:php
+
+#  memcache:
+#    image: memcached:1.4-alpine
+#    network_mode: service:php
+
   mail:
     image: mailhog/mailhog
     network_mode: service:php
 
-  phantomjs:
-    image: previousnext/gastonjs:1.0.2
-    network_mode: service:php
+#  phantomjs:
+#    image: previousnext/gastonjs:1.0.2
+#    network_mode: service:php
 
 #  search:
 #    image: previousnext/solr:5.x

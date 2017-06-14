@@ -28,9 +28,17 @@ services:
     image: mailhog/mailhog
     network_mode: host
 
-  phantomjs:
-    image: previousnext/gastonjs:1.0.2
-    network_mode: service:php
+#  varnish:
+#    image: previousnext/varnish:4.x-dev
+#    network_mode: host
+
+#  memcache:
+#    image: memcached:1.4-alpine
+#    network_mode: host
+
+#  phantomjs:
+#    image: previousnext/gastonjs:1.0.2
+#    network_mode: host
 
 #  search:
 #    image: previousnext/solr:5.x
