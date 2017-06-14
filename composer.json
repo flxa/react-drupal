@@ -12,6 +12,7 @@
         "drupal/admin_toolbar": "~1.14",
         "drupal/core": "~8.2",
         "drupal/ctools": "~3.0",
+        "drupal/drush-cmi-tools": "dev-8.x-1.x",
         "drupal/ds": "~3.1",
         "drupal/metatag": "~1.0",
         "drupal/monolog": "^1.0@alpha",
@@ -39,6 +40,10 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "url": "https://github.com/previousnext/drush_cmi_tools.git",
+            "type": "git"
         }
     ],
     "extra": {
