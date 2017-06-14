@@ -11,12 +11,14 @@ services:
       - "3306:3306"
       - "8983:8983"
       - "8025:8025"
+      - "8910:8910"
     volumes:
       - .:/data:cached
     environment:
       - SIMPLETEST_BASE_URL=http://127.0.0.1
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
+      - MINK_DRIVER_ARGS=["http:\/\/127.0.0.1:8510", "\/tmp"]
 
   xdebug:
     image: nickschuch/d4m-tcp-forwarder
@@ -37,6 +39,10 @@ services:
 
   mail:
     image: mailhog/mailhog
+    network_mode: service:php
+
+  phantomjs:
+    image: previousnext/gastonjs:1.0.2
     network_mode: service:php
 
 #  search:

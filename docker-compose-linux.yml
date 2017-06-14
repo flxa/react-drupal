@@ -28,6 +28,10 @@ services:
     image: mailhog/mailhog
     network_mode: host
 
+  phantomjs:
+    image: previousnext/gastonjs:1.0.2
+    network_mode: service:php
+
 #  search:
 #    image: previousnext/solr:5.x
 #    network_mode: host
