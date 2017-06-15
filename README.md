@@ -74,11 +74,6 @@ You can spin up a local environment with the following command:
 You will need to change the host name of the database in `settings.php` to what is specified in
  `docker-compose.yml` (e.g. mariadb instead of localhost).
 
-### Make
-
-In order to set paths correctly for running commands with docker, copy 
-`Makefile.local.example` to `Makefile.local`.
-
 ### Browsing the site
 
 The docker site will be avaiable on [http://127.0.0.1/](http://127.0.0.1/)

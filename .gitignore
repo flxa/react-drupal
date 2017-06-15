@@ -63,5 +63,4 @@ Thumbs.db
 .vagrant
 .idea
 /app/sites/default/settings.local.php
-Makefile.local
 /mariadb-init
