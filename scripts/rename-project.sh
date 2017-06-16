@@ -6,10 +6,12 @@ APP_NAME=$1
 
 TEMPLATE_FILES=".pnxci.yml \
 .skpr.yml \
+.gitignore \
 app/profiles/APP_NAME_profile/* \
 app/profiles/APP_NAME_profile/config/install/* \
 app/sites/default/* \
 app/themes/APP_NAME_theme/*.yml \
+app/themes/APP_NAME_theme/src/init/_asset.scss \
 gulpfile.yml \
 Makefile \
 package.json \
