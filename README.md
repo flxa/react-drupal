@@ -54,20 +54,28 @@ Add the following to our bash alias.
 **OSX**
 
 ```bash
-alias docker-compose='docker-compose -f docker-compose.osx.yml'
+alias dc='docker-compose -f docker-compose.osx.yml'
 ```
 
 **Linux**
 
 ```bash
-alias docker-compose='docker-compose -f docker-compose.linux.yml'
+alias dc='docker-compose -f docker-compose.linux.yml'
 ```
 
 ### Running
 
 You can spin up a local environment with the following command:
 
-` docker-compose up -d`
+```bash
+$ dc up -d
+```
+
+Then enter that container with:
+
+```bash
+$ dc exec php bash
+```
 
 ### Drupal settings
 
