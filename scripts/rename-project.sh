@@ -11,6 +11,7 @@ app/profiles/APP_NAME_profile/* \
 app/profiles/APP_NAME_profile/config/install/* \
 app/sites/default/* \
 app/themes/APP_NAME_theme/*.yml \
+app/themes/APP_NAME_theme/APP_NAME_theme.theme \
 app/themes/APP_NAME_theme/src/init/_asset.scss \
 gulpfile.yml \
 Makefile \
@@ -32,4 +33,5 @@ mv app/profiles/APP_NAME_profile app/profiles/${APP_NAME}_profile
 mv app/themes/APP_NAME_theme/APP_NAME_theme.breakpoints.yml app/themes/APP_NAME_theme/${APP_NAME}_theme.breakpoints.yml
 mv app/themes/APP_NAME_theme/APP_NAME_theme.info.yml app/themes/APP_NAME_theme/${APP_NAME}_theme.info.yml
 mv app/themes/APP_NAME_theme/APP_NAME_theme.libraries.yml app/themes/APP_NAME_theme/${APP_NAME}_theme.libraries.yml
+mv app/themes/APP_NAME_theme/APP_NAME_theme.layouts.yml app/themes/APP_NAME_theme/${APP_NAME}_theme.layouts.yml
 mv app/themes/APP_NAME_theme app/themes/${APP_NAME}_theme

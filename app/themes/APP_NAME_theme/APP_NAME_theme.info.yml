@@ -21,19 +21,15 @@ libraries-override:
   core/modernizr:
     js:
       assets/vendor/modernizr/modernizr.min.js: src/vendor/modernizr/modernizr.min.js
-#  core/html5shiv: false
+  core/normalize: false
+  core/html5shiv: false
 #  system/base: false
-#  core/normalize: false
-#  classy/base: false
-#  classy/messages: false
 #  core/jquery.ui:
 #    css:
 #      component:
 #        assets/vendor/jquery.ui/themes/base/core.css: false
 #      theme:
 #        assets/vendor/jquery.ui/themes/base/theme.css: false
-
-#  core/drupal.dialog: false
 
 # REGIONS
 # Specify the block regions required by this theme.
@@ -48,3 +44,12 @@ regions:
   secondary: 'Secondary content'
   tertiary: 'Tertiary content'
   footer: Footer
+
+# COMPONENT LIBRARIES
+# This allows us to reference .twig files in the src/ directory by using the
+# Twig namespace: @APP_NAME_theme
+
+component-libraries:
+  APP_NAME_theme:
+    paths:
+      - src

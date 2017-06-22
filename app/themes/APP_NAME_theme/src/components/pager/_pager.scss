@@ -1,0 +1,48 @@
+// Pager
+//
+// Full pager.
+//
+// Markup: pager.twig
+//
+// Style guide: 6.9
+
+.pager,
+%pager {
+  @include margin(2 0);
+
+  &__desc {
+    @include font-size(14px);
+    @include margin-bottom(.75);
+  }
+
+  &__menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+
+    li {
+      margin-bottom: 0;
+      margin-right: 2px;
+    }
+  }
+
+  &__previous {
+    margin-right: 20px;
+  }
+
+  &__next {
+    margin-left: 20px;
+  }
+
+  &__ellipsis,
+  &__item {
+    display: block;
+    text-align: center;
+
+    &[aria-current='page'] {
+      font-weight: weight(bold);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+ds_default:
+  label: Default
+  category: APP_NAME/DS
+  template: layouts/ds-default
+  regions:
+    content:
+      label: Content
+
+one_column:
+  label: One column
+  category: APP_NAME/Layouts
+  template: layouts/one-column
+  regions:
+    content:
+      label: Content

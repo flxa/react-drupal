@@ -11,11 +11,13 @@ dependencies:
   - block_content
   - breakpoint
   - ckeditor
+  - components
   - config
   - contextual
   - ctools
   - datetime
   - dynamic_page_cache
+  - ds
   - editor
   - field
   - field_group

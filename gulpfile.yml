@@ -1,6 +1,8 @@
 # The url served by Browsersync.
 # @see gulpfiles/browsersync.js
 developmentUrl: APP_NAME.dev
+# The theme name.
+theme: APP_NAME_theme
 # The root directory.
 httpRoot: app
 

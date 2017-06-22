@@ -1,0 +1,32 @@
+{
+  "pager": {
+    "next": {
+      "href": "#",
+      "text": "Next"
+    },
+    "pages": {
+      "1": {
+        "href": "#"
+      },
+      "2": {
+        "href": "#"
+      },
+      "3": {
+        "href": "#"
+      },
+      "4": {
+        "href": "#"
+      },
+      "5": {
+        "href": "#"
+      }
+    }
+  },
+  "current": "1",
+  "ellipses": {
+    "next": "TRUE"
+  },
+  "first_item": "1",
+  "last_item": "12",
+  "total_items": "100"
+}
