@@ -18,6 +18,7 @@ dependencies:
   - dynamic_page_cache
   - editor
   - field
+  - field_group
   - field_ui
   - file
   - filter
@@ -32,21 +33,19 @@ dependencies:
   - page_cache
   - path
   - pathauto
-  - quickedit
+  - picture
   - rdf
-  - search
+  - redirect
   - shortcut
   - system
   - taxonomy
   - text
   - token
   - toolbar
-  - tour
   - update
   - user
-  - views_ui
-  - pathauto
   - views
+  - views_ui
 themes:
   - APP_NAME_theme
   - seven
