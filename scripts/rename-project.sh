@@ -13,6 +13,7 @@ app/sites/default/* \
 app/themes/APP_NAME_theme/*.yml \
 app/themes/APP_NAME_theme/APP_NAME_theme.theme \
 app/themes/APP_NAME_theme/src/init/_asset.scss \
+docs/* \
 gulpfile.yml \
 Makefile \
 package.json \
