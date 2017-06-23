@@ -31,7 +31,7 @@ $ make build
 
 ### Front-end workflow
 
-- [Setup and documentation](docs/theming.md)
+- [Setup and documentation](docs/front-end.md)
 - Build the styleguide
 
 ```bash
