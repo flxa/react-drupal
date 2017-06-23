@@ -1,0 +1,13 @@
+<nav class="breadcrumbs {{modifier_class}}" role="navigation" aria-label="You are here">
+  <ol class="breadcrumbs__menu">
+    {% for item in breadcrumb %}
+      {% if item.url %}
+        <li class="breadcrumbs__item">
+          <a href="{{ item.url }}">{{ item.text }}</a>
+        </li>
+      {% else %}
+        <li class="breadcrumbs__item" aria-current="page">{{ item.text }}</li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+</nav>

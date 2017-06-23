@@ -1,0 +1,27 @@
+<nav class="pager" role="navigation" aria-label="Pagination" aria-describedby="pager-info">
+  {% if total_items %}
+    <p class="pager__desc" id="pager-info">Showing {{ first_item }}-{{ last_item }} of {{ total_items }}</p>
+  {% endif %}
+  <ul class="pager__menu">
+    {% if pager.previous %}
+      <li class="pager__previous"><a href="{{ pager.previous.href }}">{{ pager.previous.text }}</a></li>
+    {% endif %}
+    {% if pager.next %}
+      <li class="pager__next"><a href="{{ pager.next.href }}">{{ pager.next.text }}</a></li>
+    {% endif %}
+    {% if ellipses.previous %}
+      <li class="pager__ellipsis">&hellip;</li>
+    {% endif %}
+    {% for key, item in pager.pages %}
+      {% if current == key %}
+        <li class="pager__item" aria-current="page">{{ key }}</li>
+          {% else %}
+        <li class="pager__item"><a href="{{ item.href }}">{{ key }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if ellipses.next %}
+      <li class="pager__ellipsis">&hellip;</li>
+    {% endif %}
+  </ul>
+</nav>
+

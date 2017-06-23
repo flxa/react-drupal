@@ -1,0 +1,34 @@
+langcode: en
+status: true
+dependencies: {  }
+id: editor
+label: Editor
+weight: 3
+is_admin: null
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access in-place editing'
+  - 'access toolbar'
+  - 'administer menu'
+  - 'administer redirects'
+  - 'cancel account'
+  - 'change own username'
+  - 'create basic content'
+  - 'create url aliases'
+  - 'customize shortcut links'
+  - 'delete all revisions'
+  - 'delete any basic content'
+  - 'delete basic revisions'
+  - 'delete own basic content'
+  - 'edit any basic content'
+  - 'edit own basic content'
+  - 'revert all revisions'
+  - 'revert basic revisions'
+  - 'use text format basic_html'
+  - 'view all revisions'
+  - 'view basic revisions'
+  - 'view own unpublished content'
+  - 'view the administration theme'

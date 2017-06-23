@@ -41,7 +41,9 @@ let kssOptions = {
   css: cssFiles,
   js: jsFiles,
   homepage: 'homepage.md',
-  title: config.styleguide.title
+  title: config.styleguide.title,
+  namespace: config.theme + ':' + config.sass.src,
+  'extend-drupal8': true
 };
 
 // The Kss scss files to compile.

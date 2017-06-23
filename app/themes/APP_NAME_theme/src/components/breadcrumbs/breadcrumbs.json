@@ -1,0 +1,15 @@
+{
+  "breadcrumb": [
+    {
+      "url": "#",
+      "text": "Home"
+    },
+    {
+      "url": "#",
+      "text": "Blog"
+    },
+    {
+      "text": "What's a breadcrumb?"
+    }
+  ]
+}

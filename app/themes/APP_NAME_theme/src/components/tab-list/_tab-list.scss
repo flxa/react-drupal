@@ -1,0 +1,46 @@
+// Tab list
+//
+// Minimal, list of tabs that wrap on mobile.
+//
+// Markup: tab-list.twig
+//
+// Style guide: 6.27
+
+$chroma: add-colors('primary', (
+    tab-border:     'grey-xlight',
+    tab-bg-active:  'grey-xxlight',
+));
+
+.tab-list,
+%tab-list {
+  @extend %reset--list;
+  @include font-size(14px);
+  margin: $spacing-m 0 0;
+  border: 1px solid color(tab-border);
+  display: flex;
+  flex-wrap: wrap;
+
+  &__active {
+    background: color(tab-bg-active);
+  }
+
+  &__tab,
+  a {
+    @include respond-to(tablet-portrait-up) {
+      padding: $spacing-m;
+    }
+    padding: $spacing-s;
+    font-weight: weight(normal);
+    display: block;
+    text-decoration: none;
+
+    &--active,
+    &.is-active {
+      @extend %tab-list__active;
+    }
+  }
+
+  &--secondary {
+    border: 0;
+  }
+}

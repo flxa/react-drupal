@@ -1,0 +1,25 @@
+// Breadcrumbs
+//
+// Appearing at the top of most pages, the breadcrumbs let users know the
+// location of the current page in relation to the site menu.
+//
+// Markup: breadcrumbs.twig
+//
+// Style guide: 6.7
+
+.breadcrumbs,
+%breadcrumbs {
+
+  &__menu {
+    @extend %reset--list;
+    @include type-layout(14px, 24px);
+  }
+
+  &__item {
+    display: inline-block;
+
+    &[aria-current='page'] {
+      font-weight: bold;
+    }
+  }
+}
