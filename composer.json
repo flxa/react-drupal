@@ -68,6 +68,7 @@
                 "type:drupal-drush"
             ]
         },
-        "enable-patching": true
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true
     }
 }
