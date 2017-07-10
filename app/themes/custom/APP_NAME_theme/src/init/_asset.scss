@@ -22,7 +22,7 @@
 @import 'inline-svg';
 
 // Add a manual path to the sass dir for inline-svg.
-$sass-path: './app/themes/APP_NAME_theme/src/';
+$sass-path: './app/themes/custom/APP_NAME_theme/src/';
 
 // A helper function for inline-svg.
 @function embed-svg($file) {

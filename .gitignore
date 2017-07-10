@@ -56,7 +56,7 @@ Thumbs.db
 #############
 /app/styleguide
 /node_modules
-/app/themes/APP_NAME_theme/css
+/app/themes/custom/APP_NAME_theme/css
 
 # Dev files #
 #############

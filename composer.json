@@ -9,9 +9,9 @@
         "composer/installers": "~1.0",
         "cweagans/composer-patches": "~1.5",
         "drupal-composer/drupal-scaffold": "~2.0",
-        "drupal/admin_toolbar": "~1.14",
+        "drupal/admin_toolbar": "~1.19",
         "drupal/components": "~1.0",
-        "drupal/core": "~8.2",
+        "drupal/core": "~8.3",
         "drupal/ctools": "~3.0",
         "drupal/drush-cmi-tools": "dev-8.x-1.x",
         "drupal/ds": "~3.1",
@@ -21,15 +21,23 @@
         "drupal/monolog": "^1.0@alpha",
         "drupal/pathauto": "~1.0",
         "drupal/redirect": "^1.0@alpha",
+        "drupal/skipper_affinity": "dev-8.x-1.x",
         "drupal/slushi_cache": "~1.0",
-        "drupal/swiftmailer": "^1.0@alpha",
+        "drupal/swiftmailer": "^1.0@beta",
         "drupal/token": "~1.0",
         "drush/drush": "~8.1"
     },
     "require-dev": {
-        "drupal/coder": "~8.2",
+        "behat/mink": "1.7.x-dev",
+        "behat/mink-goutte-driver": "~1.2",
+        "drupal/coder": "~8",
+        "drupal/console": "~1.0",
+        "jcalderonzumba/gastonjs": "~1.0.2",
+        "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
         "mikey179/vfsStream": "~1.2",
-        "phpunit/phpunit": "~4.8",
+        "phpunit/phpunit": ">=4.8.28 <5",
+        "symfony/browser-kit": ">=2.8.13 <3.0",
+        "symfony/css-selector": "~2.8",
         "vimeo/psalm": "^0.3.39"
    },
     "scripts": {
@@ -46,8 +54,12 @@
             "url": "https://packages.drupal.org/8"
         },
         {
-            "url": "https://github.com/previousnext/drush_cmi_tools.git",
-            "type": "git"
+            "type": "git",
+            "url": "https://github.com/previousnext/drush_cmi_tools.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/previousnext/skipper_affinity.git"
         }
     ],
     "extra": {
@@ -66,6 +78,12 @@
             ],
             "drush/contrib/{$name}": [
                 "type:drupal-drush"
+            ],
+            "app/modules/custom/{$name}": [
+              "type:drupal-custom-module"
+            ],
+            "app/themes/custom/{$name}": [
+              "type:drupal-custom-theme"
             ]
         },
         "enable-patching": true,
