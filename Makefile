@@ -128,6 +128,4 @@ phantomjs-stop:
 login:
 	$(DRUSH) uli
 
--include Makefile.local
-
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login
