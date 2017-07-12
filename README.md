@@ -37,3 +37,11 @@ $ make build
 ```bash
 $ make styleguide
 ```
+
+### Git Hooks
+
+To utilise the default pre-commit hooks, run the following command:
+
+```
+git config core.hooksPath .git-hooks
+```
