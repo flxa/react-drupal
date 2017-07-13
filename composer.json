@@ -46,8 +46,16 @@
             "url": "https://packages.drupal.org/8"
         },
         {
-            "url": "https://github.com/previousnext/drush_cmi_tools.git",
-            "type": "git"
+            "type": "package",
+            "package": {
+                "name": "drupal/drush-cmi-tools",
+                "version": "dev-8.x-1.x",
+                "type": "drupal-drush",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/previousnext/drush_cmi_tools/archive/1.0.0-alpha2.zip"
+                }
+            }
         }
     ],
     "extra": {
