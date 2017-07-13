@@ -62,5 +62,7 @@ Thumbs.db
 #############
 .vagrant
 .idea
+.php
 /app/sites/default/settings.local.php
 /mariadb-init
+/drush/contrib
