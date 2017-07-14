@@ -10,17 +10,17 @@ sass:
   # Source *.scss files to build.
   # @see gulpfiles/styles.js
   # @see gulpfiles/config.js
-  src: app/themes/custom/APP_NAME_theme/src
+  src: app/themes/APP_NAME_theme/src
   # Destination of compiled CSS.
   # @see gulpfiles/styles.js
-  dest: app/themes/custom/APP_NAME_theme/css
+  dest: app/themes/APP_NAME_theme/css
 
 js:
   # ESLint will run on these directories.
   # @see gulpfiles/lint.js
   # @see gulpfiles/config.js
   src:
-    - app/themes/custom/APP_NAME_theme/src
+    - app/themes/APP_NAME_theme/src
     - app/modules/custom
 
 # @see gulpfiles/styleguide.js
@@ -31,9 +31,9 @@ styleguide:
   builder: node_modules/kss-offscreen-twig
   # Add .css files for the style guide here.
   cssFiles:
-    - app/themes/custom/APP_NAME_theme/css/styles.css
-    - app/themes/custom/APP_NAME_theme/css/style-guide/chroma-kss-styles.css
-    - app/themes/custom/APP_NAME_theme/css/style-guide/kss-only.css
+    - app/themes/APP_NAME_theme/css/styles.css
+    - app/themes/APP_NAME_theme/css/style-guide/chroma-kss-styles.css
+    - app/themes/APP_NAME_theme/css/style-guide/kss-only.css
   # Add .js files for the style guide here.
   jsFiles:
     - app/core/assets/vendor/jquery/jquery.js
@@ -50,7 +50,7 @@ autoprefixer:
 # @see https://modernizr.com/docs
 modernizr:
   # Modernizr is shipped as a precompiled, minified js file.
-  dest: app/themes/custom/APP_NAME_theme/src/vendor/modernizr/
+  dest: app/themes/APP_NAME_theme/src/vendor/modernizr/
   # Options to include.
   options:
     - prefixes
@@ -75,7 +75,7 @@ svg:
   svgo:
     # Directories that contain .svg files to be minified with svgo.
     src:
-      - app/themes/custom/APP_NAME_theme/src
+      - app/themes/APP_NAME_theme/src
     # List of options for SVGO.
     # @see https://github.com/svg/svgo
     plugins:
@@ -85,9 +85,9 @@ svg:
     # Copy this object for each sprite you want to create.
     message:
       # The source directory for the svg files to combine.
-      src: app/themes/custom/APP_NAME_theme/src/components/message/icons
+      src: app/themes/APP_NAME_theme/src/components/message/icons
       # The destination directory for the outputted file.
-      dest: app/themes/custom/APP_NAME_theme/src/components/message
+      dest: app/themes/APP_NAME_theme/src/components/message
       config:
         # Use these options best practice for the sprite.
         svg:
