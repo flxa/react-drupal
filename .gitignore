@@ -64,3 +64,4 @@ Thumbs.db
 .idea
 /app/sites/default/settings.local.php
 /mariadb-init
+/drush/contrib

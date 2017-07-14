@@ -1,4 +1,5 @@
 ignore:
   - devel.settings
+  - devel.toolbar.settings
   - system.menu.devel
   - stage_file_proxy.settings
