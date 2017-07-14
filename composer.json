@@ -13,7 +13,7 @@
         "drupal/components": "~1.0",
         "drupal/core": "~8.2",
         "drupal/ctools": "~3.0",
-        "drupal/drush-cmi-tools": "1.0.0-alpha2",
+        "drupal/drush-cmi-tools": "dev-8.x-1.x",
         "drupal/ds": "~3.1",
         "drupal/field_group": "~1.0",
         "drupal/linkit": "^5.0",
@@ -46,16 +46,8 @@
             "url": "https://packages.drupal.org/8"
         },
         {
-            "type": "package",
-            "package": {
-                "name": "drupal/drush-cmi-tools",
-                "version": "1.0.0-alpha2",
-                "type": "drupal-drush",
-                "dist": {
-                    "type": "zip",
-                    "url": "https://github.com/previousnext/drush_cmi_tools/archive/1.0.0-alpha2.zip"
-                }
-            }
+            "url": "https://github.com/previousnext/drush_cmi_tools.git",
+            "type": "git"
         }
     ],
     "extra": {
