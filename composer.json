@@ -68,6 +68,11 @@
                 "type:drupal-drush"
             ]
         },
+        "drupal-scaffold": {
+            "excludes": [
+                ".htaccess"
+            ]
+        },
         "enable-patching": true,
         "composer-exit-on-patch-failure": true
     }
