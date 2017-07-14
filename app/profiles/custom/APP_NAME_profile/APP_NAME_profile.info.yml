@@ -28,6 +28,7 @@ dependencies:
   - history
   - image
   - link
+  - linkit
   - menu_ui
   - metatag
   - node
