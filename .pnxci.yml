@@ -26,3 +26,7 @@ test_head:
 patch:
   steps:
     - sh scripts/patchy.sh
+
+config:
+  variables:
+    - "YARN_CACHE_FOLDER=/var/tmp/yarn"
