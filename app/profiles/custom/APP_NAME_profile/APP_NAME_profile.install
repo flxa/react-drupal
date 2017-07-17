@@ -6,8 +6,6 @@
  */
 
  use Drupal\user\Entity\User;
- use Drupal\user\RoleInterface;
- use Drupal\shortcut\Entity\Shortcut;
 
 /**
  * Implements hook_install().
@@ -27,26 +25,6 @@ function APP_NAME_profile_install() {
   $user = User::load(1);
   $user->roles[] = 'administrator';
   $user->save();
-
-  // Allow authenticated users to use shortcuts.
-  user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, array('access shortcuts'));
-
-  // Populate the default shortcut set.
-  $shortcut = Shortcut::create(array(
-    'shortcut_set' => 'default',
-    'title' => t('Add content'),
-    'weight' => -20,
-    'link' => array('uri' => 'internal:/node/add'),
-  ));
-  $shortcut->save();
-
-  $shortcut = Shortcut::create(array(
-    'shortcut_set' => 'default',
-    'title' => t('All content'),
-    'weight' => -19,
-    'link' => array('uri' => 'internal:/admin/content'),
-  ));
-  $shortcut->save();
 
   // Enable the admin theme.
   \Drupal::configFactory()->getEditable('node.settings')->set('use_admin_theme', TRUE)->save(TRUE);

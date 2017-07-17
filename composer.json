@@ -41,12 +41,19 @@
         "vimeo/psalm": "^0.3.39"
    },
     "scripts": {
-        "drupal-scaffold": [
-            "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
+        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+        "post-install-cmd": [
+            "@drupal-scaffold"
+        ],
+        "post-update-cmd": [
+            "@drupal-scaffold"
         ]
     },
     "config": {
-        "bin-dir": "bin/"
+        "bin-dir": "bin/",
+        "github-oauth": {
+            "github.com": "f780433bd0d4ea1d9a8517b84f6532a1af8bd8b5"
+        }
     },
     "repositories": [
         {

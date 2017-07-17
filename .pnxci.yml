@@ -3,11 +3,11 @@ channel: '#APP_NAME'
 application: previousnext/lamp:latest
 
 prepare: &prepare
+  - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
   - make init
   - make mkdirs
   - make styleguide
   - cp app/sites/default/test.settings.php app/sites/default/settings.test.php
-  - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
 
 test: &test
   - make ci-lint-php
