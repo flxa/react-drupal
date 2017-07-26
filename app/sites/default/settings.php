@@ -6,6 +6,8 @@ use Drupal\Core\Database\Database;
 require_once __DIR__ . '/settings.skpr.php';
 
 $settings['container_yamls'][] = __DIR__ . '/services.yml';
+
+// Disables installing modules via browser.
 $settings['allow_authorize_operations'] = FALSE;
 
 $databases['default']['default'] = array(
