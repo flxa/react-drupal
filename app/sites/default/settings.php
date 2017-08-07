@@ -24,14 +24,13 @@ $settings['file_private_path'] = skpr_config('file.private') ?: 'sites/default/f
 
 $settings['install_profile'] = 'APP_NAME_profile';
 
-if (skpr_config('smtp.username') && skpr_config('smtp.password')) {
-  $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: 'mail';
-  $config['swiftmailer.transport']['smtp_username'] = skpr_config('smtp.username') ?: '';
-  $config['swiftmailer.transport']['smtp_password'] = skpr_config('smtp.password') ?: '';
-  $config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '25';
-  $config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: 'tls';
-  $config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
-}
+// Default to Mailhog.
+$config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: '127.0.0.1';
+$config['swiftmailer.transport']['smtp_username'] = skpr_config('smtp.username') ?: '';
+$config['swiftmailer.transport']['smtp_password'] = skpr_config('smtp.password') ?: '';
+$config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '1025';
+$config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: '';
+$config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
 
 $config_directories['sync'] = DRUPAL_ROOT . '/../config-export';
 
