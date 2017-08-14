@@ -20,3 +20,8 @@ $options['structure-tables']['common'] = [
   'sessions',
   'watchdog',
 ];
+
+require_once __DIR__ . '/../app/sites/default/settings.skpr.php';
+if ($uri = skpr_config('drush.uri')) {
+  $options['uri'] = $uri;
+}
