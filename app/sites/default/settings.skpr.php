@@ -24,6 +24,11 @@ function skpr_config($key) {
     foreach (glob($dir . '/*') as $file) {
       $confs[basename($file)] = str_replace("\n", '', file_get_contents(realpath($file)));
     }
+    if (empty($confs)) {
+      // On environments with no skpr, this will run every time because conf is empty.
+      // Flag that we've done this dance once, and don't need to do it again.
+      $confs['no_skpr_for_you'] = TRUE;
+    }
   }
   return !empty($confs[$key]) ? $confs[$key] : FALSE;
 }
