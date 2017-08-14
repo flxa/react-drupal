@@ -75,10 +75,10 @@ db-sync:
 	gunzip /tmp/db.sql.gz -f
 	$(DRUSH) sql-cli < /tmp/db.sql
 
-import:
+config-import:
 	$(DRUSH) cimy -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
 
-export:
+config-export:
 	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
@@ -130,4 +130,4 @@ phantomjs-stop:
 login:
 	$(DRUSH) uli
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync import export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login
