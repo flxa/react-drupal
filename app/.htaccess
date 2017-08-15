@@ -208,3 +208,25 @@ AddEncoding gzip svgz
   # Disable Proxy header, since it's an attack vector.
   RequestHeader unset Proxy
 </IfModule>
+
+####################################################
+#           START CUSTOM CACHE HEADERS             #
+####################################################
+
+<IfModule mod_headers.c>
+
+  # Match static files with a unique fingerprint in the filename, setting far future expire.
+  <FilesMatch "\.(css|js)(\.gz)?$">
+    Header set Cache-Control "max-age=31536000, public"
+  </FilesMatch>
+
+  #Match files without a unique fingerprint, setting a shorter expire.
+  <FilesMatch "\.(jpg|jpeg|png|gif|svg|woff|woff2|ttf|eot)(\.gz)?$">
+    Header set Cache-Control "max-age=86400, public"
+  </FilesMatch>
+
+</IfModule>
+
+####################################################
+#            END CUSTOM CACHE HEADERS              #
+####################################################
