@@ -24,6 +24,10 @@ YARN=yarn
 PHPCBF=./bin/phpcbf
 PHPCS=./bin/phpcs
 
+.DEFAULT_GOAL := list
+
+default: list;
+	
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
@@ -130,4 +134,4 @@ phantomjs-stop:
 login:
 	$(DRUSH) uli
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default
