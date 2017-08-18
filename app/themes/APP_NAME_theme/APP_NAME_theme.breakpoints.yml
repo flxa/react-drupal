@@ -7,35 +7,35 @@ APP_NAME_theme.xsmall:
     - 2x
 APP_NAME_theme.small:
   label: small
-  mediaQuery: (min-width: 480px)
+  mediaQuery: "(min-width: 480px)"
   weight: 1
   multipliers:
     - 1x
     - 2x
 APP_NAME_theme.medium:
   label: medium
-  mediaQuery: (min-width: 768px)
+  mediaQuery: "(min-width: 768px)"
   weight: 2
   multipliers:
     - 1x
     - 2x
 APP_NAME_theme.large:
   label: large
-  mediaQuery: (min-width: 1024px)
+  mediaQuery: "(min-width: 1024px)"
   weight: 3
   multipliers:
     - 1x
     - 2x
 APP_NAME_theme.xlarge:
   label: xlarge
-  mediaQuery: (min-width: 1280px)
+  mediaQuery: "(min-width: 1280px)"
   weight: 4
   multipliers:
     - 1x
     - 2x
 APP_NAME_theme.xxlarge:
   label: xxlarge
-  mediaQuery: (min-width: 1440px)
+  mediaQuery: "(min-width: 1440px)"
   weight: 4
   multipliers:
     - 1x
