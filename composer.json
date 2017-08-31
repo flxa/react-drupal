@@ -8,7 +8,6 @@
     "require": {
         "composer/installers": "~1.0",
         "cweagans/composer-patches": "~1.5",
-        "drupal-composer/drupal-scaffold": "~2.0",
         "drupal/admin_toolbar": "~1.19",
         "drupal/components": "~1.0",
         "drupal/core": "~8.3",
@@ -38,15 +37,6 @@
         "symfony/browser-kit": ">=2.8.13 <3.0",
         "symfony/css-selector": "~2.8",
         "vimeo/psalm": "^0.3.39"
-   },
-    "scripts": {
-        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-        "post-install-cmd": [
-            "@drupal-scaffold"
-        ],
-        "post-update-cmd": [
-            "@drupal-scaffold"
-        ]
     },
     "config": {
         "bin-dir": "bin/",
@@ -86,10 +76,10 @@
                 "type:drupal-drush"
             ],
             "app/modules/custom/{$name}": [
-              "type:drupal-custom-module"
+                "type:drupal-custom-module"
             ],
             "app/themes/custom/{$name}": [
-              "type:drupal-custom-theme"
+                "type:drupal-custom-theme"
             ]
         },
         "drupal-scaffold": {
