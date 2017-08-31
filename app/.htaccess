@@ -210,7 +210,7 @@ AddEncoding gzip svgz
 </IfModule>
 
 ####################################################
-#           START CUSTOM CACHE HEADERS             #
+#           START CUSTOM HEADERS                   #
 ####################################################
 
 <IfModule mod_headers.c>
@@ -225,8 +225,11 @@ AddEncoding gzip svgz
     Header set Cache-Control "max-age=86400, public"
   </FilesMatch>
 
+  # Turn on HSTS for HTTPS requests.
+  Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+
 </IfModule>
 
 ####################################################
-#            END CUSTOM CACHE HEADERS              #
+#            END CUSTOM HEADERS                    #
 ####################################################
