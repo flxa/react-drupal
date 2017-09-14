@@ -17,8 +17,7 @@ docs/* \
 gulpfile.yml \
 Makefile \
 package.json \
-README.md \
-Vagrantfile"
+README.md"
 
 # String replace APP_NAME in templates.
 echo "Running find and replace using APP_NAME:" $APP_NAME
