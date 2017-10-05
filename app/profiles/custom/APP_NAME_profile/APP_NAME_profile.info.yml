@@ -36,9 +36,9 @@ dependencies:
   - page_cache
   - path
   - pathauto
-  - picture
   - rdf
   - redirect
+  - responsive_image
   - shortcut
   - system
   - taxonomy
