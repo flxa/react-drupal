@@ -27,7 +27,7 @@ PHPCS=./bin/phpcs
 .DEFAULT_GOAL := list
 
 default: list;
-	
+
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
@@ -38,6 +38,10 @@ deploy: updb entity-updates import cache-rebuild
 init:
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	$(YARN) install --non-interactive --no-progress
+
+init-ci:
+	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	. /home/pnx/.nvm/nvm.sh && nvm install && nvm alias default 8 && $(YARN) install --non-interactive --no-progress
 
 init-package:
 	$(COMPOSER) install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
