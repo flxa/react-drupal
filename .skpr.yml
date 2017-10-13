@@ -59,7 +59,10 @@ jobs: &jobs
   - name:       "backup-db"
     workingDir: "/data/app"
     schedule:   "@daily"
-    command:    'drush sql-dump --structure-tables-key=common > /tmp/db.sql && tar -zcvf /tmp/db.tar.gz /tmp/db.sql && backup /tmp/db.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-dev.tar.gz"'
+    command:    |
+      mysqldump --user=$(cat /etc/skpr/mysql.db.user) --password=$(cat /etc/skpr/mysql.db.pass) --host=$(cat /etc/skpr/mysql.db.host) $(cat /etc/skpr/mysql.db.name) --single-transaction --quick > /tmp/db.sql && \
+      tar -zcvf /tmp/db.tar.gz /tmp/db.sql && \
+      backup /tmp/db.tar.gz pnx-backups "%FREQUENCY%/APP_NAME/%TIMESTAMP%-$SKIPPER_ENV-db.tar.gz"
     minCPU:     100
 
   - name:       "backup-files"
