@@ -72,3 +72,11 @@ jobs: &jobs
       tar -czf /tmp/files-public.tar.gz . && \
       backup /tmp/files-public.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-public.tar.gz"
     minCPU:     100
+
+  - name:       "backup-mount-private"
+    workingDir: "/private"
+    schedule:   "@daily"
+    command:    |
+      tar -czf /tmp/files-private.tar.gz . && \
+      backup /tmp/files-private.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-private.tar.gz"
+    minCPU:     100
