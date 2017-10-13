@@ -65,8 +65,10 @@ jobs: &jobs
       backup /tmp/db.tar.gz pnx-backups "%FREQUENCY%/APP_NAME/%TIMESTAMP%-$SKIPPER_ENV-db.tar.gz"
     minCPU:     100
 
-  - name:       "backup-files"
-    workingDir: "/data/app"
+  - name:       "backup-mount-public"
+    workingDir: "/data/app/sites/default/files"
     schedule:   "@daily"
-    command:    'tar -czf /tmp/files.tar.gz /data/app/sites/default/files /private && backup /tmp/files.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files.tar.gz"'
+    command:    |
+      tar -czf /tmp/files-public.tar.gz . && \
+      backup /tmp/files-public.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-public.tar.gz"
     minCPU:     100
