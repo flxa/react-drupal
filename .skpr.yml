@@ -69,7 +69,12 @@ jobs: &jobs
     workingDir: "/data/app/sites/default/files"
     schedule:   "@daily"
     command:    |
-      tar -czf /tmp/files-public.tar.gz . && \
+      tar -czf /tmp/files-public.tar.gz \
+        --exclude=css \
+        --exclude=js \
+        --exclude=styles \
+        --exclude=xmlsitemap \
+        . && \
       backup /tmp/files-public.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-public.tar.gz"
     minCPU:     100
 
