@@ -22,6 +22,12 @@ js:
   src:
     - app/themes/APP_NAME_theme/src
     - app/modules/custom
+  # Source .es6.js file to transpile and minify.
+  # @see gulpfiles/scripts.js
+  es6: app/themes/APP_NAME_theme/src
+  # Destination of transpiled, minfied JS.
+  # @see gulpfiles/scripts.js
+  dest: app/themes/APP_NAME_theme/js
 
 # @see gulpfiles/styleguide.js
 styleguide:

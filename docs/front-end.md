@@ -11,6 +11,7 @@ The front end workflow goes as so:
 - **sass-lint** and **eslint** lints our CSS and JS.
 - **Browsersync** is used for testing and CSS live reloading.
 - **gulp** is used to run all the above tasks.
+- **babel** and **webpack** are used to transpile and package ES6 js.
 - **pnx.ci** runs gulp when building the project serverside.
 
 The following files are included in your root folder:
@@ -21,7 +22,7 @@ The following files are included in your root folder:
 - **/gulfiles** - Organised gulp tasks that utilise the Gulp configuration. You should only need to edit these files to add something new.
 - **gulpfile.babel.js** - Loads all different gulfiles into one and sets the default task.
 - **.sass-lint.yml** - Sass linting configuration file
-- **.eslintrc** - JS linting configuration file
+- **.eslintrc.json** - JS linting configuration file
 - **.nvmrc** - Specifies the node version required.
 
 ### NVM
@@ -147,7 +148,9 @@ By default Linting is required for all custom Sass and JS files.
 Configuration of the linting tools is provided by Scaffold but can be configured;
 
 - **.sass-lint.yml** - Sass linting configuration file
-- **.eslintrc** - JS linting configuration file
+- **.eslintrc.json** - JS linting configuration file
+
+For Javascript specific documentation, see the [Javascript docs](javascript.md)
 
 To exclude 3rd party JS files from being linted:
 

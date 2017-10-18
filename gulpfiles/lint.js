@@ -46,6 +46,19 @@ jsWithFail.description = 'Lints all JS src files, and fail on an error.';
 gulp.task('lint:js-with-fail', jsWithFail);
 
 /**
+ * Fix as many JS Lint issues as possible.
+ */
+const fixJs = function() {
+  return gulp.src(lintFiles.js, {base: "./"})
+    .pipe(eslint({ fix: true }))
+    .pipe(eslint.format())
+    .pipe(gulp.dest('./'));
+};
+
+fixJs.description = 'Lints all JS src files.';
+gulp.task('lint:js-fix', fixJs);
+
+/**
  * Lint Sass.
  */
 const sass = function() {

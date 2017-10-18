@@ -8,6 +8,7 @@
 import gulp from 'gulp';
 import sass from 'gulp-sass';
 import sassGlob from 'gulp-sass-glob';
+import cleanCSS from 'gulp-clean-css';
 import sourcemaps from 'gulp-sourcemaps';
 import eyeglass from 'eyeglass';
 import autoprefixer from 'gulp-autoprefixer';
@@ -51,6 +52,7 @@ const production = function() {
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer(config.autoprefixer))
+    .pipe(cleanCSS())
     .pipe(size({ showFiles: true, showTotal: false }))
     .pipe(gulp.dest(config.sass.dest));
 };

@@ -47,15 +47,17 @@ let jsSrc = [
 ];
 // Create a new array to exclude any files that might already be minified.
 let jsMin = jsSrc.map(f => '!' + f + '/**/*.min.js');
+// Or any webpack generated files.
+let jsBundle = jsSrc.map(f => '!' + f + '/**/*.bundle.js');
 // Now we can add the js files glob into the original array.
-jsSrc = jsSrc.map(f => f + '/**/*.js');
+jsSrc = jsSrc.map(f => f + '/**/*.es6.js');
 
 // Combine the jsSrc and jsMin arrays to give us the full list of js files
 // to lint and minified files to ignore.
 config.jsFiles = [
   ...jsSrc,
   ...jsMin,
-  '!**/vendor/**/*.js'
+  ...jsBundle,
 ];
 
 export default config;

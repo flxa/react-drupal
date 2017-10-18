@@ -57,11 +57,15 @@ Thumbs.db
 /app/styleguide
 /node_modules
 /app/themes/APP_NAME_theme/css
+/app/themes/APP_NAME_theme/js
+/app/themes/APP_NAME_theme/src/components/**/*.bundle.js
 
 # Dev files #
 #############
 .vagrant
 .idea
+.php
 /app/sites/default/settings.local.php
+/app/sites/default/settings.local.*.php
 /mariadb-init
 /drush/contrib

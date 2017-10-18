@@ -19,6 +19,11 @@ let cleanFiles = {
     '!' + config.sass.dest + '/style-guide/**/*.css'
   ],
 
+  js: [
+    config.minify.dest + '/**/*.min.js',
+    '!' + config.minify.dest + '/**/vendor/*.min.js',
+  ],
+
   styleguide: [
     config.styleguide.dest + '/*.html',
     config.styleguide.dest + '/kss-assets',
@@ -37,6 +42,16 @@ css.description = 'Clean the SASS destination directory.';
 gulp.task('clean:css', css);
 
 /**
+ * Clean the Minfied JS destination directory, except vendor files.
+ */
+const js = function() {
+  return del(cleanFiles.js, { force: true });
+};
+
+js.description = 'Clean the JS destination directory.';
+gulp.task('clean:js', js);
+
+/**
  * Clean the styleguide directory and remove any related styleguide files.
  */
 const styleguide = function() {
@@ -47,4 +62,4 @@ styleguide.description = 'Clean the styleguide directory and remove any related 
 gulp.task('clean:styleguide', styleguide);
 
 // Export all functions.
-export { css, styleguide };
+export { css, js, styleguide };

@@ -8,6 +8,7 @@
 import gulp from 'gulp';
 
 import config from './config';
+import * as scripts from './scripts';
 import * as styles from './styles';
 import * as clean from './clean';
 import * as lint from './lint';
@@ -60,10 +61,10 @@ gulp.task('watch:sass', sass);
  * Reload browserSync automatically after a change to a js file.
  */
 const js = function(e) {
-  gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'browsersync:reload'));
+  gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'scripts:development', 'browsersync:reload'));
 };
 
-js.description = 'Watch js files and lint them.';
+js.description = 'Watch js files and lint and bundle them.';
 gulp.task('watch:js', js);
 
 /**
