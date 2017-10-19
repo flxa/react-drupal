@@ -4,9 +4,7 @@ channel: '#APP_NAME'
 
 package:
   image: previousnext/php:7.1-dev
-  steps:
-    - make init-package
-    - make styleguide
+  steps: []
 
 deploySteps:
   - make deploy

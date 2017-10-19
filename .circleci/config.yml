@@ -1,0 +1,245 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+
+  # Run the build and test steps.
+  build_and_test:
+    docker:
+      - image: previousnext/php:7.1-dev
+        environment:
+          SIMPLETEST_BASE_URL: http://127.0.0.1
+          SIMPLETEST_DB: mysql://root:root@127.0.0.1/local
+          BROWSERTEST_OUTPUT_DIRECTORY: /tmp/browser_output
+          MINK_DRIVER_ARGS: '["http:\/\/127.0.0.1:8510", "\/tmp"]'
+
+      - image: mariadb
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: local
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+
+      - image: previousnext/gastonjs:1.0.2
+
+    working_directory: /data
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+            - APP_NAME-v1
+
+      - run:
+          name: "Install dependencies"
+          command: |
+            make init
+            make mkdirs
+
+      - save_cache:
+          key: APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - /root/.composer
+            - /usr/local/share/.cache/yarn
+
+      - run:
+          name: Lint
+          command: |
+            make ci-lint-php
+            make lint-sass-js
+
+      - run:
+          name: Styleguide
+          command: |
+            make styleguide
+
+      - restore_cache:
+          keys:
+            - db-v1-{{ checksum ".circleci/db-checksum.txt" }}
+
+      - run:
+          name: Sync Database
+          command: |
+            make db-drop
+            # Only update the database if there isn't a cached version.
+            if [[ ! -f db.sql ]] ; then SKIPPER_USER=pnx-jenkins SKIPPER_TOKEN=$SKIPPER_TOKEN make db-sync; else make db-import ; fi
+
+      - save_cache:
+          key: db-v1-{{ checksum ".circleci/db-checksum.txt" }}
+          paths:
+            - db.sql
+      - run:
+          name: Cleanup db dump file
+          command: rm db.sql
+
+      - run:
+          name: Update Database and Import Config
+          command: |
+            make updb entity-updates config-import cache-rebuild
+
+      - run:
+          name: Test
+          command: |
+            make test-ci
+
+      - store_test_results:
+          path: build/logs
+
+      - store_artifacts:
+          path: /tmp/browser_output
+          destination: tr1
+
+      - persist_to_workspace:
+          root: /data
+          paths:
+            - .
+
+  # Build a docker image for deployment.
+  build_image:
+
+    docker:
+      - image: previousnext/php:7.1-dev
+
+    working_directory: /data
+
+    steps:
+      - attach_workspace:
+          at: /data
+
+      - setup_remote_docker
+
+      - run:
+          name: Install Docker Command
+          command: make install-docker
+
+      - run:
+          name: Build image
+          command: |
+            VERSION=$(git describe --tags --always)
+            echo "Building version: ${VERSION}"
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            skpr package --delete $(pwd) ${VERSION}
+
+  # Deploy to a PR environment.
+  deploy_pr:
+
+    docker:
+      - image: previousnext/php:7.1-dev
+
+    working_directory: /data
+
+    steps:
+
+      - checkout
+
+
+      - deploy:
+          name: Deploy to PR env
+          command: |
+            DEPLOY_ID=$(deploy-status create deployment \
+                      --token ${DEPLOY_STATUS_TOKEN} \
+                      --owner ${CIRCLE_PROJECT_USERNAME} \
+                      --repo ${CIRCLE_PROJECT_REPONAME} \
+                      --ref ${CIRCLE_BRANCH} \
+                      --env pr \
+                      --desc "PR environment for ${CIRCLE_BRANCH}")
+
+            M8S_NAME=APP_NAME-${CIRCLE_BRANCH}
+            M8S_DOMAIN=${M8S_NAME}.pnxci.io
+            m8s build --git-revision=${CIRCLE_SHA1} \
+                      --name=${M8S_NAME} \
+                      --domains=${M8S_DOMAIN} \
+                      --basic-auth-user='pnx' \
+                      --basic-auth-pass='pnx!@#'
+            m8s notify --slack-channel="pnx" ${M8S_NAME}
+
+            deploy-status create status \
+                      --token ${DEPLOY_STATUS_TOKEN} \
+                      --owner ${CIRCLE_PROJECT_USERNAME} \
+                      --repo ${CIRCLE_PROJECT_REPONAME} \
+                      --state success \
+                      --id ${DEPLOY_ID} \
+                      --auto-inactive \
+                      --env-url http://${M8S_DOMAIN}/
+
+  # Template for skipper deploy jobs
+  deploy_skipper: &deploy_skipper
+
+    docker:
+      - image: previousnext/php:7.1-dev
+
+    working_directory: /data
+
+    steps:
+
+      - checkout
+
+      - deploy:
+          name: Deploy to dev env
+          command: |
+            VERSION=$(git describe --tags --always)
+            echo "Deploying version ${VERSION} to skipper"
+            skpr deploy ${DEPLOY_ENV} ${VERSION}
+
+  # Skipper deploy to dev env.
+  deploy_dev:
+    <<: *deploy_skipper
+    environment:
+      - DEPLOY_ENV: dev
+
+  # Skipper deploy to staging env.
+  deploy_staging:
+    <<: *deploy_skipper
+    environment:
+      - DEPLOY_ENV: staging
+
+  # Skipper deploy to prod env.
+  deploy_prod:
+    <<: *deploy_skipper
+    environment:
+      - DEPLOY_ENV: prod
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build_and_test
+      - build_image:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only:
+                - master
+                - releases
+      - deploy_pr:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              ignore:
+                - master
+                - releases
+      - deploy_dev:
+          requires:
+            - build_image
+          filters:
+            branches:
+              only: master
+      - deploy_staging:
+          requires:
+            - build_image
+          filters:
+            branches:
+              only: releases
+      - approve_deploy_prod:
+          type: approval
+          requires:
+            - deploy_staging
+      - deploy_prod:
+          requires:
+            - approve_deploy_prod
