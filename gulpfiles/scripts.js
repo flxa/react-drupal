@@ -3,8 +3,6 @@
  * Adds Webpack to the mix.
  */
 
-'use strict';
-
 import gulp from 'gulp';
 import size from 'gulp-size';
 import babel from 'gulp-babel';
@@ -16,30 +14,48 @@ import named from 'vinyl-named';
 import path from 'path';
 
 import config from './config';
-
-// The js files we are minifying.
-let jsFiles = [
-  config.js.es6 + '/**/*.es6.js',
-  config.js.es6 + '/**/*.bundle.js',
-  // Ignore already minified files.
-  '!' + config.js.es6 + '/**/*.min.js',
-  // Ignore webpack src files
-  '!' + config.js.es6 + '/**/src/*.js',
-];
+import * as modernizr from './modernizr';
+import * as clean from './clean';
 
 // The js files we need to package.
-let webpackFiles = [
-  config.js.es6 + '/**/src/*.es6.js',
+const webpackFiles = [
+  `${config.js.src}/**/src/*.es6.js`,
+  `${config.modules}/**/js/src/*.es6.js`,
 ];
+
+// Theme js files we are minifying.
+const jsFiles = [
+  `${config.js.src}/**/*.es6.js`,
+  `${config.js.src}/**/*.bundle.js`,
+  // Ignore already minified files.
+  `!${config.js.src}/**/*.min.js`,
+  // Ignore webpack src files
+  `!${config.js.src}/**/src/*.js`,
+];
+
+// Module js files to minify (dest is same as src)
+const moduleFiles = [
+  `${config.js.modules}/**/*.es6.js`,
+  // Ignore already minified files.
+  `!${config.js.modules}/**/*.min.js`,
+  // Ignore webpack src files
+  `!${config.js.modules}/**/src/*.js`,
+];
+
+// Helper function for the minified filename.
+const filename = function (file) {
+  file.basename = file.basename.replace('.es6', '').replace('.bundle', '');
+  file.extname = '.min.js';
+};
 
 /*
  * Package import scripts.
  * Only needs to run on files utilising ES6 imports.
  */
-const webpackPackage = function() {
-  return gulp.src(webpackFiles)
-    .pipe(named(function(file) {
-      const dirname = path.dirname(file.relative).replace('/src', '');
+const webpackPackage = () => (
+  gulp.src(webpackFiles, { base: './' })
+    .pipe(named(function (file) {
+      const dirname = path.dirname(file.relative).replace(/\/src$/, '');
       const basename = path.basename(file.path, path.extname(file.path)).replace('.es6', '');
       file.named = path.join(dirname, basename);
       this.queue(file);
@@ -53,12 +69,12 @@ const webpackPackage = function() {
           test: /\.js$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
-          query: { presets: ['es2015'] },
+          query: { presets: ['env'] },
         }],
       },
     }, webpack))
-    .pipe(gulp.dest(config.js.es6));
-};
+    .pipe(gulp.dest('./'))
+);
 
 webpackPackage.description = 'Package webpack javascript.';
 gulp.task('scripts:package', webpackPackage);
@@ -66,46 +82,80 @@ gulp.task('scripts:package', webpackPackage);
 /**
  * Transpile and minify
  * Keeps an original in the src and adds the minified file to dest.
+ * @return {object} themeJs
  */
-const minify = function() {
-  return gulp.src(jsFiles)
-    .pipe(babel({presets: ['es2015']}))
+const themeJs = () => (
+  gulp.src(jsFiles)
+    .pipe(babel({ presets: ['env'] }))
     .pipe(uglify())
-    .pipe(rename(function (file) {
-      file.basename = file.basename.replace('.es6', '').replace('.bundle', '');
-      file.extname = '.min.js';
-    }))
+    .pipe(rename(file => (filename(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest(config.js.dest));
-};
+    .pipe(gulp.dest(config.js.dest))
+);
 
-minify.description = 'Minify and transpile ES6 javascript.';
-gulp.task('scripts:minify', minify);
+themeJs.description = 'Minify and transpile theme javascript.';
+gulp.task('scripts:theme', gulp.series('clean:js', themeJs, 'modernizr'));
+
+/**
+ * Minify a modules JS.
+ * Keeps an original in the src and adds the minified file to the src.
+ * @return {object} moduleJs
+ */
+const moduleJs = () => (
+  gulp.src(moduleFiles, { base: './' })
+    .pipe(babel({ presets: ['env'] }))
+    .pipe(uglify())
+    .pipe(rename(file => (filename(file))))
+    .pipe(size({ showFiles: true, showTotal: false }))
+    .pipe(gulp.dest('./'))
+);
+
+moduleJs.description = 'Minify and transpile module javascript.';
+gulp.task('scripts:module', moduleJs);
 
 /**
  * Development JS.
  * Runs both without minification for easier debugging.
+ * @return {object} themeDev
  */
-const minifyDev = function() {
-  return gulp.src(jsFiles)
-    .pipe(babel({presets: ['es2015']}))
-    .pipe(rename(function (file) {
-      file.basename = file.basename.replace('.es6', '').replace('.bundle', '');
-      file.extname = '.min.js';
-    }))
+const themeDev = () => (
+  gulp.src(jsFiles)
+    .pipe(babel({ presets: ['env'] }))
+    .pipe(rename(file => (filename(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest(config.js.dest));
-};
+    .pipe(gulp.dest(config.js.dest))
+);
 
-minifyDev.description = 'Minify javascript.';
-gulp.task('scripts:development', gulp.series('scripts:package', minifyDev));
+themeDev.description = 'Transpile theme javascript.';
+gulp.task('scripts:theme-dev', gulp.series('scripts:package', themeDev));
 
 /**
- * Run both scripts in series.
+ * Development module JS.
+ * Runs both without minification for easier debugging.
  */
-const scripts = gulp.series('scripts:package', 'scripts:minify');
-scripts.description = 'Package and minify ES6 js.';
-gulp.task('scripts', scripts);
+const moduleDev = () => (
+  gulp.src(moduleFiles, { base: './' })
+    .pipe(babel({ presets: ['env'] }))
+    .pipe(rename(file => (filename(file))))
+    .pipe(gulp.dest('./'))
+);
+
+moduleDev.description = 'Transpile module javascript.';
+gulp.task('scripts:module-dev', moduleDev);
+
+/**
+ * Run both production scripts in series.
+ */
+const scripts = gulp.series('scripts:package', 'scripts:theme', 'scripts:module');
+scripts.description = 'Package, transpile and minify production js.';
+gulp.task('scripts:production', scripts);
+
+/**
+ * Run both development scripts in series.
+ */
+const scriptsDev = gulp.series('scripts:package', 'scripts:theme-dev', 'scripts:module-dev');
+scriptsDev.description = 'Package and transpile development js.';
+gulp.task('scripts:development', scriptsDev);
 
 // Export all functions.
-export { minify, webPackage, minifyDev, scripts };
+export { scripts, scriptsDev, webpackPackage, themeJs, themeDev, moduleJs, moduleDev };

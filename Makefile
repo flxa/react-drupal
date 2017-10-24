@@ -69,12 +69,6 @@ entity-updates:
 cache-rebuild:
 	$(DRUSH) cr
 
-styleguide-init:
-	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-	. ~/.bashrc
-	nvm install
-	npm rebuild node-sass
-
 styleguide:
 	$(GULP) build
 

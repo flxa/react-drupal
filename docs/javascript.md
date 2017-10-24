@@ -8,15 +8,27 @@ Javascript should be written using ES6 (ECMAScript 2015) specification, followin
 
 All theme and custom module javascript will be linted based on the Airbnb ESLint npm package, which has been adopted by Drupal core as of 8.4.x
 
-### Minification and debugging
+### Minification and Drupal
 
-All javascript files will be minified regardless of Drupal aggregation. The original unminified version will remain at it's source, and should be used for active development and debugging.
+All javascript files will be minified regardless of Drupal aggregation. The original unminified version will remain at it's source, and should be used for active development.
+
+When adding a minified JS file as a library you should use the `minified: true` flag.
+
+```
+js/components/header/header.min.js: { minified: true }
+```
+
+For a theme component or module JS file, that is included on the page conditionally, the `preprocess: false` flag should also be used.
+
+```
+js/components/gallery/gallery.min.js: { minified: true, preprocess: false }
+```
 
 ### Naming convention
 
 Also in accordance with 8.4.x, is the naming convention of suffixing `.es6.js` to all files written in the ES6 spec. Only files with this suffix will be linted and tranpiled.
 
-Legacy ES5 js files can be kept alongside their ES6 versions for as long as needed. They will not be linted, so will not trigger a build failure.
+Legacy ES5 JS files can be kept alongside their ES6 versions for as long as needed. They will not be linted, so will not trigger a build failure.
 
 ### Separation of Drupal from component JS
 
@@ -35,17 +47,17 @@ This doesn't apply to custom modules.
 
 Coming soon.
 
-### Gulp (theme only)
+### Gulp
 
-See _gulpfile.yml_ `js:es6` and `js:dest` for configuation options of these Gulp tasks.
+See _gulpfile.yml_ `js:src`, `js:modules` and `js:dest` for configuration options of these Gulp tasks.
 
 #### Transpile and Minify (with babel and uglify)
 
-The `gulp scripts:minify` task will look for any theme files suffixed as `.es6.js` and will transpile and minify them to ES5 for use in the site. Minified files are saved to the themes `/js` directory. This task is not intended to package ES6 modules, so refer to the below `gulp scripts:package` / "Packaging (with webpack)" instructions if you want to use the ES6 module `import` feature.
+The `gulp scripts:production` task will look for any theme or module files suffixed as `.es6.js` and will transpile and minify them to ES5 for use in the site. Minified files are saved to the theme or modules `/js` directory. This task will first run the `gulp scripts:package` / "Packaging (with webpack)" task (details below) allowing you to use the ES6 module `import` feature.
 
 Browser support for ES6 isn't great enough to skip this step, so please do not load ES6 files into your site, unless debugging.
 
-**Example input/output:**
+_Example input/output:_
 
 ```
 src/components/header/header.drupal.es6.js
@@ -61,9 +73,9 @@ Assuming the destination directory is left as the themes /js folder, these files
 
 #### Packaging (with webpack)
 
-The `gulp scripts:package` task will look for any `.es6.js` inside a components `/src` directory and create a `.bundle.js` file inside your component, which combines any ES6 modules used in the src file, as well as transpiling down to ES5. These `.bundle.js` files also get minified and saved in the themes `/js` directory.
+The `gulp scripts:package` task will look for any `.es6.js` inside a component or modules `/src` directory and create a `.bundle.js` file outside of it, which combines any ES6 modules used in the src file, as well as transpiling down to ES5. These `.bundle.js` files are then run through the minifying gulp task.
 
-**Example input/output:**
+_Example input/output:_
 
 ```
 src/components/header/src/header.es6.js
@@ -82,6 +94,28 @@ js/components/header/header.drupal.min.js
 js/components/header/header.min.js
 ```
 
-### Gulp (custom modules)
+#### Module javascript
 
-Coming soon.
+The only difference between a theme components javascript file and a modules javascript file, is the destination of the minified file.
+
+A theme's minified file is created in the themes root `/js` directory. A modules minified file is created in the same directory as the source file (usually also `/js`).
+
+_Example input/output:_
+
+```
+modules/custom/toc/js/src/toc.es6.js
+modules/custom/toc/js/toc.es6.js
+```
+Will go through linting and webpack and the minified files will be created in the same folder:
+```
+modules/custom/toc/js/src/toc.es6.js
+modules/custom/toc/js/toc.bundle.js (NEW, git ignored)
+modules/custom/toc/js/toc.bundle.min.js (NEW, git ignored)
+modules/custom/toc/js/toc.min.js (NEW, git ignored)
+```
+
+### Watching and debugging
+
+The default `gulp watch` task will include watching for changes in any theme or module js file, and run the `gulp scripts:development` gulp task on them. The only difference between development and production javascript is the development script doesn't minify the output and has less console output. It's still names the file `.min.js` but this is only to avoid having to change file being loaded into pages.
+
+So you should use `gulp watch` during active theme or module development.
