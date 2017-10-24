@@ -79,7 +79,7 @@ styleguide:
 	$(GULP) build
 
 db-sync:
-	skpr exec dev "drush sql-dump --gzip | base64" | base64 -di > /tmp/db.sql.gz
+	skpr exec dev "drush sql-dump --structure-tables-key=common --gzip | base64" | base64 -di > /tmp/db.sql.gz
 	gunzip /tmp/db.sql.gz -f
 	$(DRUSH) sql-cli < /tmp/db.sql
 
