@@ -132,4 +132,14 @@ phantomjs-stop:
 login:
 	$(DRUSH) uli
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default
+patchy:
+	echo '[PATCHY] Update composer dependencies\n\n' > /tmp/message.txt
+	composer install --prefer-dist --no-interaction --no-progress --no-suggest
+	composer show > /tmp/before.txt
+	composer update --with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest
+	composer show > /tmp/after.txt
+	git diff -U0 --word-diff --no-index -- /tmp/before.txt /tmp/after.txt | grep -v ^@@ | tail -n +5 >> /tmp/message.txt
+	git add composer.json composer.lock
+	git commit -F /tmp/message.txt
+
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
