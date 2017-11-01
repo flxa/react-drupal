@@ -206,6 +206,12 @@ jobs:
   patchy:
     docker:
       - image: previousnext/php:7.1-dev
+      - image: mariadb
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: local
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
 
     working_directory: /data
 
@@ -220,6 +226,19 @@ jobs:
           keys:
             - pnx-d8-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
             - pnx-d8-v1-{{ arch }}
+
+      - run:
+          name: "Install dependencies"
+          command: |
+            make init
+            make mkdirs
+
+      - run:
+          name: Sync Database
+          command: |
+            make db-drop
+            # Only update the database if there isn't a cached version.
+            if [[ ! -f db.sql ]] ; then SKIPPER_USER=pnx-jenkins SKIPPER_TOKEN=$SKIPPER_TOKEN make db-sync; else make db-import ; fi
 
       - run:
           name: Patchy

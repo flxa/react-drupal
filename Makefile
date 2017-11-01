@@ -141,5 +141,10 @@ patchy:
 	git diff -U0 --word-diff --no-index -- /tmp/before.txt /tmp/after.txt | grep -v ^@@ | tail -n +5 >> /tmp/message.txt
 	git add composer.json composer.lock
 	git commit -F /tmp/message.txt
+	$(DRUSH) updb -y
+	$(DRUSH) entity-updates -y
+	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	git add config-export
+	git commit -m "[PATCHY] Update config"
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
