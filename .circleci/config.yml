@@ -32,7 +32,7 @@ jobs:
       - restore_cache:
           keys:
             - APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
-            - APP_NAME-v1
+            - APP_NAME-v1-{{ arch }}
 
       - run:
           name: "Install dependencies"
@@ -203,6 +203,63 @@ jobs:
     environment:
       - DEPLOY_ENV: prod
 
+  patchy:
+    docker:
+      - image: previousnext/php:7.1-dev
+      - image: mariadb
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: local
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+
+    working_directory: /data
+
+    steps:
+
+      - add-ssh-keys:
+          fingerprints:
+            - "3c:07:15:32:37:12:93:52:40:89:58:53:23:19:5c:05"
+      - checkout
+
+      - restore_cache:
+          keys:
+            - pnx-d8-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+            - pnx-d8-v1-{{ arch }}
+
+      - run:
+          name: "Install dependencies"
+          command: |
+            make init
+            make mkdirs
+
+      - run:
+          name: Sync Database
+          command: |
+            make db-drop
+            # Only update the database if there isn't a cached version.
+            if [[ ! -f db.sql ]] ; then SKIPPER_USER=pnx-jenkins SKIPPER_TOKEN=$SKIPPER_TOKEN make db-sync; else make db-import ; fi
+
+      - run:
+          name: Patchy
+          command: |
+            CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+            PATCHY_BRANCH=patchy
+
+            git config --global user.email admin@previousnext.com.au
+            git config --global user.name Patchy
+
+            git checkout -B $PATCHY_BRANCH
+            make patchy
+            git push -f origin $PATCHY_BRANCH
+            hub pull-request -m "Automated patching" -b master -h $PATCHY_BRANCH || true
+
+      - save_cache:
+          key: pnx-d8-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - /root/.composer
+            - /usr/local/share/.cache/yarn
+
 workflows:
   version: 2
   build_and_deploy:
@@ -243,3 +300,14 @@ workflows:
       - deploy_prod:
           requires:
             - approve_deploy_prod
+  patchy:
+    triggers:
+      - schedule:
+          # Wed 23:00 UTC
+          cron: "0 23 * * 3"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - patchy
