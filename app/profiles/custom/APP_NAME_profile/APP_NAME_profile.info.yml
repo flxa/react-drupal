@@ -7,6 +7,7 @@ dependencies:
   - admin_toolbar
   - admin_toolbar_tools
   - automated_cron
+  - big_pipe
   - block
   - block_content
   - breakpoint
