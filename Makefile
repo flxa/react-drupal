@@ -147,4 +147,7 @@ patchy:
 	git add config-export
 	git commit -m "[PATCHY] Update config"
 
+check-expire:
+	./scripts/check-expire.sh
+
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
