@@ -31,10 +31,11 @@ const lintFiles = {
  * Lint JS.
  * @return {object} js
  */
-const js = () => (
+const js = (done) => (
   gulp.src(lintFiles.js)
     .pipe(eslint())
-    .pipe(eslint.format())
+    .pipe(eslint.format());
+  done();
 );
 
 js.description = 'Lints all JS src files.';
@@ -44,11 +45,12 @@ gulp.task('lint:js', js);
  * Lint JS (with fail).
  * @return {object} jsWith Fail
  */
-const jsWithFail = () => (
+const jsWithFail = (done) => (
   gulp.src(lintFiles.js)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failOnError())
+    .pipe(eslint.failOnError());
+  done();
 );
 
 jsWithFail.description = 'Lints all JS src files, and fail on an error.';
@@ -62,7 +64,8 @@ const fixJs = () => (
   gulp.src(lintFiles.js, { base: './' })
     .pipe(eslint({ fix: true }))
     .pipe(eslint.format())
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./'));
+  done();
 );
 
 fixJs.description = 'Lints all JS src files.';
@@ -73,7 +76,7 @@ gulp.task('lint:js-fix', fixJs);
  * @return {object} sass
  */
 const sass = () => (
-  gulp.src(lintFiles.sass)
+  return gulp.src(lintFiles.sass)
     .pipe(sassLint())
     .pipe(sassLint.format())
 );
@@ -86,7 +89,7 @@ gulp.task('lint:sass', sass);
  * @return {object} sassWithFail
  */
 const sassWithFail = () => (
-  gulp.src(lintFiles.sass)
+  return gulp.src(lintFiles.sass)
     .pipe(sassLint())
     .pipe(sassLint.format())
     .pipe(sassLint.failOnError())

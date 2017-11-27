@@ -11,7 +11,7 @@ The front end workflow goes as so:
 - **sass-lint** and **eslint** lints our CSS and JS.
 - **Browsersync** is used for testing and CSS live reloading.
 - **gulp** is used to run all the above tasks.
-- **babel** and **webpack** are used to transpile and package ES6 js.
+- **babel** and **rollup.js** are used to transpile and bundle ES6 js.
 - **pnx.ci** runs gulp when building the project serverside.
 
 The following files are included in your root folder:
