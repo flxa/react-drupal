@@ -13,10 +13,6 @@ CONFIG_DELETE=$(CURDIR)/drush/config-delete.yml
 CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
 CONFIG_INSTALL=$(CURDIR)/config-install
 
-ARCH=$(shell uname -m)
-PHANTOMJS_DIR=$(HOME)/.phantomjs
-PHANTOMJS_BIN=$(HOME)/.phantomjs/phantomjs-2.1.1-linux-$(ARCH)/bin/phantomjs
-
 DRUSH=./bin/drush -r $(APP_ROOT) -l $(APP_URL)
 GULP=./node_modules/.bin/gulp
 COMPOSER=composer
@@ -103,32 +99,17 @@ ci-lint-php: ci-prepare psalm
 ci-prepare:
 	mkdir -p $(BUILD_LOGS_DIR)
 
-test-ci:
+ci-test:
 	mkdir -p $(APP_ROOT)/sites/simpletest
-	-export SIMPLETEST_BASE_URL="http://127.0.0.1";export SIMPLETEST_DB="mysql://drupal:drupal@localhost/local";./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
-	killall phantomjs
-
-ci-test: phantomjs test-ci phantomjs-stop
+	-./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
 
 test:
-	export BROWSERTEST_OUTPUT_FILE="/vagrant/app/test-output.html";export SIMPLETEST_BASE_URL=$(APP_URL);export SIMPLETEST_DB="mysql://root:@localhost/d8_testing";./bin/phpunit -c app/core $(APP_ROOT)/modules/custom/$(folder);cat $(APP_ROOT)/test-output.html;echo "" > $(APP_ROOT)/test-output.html
+	./bin/phpunit -c app/core $(APP_ROOT)/modules/custom/$(folder);cat $(APP_ROOT)/test-output.html;echo "" > $(APP_ROOT)/test-output.html
 
 test-init:
 	touch $(APP_ROOT)/test-output.html;
 	chmod 777 $(APP_ROOT)/test-output.html;
 	echo "create database d8_testing;" | sudo mysql
-
-phantomjs: phantomjs-stop phantom-init
-	${PHANTOMJS_BIN} --ssl-protocol=any --ignore-ssl-errors=true ${PROJECT_ROOT}/vendor/jcalderonzumba/gastonjs/src/Client/main.js 8510 1024 768 2>&1 >> /dev/null &
-	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make
-
-phantom-init:
-	if [ ! -d ${PHANTOMJS_DIR} ]; then mkdir -p ${PHANTOMJS_DIR}; wget --no-check-certificate https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-$(ARCH).tar.bz2 -O ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2; tar -xvf ${PHANTOMJS_DIR}/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C ${PHANTOMJS_DIR}; else echo "PhantomJS already exists"; fi
-
-phantomjs-stop:
-  # Terminate all the phantomjs and php instances so that we can start fresh.
-	ps axo pid,command | grep phantomjs | grep -v grep | grep -v make | awk '{print $$1}' | xargs -I {} kill {}
-	ps axo pid,command | grep php | grep -v grep | grep -v phpstorm | grep -v make | awk '{print $$1}' | xargs -I {} kill {}
 
 login:
 	$(DRUSH) uli
@@ -152,5 +133,8 @@ sync-files:
 	skpr exec dev "tar -C $(PUBLIC_FILES) --exclude='$(PUBLIC_FILES)/css' --exclude='$(PUBLIC_FILES)/js' --exclude='$(PUBLIC_FILES)/styles' -czvf /tmp/files.tar.gz $(PUBLIC_FILES)"
 	skpr rsync staging:/tmp/files.tar.gz /tmp
 	tar -xzvf /tmp/files.tar.gz -C $(APP_ROOT)/sites/default/
+
+check-expire:
+	./scripts/check-expire.sh
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy sync-files

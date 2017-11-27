@@ -25,12 +25,13 @@ delete config.modernizr.dest;
  * Build the custom version.
  * @return {object} build
  */
-const build = () => (
+const build = (done) => (
   gulp.src(modernizrFiles)
     .pipe(modernizr('modernizr.min.js', config.modernizr))
     .pipe(uglify())
     .pipe(size({ title: 'Final size:', showFiles: true, showTotal: false }))
-    .pipe(gulp.dest(modernizrDest))
+    .pipe(gulp.dest(modernizrDest));
+  done();
 );
 
 build.description = 'Build a custom version of modernizr.';

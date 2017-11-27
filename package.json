@@ -7,7 +7,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.1.1",
-    "babel-loader": "^7.1.2",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6",
     "breakpoint-sass": "^2",
@@ -16,7 +16,7 @@
     "del": "^2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.0.0",
-    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^3.0.2",
     "eslint-plugin-react": "^6.9.0",
     "eyeglass": "^1",
@@ -29,6 +29,7 @@
     "gulp-modernizr": "^1.0.0-alpha",
     "gulp-rename": "^1",
     "gulp-replace": "^0.5",
+    "gulp-rollup-each": "^2.0.0",
     "gulp-sass": "^3",
     "gulp-sass-glob": "^1",
     "gulp-sass-lint": "^1",
@@ -42,12 +43,12 @@
     "kss-offscreen-twig": "^1",
     "merge-stream": "^1.0.1",
     "node-sass": "^4",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "sass-lint": "^1",
     "support-for": "^1",
-    "typey": "^1",
-    "vinyl-named": "^1.1.0",
-    "webpack": "^3.5.6",
-    "webpack-stream": "^3.2.0"
+    "typey": "^1"
   },
   "private": true
 }

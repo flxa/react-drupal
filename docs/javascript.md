@@ -53,7 +53,7 @@ See _gulpfile.yml_ `js:src`, `js:modules` and `js:dest` for configuration option
 
 #### Transpile and Minify (with babel and uglify)
 
-The `gulp scripts:production` task will look for any theme or module files suffixed as `.es6.js` and will transpile and minify them to ES5 for use in the site. Minified files are saved to the theme or modules `/js` directory. This task will first run the `gulp scripts:package` / "Packaging (with webpack)" task (details below) allowing you to use the ES6 module `import` feature.
+The `gulp scripts:production` task will look for any theme or module files suffixed as `.es6.js` and will transpile and minify them to ES5 for use in the site. Minified files are saved to the theme or modules `/js` directory. This task will first run the `gulp scripts:bundle` / "Bundling (with rollup.js)" task (details below) allowing you to use the ES6 module `import` feature.
 
 Browser support for ES6 isn't great enough to skip this step, so please do not load ES6 files into your site, unless debugging.
 
@@ -71,9 +71,9 @@ js/components/header/header.min.js
 
 Assuming the destination directory is left as the themes /js folder, these files will be git ignored, just like compiled css.
 
-#### Packaging (with webpack)
+#### Bundling (with rollup.js)
 
-The `gulp scripts:package` task will look for any `.es6.js` inside a component or modules `/src` directory and create a `.bundle.js` file outside of it, which combines any ES6 modules used in the src file, as well as transpiling down to ES5. These `.bundle.js` files are then run through the minifying gulp task.
+The `gulp scripts:bundle` task will look for any `.es6.js` inside a component or modules `/src` directory and create a `.bundle.js` file outside of it, which combines any ES6 modules used in the src file, as well as transpiling down to ES5. These `.bundle.js` files are then run through the minifying gulp task.
 
 _Example input/output:_
 
@@ -81,7 +81,7 @@ _Example input/output:_
 src/components/header/src/header.es6.js
 src/components/header/src/header.drupal.es6.js
 ```
-Will first go through webpack to bundle any modules, be transpiled to ES5 and a new file will be created in the component folder with `.bundle` in it's filename:
+Will first go through rollup.js to bundle any modules, be transpiled to ES5 and a new file will be created in the component folder with `.bundle` in it's filename:
 ```
 src/components/header/src/header.es6.js
 src/components/header/src/header.drupal.es6.js
@@ -106,7 +106,7 @@ _Example input/output:_
 modules/custom/toc/js/src/toc.es6.js
 modules/custom/toc/js/toc.es6.js
 ```
-Will go through linting and webpack and the minified files will be created in the same folder:
+Will go through linting and bundling and the minified files will be created in the same folder:
 ```
 modules/custom/toc/js/src/toc.es6.js
 modules/custom/toc/js/toc.bundle.js (NEW, git ignored)
