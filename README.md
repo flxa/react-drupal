@@ -16,10 +16,12 @@ Important project notes go here...
 
 ## Local Development
 
-Choose between a Vagrant VM or Docker compose container.
+Local development is run via Docker Compose.
 
-- [Vagrant setup](docs/vm-vagrant.md)
-- [Docker setup](docs/vm-docker.md)
+Documentation for this approach is documented in a series of blog posts.
+
+- [How our services talk to each other](https://www.previousnext.com.au/blog/composing-docker-local-development-networking)
+- [How Xdebug works in OSX](https://www.previousnext.com.au/blog/composing-docker-local-development-xdebug-osx)
 
 ### Install dependencies
 
