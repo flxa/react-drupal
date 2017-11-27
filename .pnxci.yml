@@ -10,6 +10,7 @@ prepare: &prepare
   - cp app/sites/default/test.settings.php app/sites/default/settings.test.php
 
 test: &test
+  - make check-expire
   - make ci-lint-php
   - make lint-sass-js
   - make build
