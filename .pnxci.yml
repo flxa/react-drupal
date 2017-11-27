@@ -4,12 +4,13 @@ application: previousnext/lamp:latest
 
 prepare: &prepare
   - git config --global user.email "${GIT_EMAIL}" && git config --global user.name "${GIT_USER}"
-  - make init
+  - make init-ci
   - make mkdirs
   - make styleguide
   - cp app/sites/default/test.settings.php app/sites/default/settings.test.php
 
 test: &test
+  - make check-expire
   - make ci-lint-php
   - make lint-sass-js
   - make build

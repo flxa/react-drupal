@@ -23,7 +23,7 @@ PHPCS=./bin/phpcs
 .DEFAULT_GOAL := list
 
 default: list;
-	
+
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
@@ -34,6 +34,10 @@ deploy: updb entity-updates import cache-rebuild
 init:
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	$(YARN) install --non-interactive --no-progress
+
+init-ci:
+	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
+	. /home/pnx/.nvm/nvm.sh && nvm install && nvm alias default 8 && $(YARN) install --non-interactive --no-progress
 
 init-package:
 	$(COMPOSER) install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
@@ -61,17 +65,11 @@ entity-updates:
 cache-rebuild:
 	$(DRUSH) cr
 
-styleguide-init:
-	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
-	. ~/.bashrc
-	nvm install
-	npm rebuild node-sass
-
 styleguide:
 	$(GULP) build
 
 db-sync:
-	skpr exec dev "drush sql-dump --gzip | base64" | base64 -di > /tmp/db.sql.gz
+	skpr exec dev "drush sql-dump --structure-tables-key=common --gzip | base64" | base64 -di > /tmp/db.sql.gz
 	gunzip /tmp/db.sql.gz -f
 	$(DRUSH) sql-cli < /tmp/db.sql
 
@@ -115,4 +113,22 @@ test-init:
 login:
 	$(DRUSH) uli
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare test test-init login default
+patchy:
+	echo '[PATCHY] Update composer dependencies\n\n' > /tmp/message.txt
+	composer install --prefer-dist --no-interaction --no-progress --no-suggest
+	composer show > /tmp/before.txt
+	composer update --with-dependencies --prefer-dist --no-interaction --no-progress --no-suggest
+	composer show > /tmp/after.txt
+	git diff -U0 --word-diff --no-index -- /tmp/before.txt /tmp/after.txt | grep -v ^@@ | tail -n +5 >> /tmp/message.txt
+	git add composer.json composer.lock
+	git commit -F /tmp/message.txt
+	$(DRUSH) updb -y
+	$(DRUSH) entity-updates -y
+	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	git add config-export
+	git commit -m "[PATCHY] Update config"
+
+check-expire:
+	./scripts/check-expire.sh
+
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy

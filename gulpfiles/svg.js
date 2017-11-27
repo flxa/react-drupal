@@ -3,8 +3,6 @@
  * Minimize and combine svgs into sprites.
  */
 
-'use strict';
-
 import gulp from 'gulp';
 import size from 'gulp-size';
 import merge from 'merge-stream';
@@ -14,59 +12,54 @@ import svgSprite from 'gulp-svg-sprite';
 import config from './config';
 
 // Glob for svg files to minify.
-let svgoFiles = config.svg.svgo.src.map(p => p + '/**/*.svg');
+let svgoFiles = config.svg.svgo.src.map(p => `${p}/**/*.svg`);
 
 // Exclude all outputted sprite files as they will error svgo.
-for (let key in config.svg.sprites) {
-  let spritePath = '!' + config.svg.sprites[key].dest + '/' + config.svg.sprites[key].config.mode.symbol.sprite;
-  svgoFiles.push(spritePath);
-}
+svgoFiles = Object.keys(config.svg.sprites).map(key => (
+  `!${config.svg.sprites[key].dest}/${config.svg.sprites[key].config.mode.symbol.sprite}`
+));
 
 // gulp-svgmin needs its plugin config provided in comma separated objects.
 // @see https://github.com/ben-eb/gulp-svgmin
-let svgoPlugins = [];
-for (let key in config.svg.svgo.plugins) {
-  let plugin = {}
+const svgoPlugins = Object.keys(config.svg.svgo.plugins).map((key) => {
+  const plugin = {};
   plugin[key] = config.svg.svgo.plugins[key];
-  svgoPlugins.push(plugin);
-}
+  return plugin;
+});
 
 /**
  * Use SVGO to minify svg files.
+ * @return {object} svgo
  */
-const svgo = function() {
-  return gulp.src(svgoFiles, {base: './'})
-    .pipe(size({title: 'Original size:', showFiles: true, showTotal: false}))
-    .pipe(svgmin({plugins: svgoPlugins}))
-    .pipe(size({title: 'Minified size:', showFiles: true, showTotal: false}))
+const svgo = (done) => (
+  gulp.src(svgoFiles, { base: './' })
+    .pipe(size({ title: 'Original size:', showFiles: true, showTotal: false }))
+    .pipe(svgmin({ plugins: svgoPlugins }))
+    .pipe(size({ title: 'Minified size:', showFiles: true, showTotal: false }))
     .pipe(gulp.dest('./'));
-}
+  done();
+);
 
 svgo.description = 'Minify SVG files with svgo (src SVG files are overwritten).';
 gulp.task('svg:svgo', svgo);
 
 /**
  * Combine SVG files into sprites.
+ * @return {object} svgSprites
  */
-const svgSprites = function(done) {
+const svgSprites = () => {
   // We need to return a combination of the below streams.
-  let streams = [];
-
   // Loop over the sprite config and run a seperate stream for each one.
-  for (let key in config.svg.sprites) {
-   let sprite = config.svg.sprites[key];
-   let stream = gulp.src(sprite.src + '/*.svg')
-     .pipe(svgSprite(sprite.config))
-     .pipe(size({title: 'Sprite size:', showFiles: true, showTotal: false}))
-     .pipe(gulp.dest(sprite.dest));
-
-   // Add this to our list of streams.
-   streams.push(stream);
-  }
-
+  const streams = Object.keys(config.svg.sprites).map((key) => {
+    const sprite = config.svg.sprites[key];
+    return gulp.src(`${sprite.src}/*.svg`)
+      .pipe(svgSprite(sprite.config))
+      .pipe(size({ title: 'Sprite size:', showFiles: true, showTotal: false }))
+      .pipe(gulp.dest(sprite.dest));
+  });
   // Use merge-stream to combine the streams to return.
   return merge(...streams);
-}
+};
 
 svgSprites.description = 'Combine SVG files into sprites (without minification).';
 gulp.task('svg:sprites', svgSprites);

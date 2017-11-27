@@ -3,11 +3,10 @@
  * Watch task runners.
  */
 
-'use strict';
-
 import gulp from 'gulp';
 
 import config from './config';
+import * as scripts from './scripts';
 import * as styles from './styles';
 import * as clean from './clean';
 import * as lint from './lint';
@@ -15,27 +14,36 @@ import * as sg from './styleguide';
 import * as browsersync from './browsersync';
 
 // Files to watch for changes.
-let watchFiles = {
+const watchFiles = {
   sass: [
-    config.sass.src + '/**/*.scss',
+    `${config.sass.src}/**/*.scss`,
     // Don't watch the styleguide sass files, these are watched by the styleguide task.
-    '!' + config.sass.src + '/style-guide/**/*.scss'
+    `!${config.sass.src}/style-guide/**/*.scss`,
   ],
 
-  js: config.jsFiles,
+  js: [
+    `${config.js.src}/**/*.es6.js`,
+    `${config.js.modules}/**/js/*.es6.js`,
+    // Ignore already minified files.
+    `!${config.js.src}/**/*.min.js`,
+    `!${config.js.modules}/**/*.min.js`,
+    // Ignore webpack bundled files
+    `!${config.js.src}/**/*.bundle.js`,
+    `!${config.js.modules}/**/*.bundle.js`,
+  ],
 
   styleguide: [
-    config.sass.src + '/**/*.twig',
-    config.sass.src + '/style-guide/**/*.scss',
-    config.sass.src + '/style-guide/**/*.md',
-  ]
-}
+    `${config.sass.src}/**/*.twig`,
+    `${config.sass.src}/style-guide/**/*.scss`,
+    `${config.sass.src}/style-guide/**/*.md`,
+  ],
+};
 
 // Watch options.
-let watchOptions = {
+const watchOptions = {
   // This is required for watching to work inside vagrant.
-  usePolling: true
-}
+  usePolling: true,
+};
 
 /**
  * Watch sass files.
@@ -47,9 +55,9 @@ let watchOptions = {
  * won't automatically reload even though the html has changed. You'll need
  * to manually reload in those cases.
  */
-const sass = function(e) {
+const sass = () => {
   gulp.watch(watchFiles.sass, watchOptions, gulp.series('styles:development', 'styleguide', 'lint:sass'));
-}
+};
 
 sass.description = 'Watch scss files and rebuild styles and the styleguide, with linting.';
 gulp.task('watch:sass', sass);
@@ -59,11 +67,11 @@ gulp.task('watch:sass', sass);
  *
  * Reload browserSync automatically after a change to a js file.
  */
-const js = function(e) {
-  gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'browsersync:reload'));
+const js = () => {
+  gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'scripts:development', 'browsersync:reload'));
 };
 
-js.description = 'Watch js files and lint them.';
+js.description = 'Watch js files and lint and bundle them.';
 gulp.task('watch:js', js);
 
 /**
@@ -71,7 +79,7 @@ gulp.task('watch:js', js);
  *
  * Reload browserSync automatically after a change to a twig file.
  */
-const styleguide = function(e) {
+const styleguide = () => {
   gulp.watch(watchFiles.styleguide, watchOptions, gulp.series('styleguide', 'browsersync:reload'));
 };
 
@@ -81,7 +89,7 @@ gulp.task('watch:styleguide', styleguide);
 /**
  * Watch all.
  */
-const watch = gulp.series('styles:development', 'styleguide', 'browsersync:init', 'lint', gulp.parallel('watch:sass', 'watch:js', 'watch:styleguide'));
+const watch = gulp.series('styles:development', 'scripts:development', 'styleguide', 'browsersync:init', 'lint', gulp.parallel('watch:sass', 'watch:js', 'watch:styleguide'));
 watch.description = 'Watch styles, js and styleguide files and rebuild as needed on change.';
 gulp.task('watch', watch);
 

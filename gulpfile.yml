@@ -16,12 +16,15 @@ sass:
   dest: app/themes/APP_NAME_theme/css
 
 js:
-  # ESLint will run on these directories.
+  # ESLint and Babel will run on these directories.
   # @see gulpfiles/lint.js
   # @see gulpfiles/config.js
-  src:
-    - app/themes/APP_NAME_theme/src
-    - app/modules/custom
+  # @see gulpfiles/scripts.js
+  src: app/themes/APP_NAME_theme/src
+  modules: app/modules/custom
+  # Destination of transpiled, minfied JS.
+  # @see gulpfiles/scripts.js
+  dest: app/themes/APP_NAME_theme/js
 
 # @see gulpfiles/styleguide.js
 styleguide:

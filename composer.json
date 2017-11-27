@@ -10,7 +10,7 @@
         "cweagans/composer-patches": "~1.5",
         "drupal/admin_toolbar": "~1.19",
         "drupal/components": "~1.0",
-        "drupal/core": "~8.3",
+        "drupal/core": "~8.4",
         "drupal/ctools": "~3.0",
         "drupal/drush-cmi-tools": "dev-8.x-1.x",
         "drupal/ds": "~3.1",
@@ -24,7 +24,8 @@
         "drupal/slushi_cache": "~1.0",
         "drupal/swiftmailer": "^1.0@beta",
         "drupal/token": "~1.0",
-        "drush/drush": "~8.1"
+        "drush/drush": "^8.1.15",
+        "grasmash/drupal-security-warning": "^1.1"
     },
     "require-dev": {
         "behat/mink": "1.7.x-dev",

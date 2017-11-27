@@ -4,7 +4,8 @@
 # Default to the current directory name.
 APP_NAME=$1
 
-TEMPLATE_FILES=".pnxci.yml \
+TEMPLATE_FILES=".circleci/config.yml \
+.pnxci.yml \
 .skpr.yml \
 .gitignore \
 app/profiles/custom/APP_NAME_profile/* \

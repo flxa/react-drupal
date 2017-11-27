@@ -33,12 +33,14 @@ $ make build
 
 ### Front-end workflow
 
-- [Setup and documentation](docs/front-end.md)
+- Read about [setup and documentation](docs/front-end.md)
 - Build the styleguide
 
 ```bash
 $ make styleguide
 ```
+
+- Review the [javascript documentation](docs/javascript.md)
 
 ### Git Hooks
 
