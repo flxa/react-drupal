@@ -23,6 +23,7 @@ COMPOSER=composer
 YARN=yarn
 PHPCBF=./bin/phpcbf
 PHPCS=./bin/phpcs
+PUBLIC_FILES=$(APP_ROOT)/sites/default/files
 
 .DEFAULT_GOAL := list
 
@@ -147,4 +148,9 @@ patchy:
 	git add config-export
 	git commit -m "[PATCHY] Update config"
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
+sync-files:
+	skpr exec dev "tar -C $(PUBLIC_FILES) --exclude='$(PUBLIC_FILES)/css' --exclude='$(PUBLIC_FILES)/js' --exclude='$(PUBLIC_FILES)/styles' -czvf /tmp/files.tar.gz $(PUBLIC_FILES)"
+	skpr rsync staging:/tmp/files.tar.gz /tmp
+	tar -xzvf /tmp/files.tar.gz -C $(APP_ROOT)/sites/default/
+
+.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy sync-files
