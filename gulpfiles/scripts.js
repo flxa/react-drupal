@@ -26,12 +26,16 @@ const bundleFiles = [
 
 // Any js files that don't get bundled still need transpiling.
 const transpileFiles = [
-  config.js.src + '/**/*.es6.js',
+  `${config.js.src}/**/*.es6.js`,
+  `${config.modules}/**/*.es6.js`,
   // Ignore already minified files.
-  '!' + config.js.src + '/**/*.min.js',
+  `!${config.js.src}/**/*.min.js`,
+  `!${config.modules}/**/*.min.js`,
   // Ignore bundle files
-  '!' + config.js.src + '/**/src/*.js',
-  '!' + config.js.src + '/**/*.bundle.js',
+  `!${config.js.src}/**/src/*.es6.js`,
+  `!${config.modules}/**/src/*.es6.js`,
+  `!${config.js.src}/**/*.bundle.js`,
+  `!${config.modules}/**/*.bundle.js`,
 ];
 
 // Theme js files we are minifying.
