@@ -31,14 +31,14 @@ const svgoPlugins = Object.keys(config.svg.svgo.plugins).map((key) => {
  * Use SVGO to minify svg files.
  * @return {object} svgo
  */
-const svgo = (done) => (
+const svgo = (done) => {
   gulp.src(svgoFiles, { base: './' })
     .pipe(size({ title: 'Original size:', showFiles: true, showTotal: false }))
     .pipe(svgmin({ plugins: svgoPlugins }))
     .pipe(size({ title: 'Minified size:', showFiles: true, showTotal: false }))
     .pipe(gulp.dest('./'));
   done();
-);
+};
 
 svgo.description = 'Minify SVG files with svgo (src SVG files are overwritten).';
 gulp.task('svg:svgo', svgo);

@@ -37,10 +37,10 @@ const cleanFiles = {
  * Clean the SASS destination directory, except styleguide styles.
  * @return {object} css
  */
-const css = (done) => (
+const css = (done) => {
   del(cleanFiles.css, { force: true });
   done();
-);
+};
 
 css.description = 'Clean the SASS destination directory.';
 gulp.task('clean:css', css);
@@ -49,10 +49,10 @@ gulp.task('clean:css', css);
  * Clean the Minfied JS destination directory, except vendor files.
  * @return {object} js
  */
-const js = (done) => (
+const js = (done) => {
   del(cleanFiles.js, { force: true });
   done();
-);
+};
 
 js.description = 'Clean the JS destination directory.';
 gulp.task('clean:js', js);
@@ -61,10 +61,10 @@ gulp.task('clean:js', js);
  * Clean the styleguide directory and remove any related styleguide files.
  * @return {object} styleguide
  */
-const styleguide = (done) => (
+const styleguide = (done) => {
   del(cleanFiles.styleguide, { force: true });
   done();
-);
+};
 
 styleguide.description = 'Clean the styleguide directory and remove any related styleguide files.';
 gulp.task('clean:styleguide', styleguide);

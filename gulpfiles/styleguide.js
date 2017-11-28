@@ -19,21 +19,13 @@ import * as clean from './clean';
 // Ensure CSS paths are relative to the styleguide. Unless they are external.
 let cssFiles = [];
 if (config.styleguide.cssFiles) {
-  cssFiles = config.styleguide.cssFiles.map(c => (
-    c.startsWith('http')
-      ? c
-      : path.relative(config.styleguide.dest, c)
-  ));
+  cssFiles = config.styleguide.cssFiles.map(c => c.startsWith('http') ? c : path.relative(config.styleguide.dest, c));
 }
 
 // Ensure JS paths are relative to the styleguide. Unless they are external.
 let jsFiles = [];
 if (config.styleguide.jsFiles) {
-  jsFiles = config.styleguide.jsFiles.map(j => (
-    j.startsWith('http')
-      ? j
-      : path.relative(config.styleguide.dest, j)
-  ));
+  jsFiles = config.styleguide.jsFiles.map(j => j.startsWith('http') ? j : path.relative(config.styleguide.dest, j));
 }
 
 // Kss config.
@@ -62,14 +54,14 @@ const kssSassFiles = [
  * Outputs Styleguide CSS.
  * @return {object} styles
  */
-const styles = (done) => (
+const styles = (done) => {
   gulp.src(kssSassFiles)
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer(config.autoprefixer))
     .pipe(gulp.dest(`${config.sass.dest}/style-guide`));
   done();
-);
+};
 
 styles.description = 'Compiles sass/style-guide.';
 gulp.task('styleguide:styles', styles);
@@ -78,13 +70,11 @@ gulp.task('styleguide:styles', styles);
  * Outputs Chroma KSS Markup.
  * @return {object} chromaKssMarkup
  */
-const chromaKssMarkup = () => (
-  return gulp.src(`${config.sass.src}/style-guide/chroma-kss-markup.scss`)
+const chromaKssMarkup = () => gulp.src(`${config.sass.src}/style-guide/chroma-kss-markup.scss`)
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(replace(/(\/\*|\*\/)\n/g, ''))
     .pipe(rename('chroma-kss-markup.twig'))
-    .pipe(gulp.dest(`${config.sass.dest}/style-guide`))
-);
+    .pipe(gulp.dest(`${config.sass.dest}/style-guide`));
 
 chromaKssMarkup.description = 'Compiles Chroma KSS markup.';
 gulp.task('styleguide:chroma-kss-markup', chromaKssMarkup);
@@ -93,10 +83,10 @@ gulp.task('styleguide:chroma-kss-markup', chromaKssMarkup);
  * Outputs the styleguide.
  * @return {object} build
  */
-const build = (done) => (
+const build = (done) => {
   kss(kssOptions);
   done();
-);
+};
 
 build.description = 'Builds the style guide.';
 gulp.task('styleguide:build', build);

@@ -74,7 +74,7 @@ const minifyName = (file) => {
  * Only needs to run on files utilising ES6 imports.
  * @return {object} bundleJs
  */
-const bundle = (done) => (
+const bundle = (done) => {
   gulp.src(bundleFiles, { base: './' })
     .pipe(rollup({
       plugins: [
@@ -97,7 +97,7 @@ const bundle = (done) => (
     .pipe(size({ showFiles: true, showTotal: false }))
     .pipe(gulp.dest('./'));
   done();
-);
+};
 
 bundle.description = 'Bundle javascript modules.';
 gulp.task('scripts:bundle', bundle);
@@ -108,7 +108,7 @@ gulp.task('scripts:bundle', bundle);
  * @return {object} transpile
  */
 const transpile = (done) => {
-  gulp.src(transpileFiles, { base: "./" })
+  gulp.src(transpileFiles, { base: './' })
     .pipe(babel())
     .pipe(rename(file => (bundleName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
@@ -124,31 +124,31 @@ gulp.task('scripts:transpile', transpile);
  * Keeps an original in the src and adds the minified file to dest.
  * @return {object} minify
  */
- const minfy = (done) => {
-   gulp.src(minfyFiles)
+const minfy = (done) => {
+  gulp.src(minifyFiles)
      .pipe(uglify())
      .pipe(rename(file => (minifyName(file))))
      .pipe(size({ showFiles: true, showTotal: false }))
      .pipe(gulp.dest(config.js.dest));
-   done();
- };
+  done();
+};
 
- minfy.description = 'Minify theme javascript.';
- gulp.task('scripts:minify', gulp.series('clean:js', minfy, 'modernizr'));
+minfy.description = 'Minify theme javascript.';
+gulp.task('scripts:minify', gulp.series('clean:js', minfy, 'modernizr'));
 
 /**
  * Minify a modules JS.
  * Keeps an original in the src and adds the minified file to the src.
  * @return {object} minifyModule
  */
-const minifyModule = (done) => (
+const minifyModule = (done) => {
   gulp.src(moduleFiles, { base: './' })
     .pipe(uglify())
     .pipe(rename(file => (minifyName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
     .pipe(gulp.dest('./'));
   done();
-);
+};
 
 minifyModule.description = 'Minify module javascript.';
 gulp.task('scripts:module', minifyModule);
@@ -158,29 +158,29 @@ gulp.task('scripts:module', minifyModule);
  * Runs both without minification for easier debugging.
  * @return {object} themeDev
  */
- const minifyDev = (done) => {
-   gulp.src(minfyFiles)
-     .pipe(rename(file => (minifyName(file))))
-     .pipe(gulp.dest(config.js.dest));
-   done();
- };
+const minifyDev = (done) => {
+  gulp.src(minifyFiles)
+   .pipe(rename(file => (minifyName(file))))
+   .pipe(gulp.dest(config.js.dest));
+  done();
+};
 
- minifyDev.description = 'Dev-minify javascript.';
- gulp.task('scripts:minify-dev', minifyDev);
+minifyDev.description = 'Dev-minify javascript.';
+gulp.task('scripts:minify-dev', minifyDev);
 
 /**
  * Development module JS.
  * Runs both without minification for easier debugging.
  */
-const moduleDev = (done) => (
+const minifyModuleDev = (done) => {
   gulp.src(moduleFiles, { base: './' })
     .pipe(rename(file => (minifyName(file))))
     .pipe(gulp.dest('./'));
   done();
-);
+};
 
-moduleDev.description = 'Dev-minify module javascript.';
-gulp.task('scripts:module-dev', moduleDev);
+minifyModuleDev.description = 'Dev-minify module javascript.';
+gulp.task('scripts:module-dev', minifyModuleDev);
 
 /**
  * Run both production scripts in series.
