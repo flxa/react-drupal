@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  php:
+  app:
     image: previousnext/php:7.1-dev
     # You will notice that we are forwarding port which do not belong to PHP.
     # We have to declare them here because these "sidecar" services are sharing
