@@ -34,7 +34,7 @@ const development = (done) => {
     .pipe(sassGlob())
     .pipe(sourcemaps.init())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
-    .pipe(autoprefixer(config.autoprefixer))
+    .pipe(autoprefixer({ browsers: config.browsers.sass }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.sass.dest))
     .pipe(browserSync.stream({ match: '**/*.css' }));
@@ -52,7 +52,7 @@ const production = (done) => {
   gulp.src(sassFiles)
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
-    .pipe(autoprefixer(config.autoprefixer))
+    .pipe(autoprefixer({ browsers: config.browsers.sass }))
     .pipe(cleanCSS())
     .pipe(size({ showFiles: true, showTotal: false }))
     .pipe(gulp.dest(config.sass.dest));

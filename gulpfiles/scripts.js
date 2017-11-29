@@ -21,21 +21,21 @@ import * as clean from './clean';
 // The js files we need to bundle.
 const bundleFiles = [
   `${config.js.src}/**/src/*.es6.js`,
-  `${config.modules}/**/js/src/*.es6.js`,
+  `${config.js.modules}/**/js/src/*.es6.js`,
 ];
 
 // Any js files that don't get bundled still need transpiling.
 const transpileFiles = [
   `${config.js.src}/**/*.es6.js`,
-  `${config.modules}/**/*.es6.js`,
+  `${config.js.modules}/**/*.es6.js`,
   // Ignore already minified files.
   `!${config.js.src}/**/*.min.js`,
-  `!${config.modules}/**/*.min.js`,
+  `!${config.js.modules}/**/*.min.js`,
   // Ignore bundle files
   `!${config.js.src}/**/src/*.es6.js`,
-  `!${config.modules}/**/src/*.es6.js`,
+  `!${config.js.modules}/**/src/*.es6.js`,
   `!${config.js.src}/**/*.bundle.js`,
-  `!${config.modules}/**/*.bundle.js`,
+  `!${config.js.modules}/**/*.bundle.js`,
 ];
 
 // Theme js files we are minifying.
@@ -81,9 +81,12 @@ const bundle = (done) => {
         resolve(),
         commonjs(),
         rollupBabel({
-          presets: [['env', { modules: false }]],
+          presets: [['env', {
+            modules: false,
+            useBuiltIns: true,
+            targets: { browsers: config.browsers.js },
+          }]],
           babelrc: false,
-          exclude: 'node_modules/**',
           plugins: ['external-helpers'],
         }),
       ],
@@ -124,17 +127,17 @@ gulp.task('scripts:transpile', transpile);
  * Keeps an original in the src and adds the minified file to dest.
  * @return {object} minify
  */
-const minfy = (done) => {
+const minify = (done) => {
   gulp.src(minifyFiles)
-     .pipe(uglify())
-     .pipe(rename(file => (minifyName(file))))
-     .pipe(size({ showFiles: true, showTotal: false }))
-     .pipe(gulp.dest(config.js.dest));
+   .pipe(uglify())
+   .pipe(rename(file => (minifyName(file))))
+   .pipe(size({ showFiles: true, showTotal: false }))
+   .pipe(gulp.dest(config.js.dest));
   done();
 };
 
-minfy.description = 'Minify theme javascript.';
-gulp.task('scripts:minify', gulp.series('clean:js', minfy, 'modernizr'));
+minify.description = 'Minify theme javascript.';
+gulp.task('scripts:minify', gulp.series('clean:js', minify, 'modernizr'));
 
 /**
  * Minify a modules JS.
@@ -185,16 +188,16 @@ gulp.task('scripts:module-dev', minifyModuleDev);
 /**
  * Run both production scripts in series.
  */
-const scripts = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify', 'scripts:module');
+const scripts = gulp.series(gulp.parallel('scripts:bundle', 'scripts:transpile'), gulp.parallel('scripts:minify', 'scripts:module'));
 scripts.description = 'Bundle, transpile and minify production js.';
 gulp.task('scripts:production', scripts);
 
 /**
  * Run both development scripts in series.
  */
-const scriptsDev = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify-dev', 'scripts:module-dev');
+const scriptsDev = gulp.series(gulp.parallel('scripts:bundle', 'scripts:transpile'), gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
 scriptsDev.description = 'Bundle and transpile development js.';
 gulp.task('scripts:development', scriptsDev);
 
 // Export all functions.
-export { scripts, scriptsDev, bundle, transpile, minfy, minifyDev, minifyModule, minifyModuleDev };
+export { scripts, scriptsDev, bundle, transpile, minify, minifyDev, minifyModule, minifyModuleDev };

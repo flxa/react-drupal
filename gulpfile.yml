@@ -41,13 +41,17 @@ styleguide:
   jsFiles:
     - app/core/assets/vendor/jquery/jquery.js
 
-autoprefixer:
+browsers:
   # Standard browser compatibility settings.
   # @see https://github.com/ai/browserslist#queries
-  browsers:
+  sass:
     - last 2 versions
     - ie >= 10
     - and_chr >= 2.3
+  js:
+    - "> 1%"
+    - last 2 versions
+    - Firefox ESR
 
 # @see gulpfiles/modernizr.js
 # @see https://modernizr.com/docs

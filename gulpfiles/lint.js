@@ -108,8 +108,8 @@ gulp.task('lint:sass-with-fail', sassWithFail);
 /**
  * Lint Gulpfiles.
  */
-const gulpFiles = function () {
-  return gulp.src(lintFiles.gulp, { base: './' })
+const gulpFiles = (done) => {
+  gulp.src(lintFiles.gulp, { base: './' })
     .pipe(eslint({
       fix: true,
       rules: {
@@ -123,6 +123,7 @@ const gulpFiles = function () {
     }))
     .pipe(eslint.format())
     .pipe(gulp.dest('./'));
+  done();
 };
 
 gulpFiles.description = 'Lints all JS gulp files.';
