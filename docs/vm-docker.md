@@ -36,6 +36,12 @@ Then enter that container with:
 $ dc exec php bash
 ```
 
+You can view the log stream with:
+
+```bash
+$ dc logs -f php
+```
+
 ### Drupal settings
 
 In order to have the correct db and mailhost host settings you will need to copy `app/sites/default/default.settings.local.docker.php` to `app/sites/default/settings.local.docker.php`
