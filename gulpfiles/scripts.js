@@ -129,10 +129,10 @@ gulp.task('scripts:transpile', transpile);
  */
 const minify = (done) => {
   gulp.src(minifyFiles)
-   .pipe(uglify())
-   .pipe(rename(file => (minifyName(file))))
-   .pipe(size({ showFiles: true, showTotal: false }))
-   .pipe(gulp.dest(config.js.dest));
+    .pipe(uglify())
+    .pipe(rename(file => (minifyName(file))))
+    .pipe(size({ showFiles: true, showTotal: false }))
+    .pipe(gulp.dest(config.js.dest));
   done();
 };
 
@@ -163,13 +163,13 @@ gulp.task('scripts:module', minifyModule);
  */
 const minifyDev = (done) => {
   gulp.src(minifyFiles)
-   .pipe(rename(file => (minifyName(file))))
-   .pipe(gulp.dest(config.js.dest));
+    .pipe(rename(file => (minifyName(file))))
+    .pipe(gulp.dest(config.js.dest));
   done();
 };
 
 minifyDev.description = 'Dev-minify javascript.';
-gulp.task('scripts:minify-dev', minifyDev);
+gulp.task('scripts:minify-dev', gulp.series('clean:js', minifyDev));
 
 /**
  * Development module JS.
@@ -188,14 +188,14 @@ gulp.task('scripts:module-dev', minifyModuleDev);
 /**
  * Run both production scripts in series.
  */
-const scripts = gulp.series(gulp.parallel('scripts:bundle', 'scripts:transpile'), gulp.parallel('scripts:minify', 'scripts:module'));
+const scripts = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify', 'scripts:module');
 scripts.description = 'Bundle, transpile and minify production js.';
 gulp.task('scripts:production', scripts);
 
 /**
  * Run both development scripts in series.
  */
-const scriptsDev = gulp.series(gulp.parallel('scripts:bundle', 'scripts:transpile'), gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
+const scriptsDev = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify-dev', 'scripts:module-dev');
 scriptsDev.description = 'Bundle and transpile development js.';
 gulp.task('scripts:development', scriptsDev);
 
