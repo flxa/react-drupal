@@ -74,7 +74,7 @@ const minifyName = (file) => {
  * Only needs to run on files utilising ES6 imports.
  * @return {object} bundleJs
  */
-const bundle = (done) => {
+const bundle = () => (
   gulp.src(bundleFiles, { base: './' })
     .pipe(rollup({
       plugins: [
@@ -98,9 +98,8 @@ const bundle = (done) => {
       };
     }))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 bundle.description = 'Bundle javascript modules.';
 gulp.task('scripts:bundle', bundle);
@@ -110,14 +109,13 @@ gulp.task('scripts:bundle', bundle);
  * Keeps an original in the src and adds the bundle file to the src.
  * @return {object} transpile
  */
-const transpile = (done) => {
+const transpile = () => (
   gulp.src(transpileFiles, { base: './' })
     .pipe(babel())
     .pipe(rename(file => (bundleName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 transpile.description = 'Transpile javascript.';
 gulp.task('scripts:transpile', transpile);
@@ -127,14 +125,13 @@ gulp.task('scripts:transpile', transpile);
  * Keeps an original in the src and adds the minified file to dest.
  * @return {object} minify
  */
-const minify = (done) => {
+const minify = () => (
   gulp.src(minifyFiles)
     .pipe(uglify())
     .pipe(rename(file => (minifyName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest(config.js.dest));
-  done();
-};
+    .pipe(gulp.dest(config.js.dest))
+);
 
 minify.description = 'Minify theme javascript.';
 gulp.task('scripts:minify', gulp.series('clean:js', minify, 'modernizr'));
@@ -144,14 +141,13 @@ gulp.task('scripts:minify', gulp.series('clean:js', minify, 'modernizr'));
  * Keeps an original in the src and adds the minified file to the src.
  * @return {object} minifyModule
  */
-const minifyModule = (done) => {
+const minifyModule = () => (
   gulp.src(moduleFiles, { base: './' })
     .pipe(uglify())
     .pipe(rename(file => (minifyName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 minifyModule.description = 'Minify module javascript.';
 gulp.task('scripts:module', minifyModule);
@@ -161,12 +157,11 @@ gulp.task('scripts:module', minifyModule);
  * Runs both without minification for easier debugging.
  * @return {object} themeDev
  */
-const minifyDev = (done) => {
+const minifyDev = () => (
   gulp.src(minifyFiles)
     .pipe(rename(file => (minifyName(file))))
-    .pipe(gulp.dest(config.js.dest));
-  done();
-};
+    .pipe(gulp.dest(config.js.dest))
+);
 
 minifyDev.description = 'Dev-minify javascript.';
 gulp.task('scripts:minify-dev', gulp.series('clean:js', minifyDev));
@@ -175,12 +170,11 @@ gulp.task('scripts:minify-dev', gulp.series('clean:js', minifyDev));
  * Development module JS.
  * Runs both without minification for easier debugging.
  */
-const minifyModuleDev = (done) => {
+const minifyModuleDev = () => (
   gulp.src(moduleFiles, { base: './' })
     .pipe(rename(file => (minifyName(file))))
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 minifyModuleDev.description = 'Dev-minify module javascript.';
 gulp.task('scripts:module-dev', minifyModuleDev);
@@ -188,14 +182,21 @@ gulp.task('scripts:module-dev', minifyModuleDev);
 /**
  * Run both production scripts in series.
  */
-const scripts = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify', 'scripts:module');
+const babelify = gulp.parallel('scripts:bundle', 'scripts:transpile');
+babelify.description = 'Transpile all js.';
+gulp.task('scripts:babel', babelify);
+
+/**
+ * Run both production scripts in series.
+ */
+const scripts = gulp.series('scripts:babel', gulp.parallel('scripts:minify', 'scripts:module'));
 scripts.description = 'Bundle, transpile and minify production js.';
 gulp.task('scripts:production', scripts);
 
 /**
  * Run both development scripts in series.
  */
-const scriptsDev = gulp.series('scripts:bundle', 'scripts:transpile', 'scripts:minify-dev', 'scripts:module-dev');
+const scriptsDev = gulp.series('scripts:babel', gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
 scriptsDev.description = 'Bundle and transpile development js.';
 gulp.task('scripts:development', scriptsDev);
 

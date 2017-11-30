@@ -54,14 +54,13 @@ const kssSassFiles = [
  * Outputs Styleguide CSS.
  * @return {object} styles
  */
-const styles = (done) => {
+const styles = () => (
   gulp.src(kssSassFiles)
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer(config.autoprefixer))
-    .pipe(gulp.dest(`${config.sass.dest}/style-guide`));
-  done();
-};
+    .pipe(gulp.dest(`${config.sass.dest}/style-guide`))
+);
 
 styles.description = 'Compiles sass/style-guide.';
 gulp.task('styleguide:styles', styles);
@@ -70,11 +69,13 @@ gulp.task('styleguide:styles', styles);
  * Outputs Chroma KSS Markup.
  * @return {object} chromaKssMarkup
  */
-const chromaKssMarkup = () => gulp.src(`${config.sass.src}/style-guide/chroma-kss-markup.scss`)
+const chromaKssMarkup = () => (
+  gulp.src(`${config.sass.src}/style-guide/chroma-kss-markup.scss`)
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(replace(/(\/\*|\*\/)\n/g, ''))
     .pipe(rename('chroma-kss-markup.twig'))
-    .pipe(gulp.dest(`${config.sass.dest}/style-guide`));
+    .pipe(gulp.dest(`${config.sass.dest}/style-guide`))
+);
 
 chromaKssMarkup.description = 'Compiles Chroma KSS markup.';
 gulp.task('styleguide:chroma-kss-markup', chromaKssMarkup);
@@ -83,10 +84,7 @@ gulp.task('styleguide:chroma-kss-markup', chromaKssMarkup);
  * Outputs the styleguide.
  * @return {object} build
  */
-const build = (done) => {
-  kss(kssOptions);
-  done();
-};
+const build = () => kss(kssOptions);
 
 build.description = 'Builds the style guide.';
 gulp.task('styleguide:build', build);

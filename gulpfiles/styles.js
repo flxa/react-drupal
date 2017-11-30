@@ -29,7 +29,7 @@ const sassFiles = [
  * Outputs CSS and sourcemaps.
  * @return {object} development
  */
-const development = (done) => {
+const development = () => (
   gulp.src(sassFiles)
     .pipe(sassGlob())
     .pipe(sourcemaps.init())
@@ -37,9 +37,8 @@ const development = (done) => {
     .pipe(autoprefixer({ browsers: config.browsers.sass }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.sass.dest))
-    .pipe(browserSync.stream({ match: '**/*.css' }));
-  done();
-};
+    .pipe(browserSync.stream({ match: '**/*.css' }))
+);
 
 development.description = 'Output CSS and sourcemaps for development use only.';
 gulp.task('styles:development', gulp.series('clean:css', development));
@@ -48,16 +47,15 @@ gulp.task('styles:development', gulp.series('clean:css', development));
  * Outputs CSS only.
  * @return {object} production
  */
-const production = (done) => {
+const production = () => (
   gulp.src(sassFiles)
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer({ browsers: config.browsers.sass }))
     .pipe(cleanCSS())
     .pipe(size({ showFiles: true, showTotal: false }))
-    .pipe(gulp.dest(config.sass.dest));
-  done();
-};
+    .pipe(gulp.dest(config.sass.dest))
+);
 
 production.description = 'Outputs CSS ready for production.';
 gulp.task('styles:production', gulp.series('clean:css', production));

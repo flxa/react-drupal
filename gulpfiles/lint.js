@@ -36,12 +36,11 @@ const lintFiles = {
  * Lint JS.
  * @return {object} js
  */
-const js = (done) => {
+const js = () => (
   gulp.src(lintFiles.js)
     .pipe(eslint())
-    .pipe(eslint.format());
-  done();
-};
+    .pipe(eslint.format())
+);
 
 js.description = 'Lints all JS src files.';
 gulp.task('lint:js', js);
@@ -50,13 +49,12 @@ gulp.task('lint:js', js);
  * Lint JS (with fail).
  * @return {object} jsWith Fail
  */
-const jsWithFail = (done) => {
+const jsWithFail = () => (
   gulp.src(lintFiles.js)
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failOnError());
-  done();
-};
+    .pipe(eslint.failOnError())
+);
 
 jsWithFail.description = 'Lints all JS src files, and fail on an error.';
 gulp.task('lint:js-with-fail', jsWithFail);
@@ -65,13 +63,12 @@ gulp.task('lint:js-with-fail', jsWithFail);
  * Fix as many JS Lint issues as possible.
  * @return {object} fixJs
  */
-const fixJs = (done) => {
+const fixJs = () => (
   gulp.src(lintFiles.js, { base: './' })
     .pipe(eslint({ fix: true }))
     .pipe(eslint.format())
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 fixJs.description = 'Lints all JS src files.';
 gulp.task('lint:js-fix', fixJs);
@@ -80,12 +77,11 @@ gulp.task('lint:js-fix', fixJs);
  * Lint Sass.
  * @return {object} sass
  */
-const sass = (done) => {
+const sass = () => (
   gulp.src(lintFiles.sass)
     .pipe(sassLint())
-    .pipe(sassLint.format());
-  done();
-};
+    .pipe(sassLint.format())
+);
 
 sass.description = 'Lints all Sass src files.';
 gulp.task('lint:sass', sass);
@@ -94,13 +90,12 @@ gulp.task('lint:sass', sass);
  * Lint Sass (with fail).
  * @return {object} sassWithFail
  */
-const sassWithFail = (done) => {
+const sassWithFail = () => (
   gulp.src(lintFiles.sass)
     .pipe(sassLint())
     .pipe(sassLint.format())
-    .pipe(sassLint.failOnError());
-  done();
-};
+    .pipe(sassLint.failOnError())
+);
 
 sassWithFail.description = 'Lints all Sass src files, and fail on an error.';
 gulp.task('lint:sass-with-fail', sassWithFail);
@@ -108,7 +103,7 @@ gulp.task('lint:sass-with-fail', sassWithFail);
 /**
  * Lint Gulpfiles.
  */
-const gulpFiles = (done) => {
+const gulpFiles = () => (
   gulp.src(lintFiles.gulp, { base: './' })
     .pipe(eslint({
       fix: true,
@@ -122,9 +117,8 @@ const gulpFiles = (done) => {
       },
     }))
     .pipe(eslint.format())
-    .pipe(gulp.dest('./'));
-  done();
-};
+    .pipe(gulp.dest('./'))
+);
 
 gulpFiles.description = 'Lints all JS gulp files.';
 gulp.task('lint:gulp', gulpFiles);
