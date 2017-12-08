@@ -2,6 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
+# Environment variables:
+# Most environment variables are set at the org level. You need to explicitly
+# set the following per project:
+#   - SLACK_WEBHOOK_URL
+#
 version: 2
 jobs:
 
@@ -141,30 +146,31 @@ jobs:
           name: Deploy to PR env
           command: |
             DEPLOY_ID=$(deploy-status create deployment \
-                      --token ${DEPLOY_STATUS_TOKEN} \
                       --owner ${CIRCLE_PROJECT_USERNAME} \
                       --repo ${CIRCLE_PROJECT_REPONAME} \
                       --ref ${CIRCLE_BRANCH} \
-                      --env pr \
+                      --env m8s \
                       --desc "PR environment for ${CIRCLE_BRANCH}")
 
             M8S_NAME=APP_NAME-${CIRCLE_BRANCH}
             M8S_DOMAIN=${M8S_NAME}.pnxci.io
-            m8s build --git-revision=${CIRCLE_SHA1} \
+            m8s build --git-repository=https://${GITHUB_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git \
+                      --git-revision=${CIRCLE_SHA1} \
                       --name=${M8S_NAME} \
                       --domains=${M8S_DOMAIN} \
                       --basic-auth-user='pnx' \
                       --basic-auth-pass='pnx!@#'
-            m8s notify --slack-channel="pnx" ${M8S_NAME}
+            # m8s notify --slack-channel="APP_NAME" ${M8S_NAME}
 
             deploy-status create status \
-                      --token ${DEPLOY_STATUS_TOKEN} \
                       --owner ${CIRCLE_PROJECT_USERNAME} \
                       --repo ${CIRCLE_PROJECT_REPONAME} \
                       --state success \
                       --id ${DEPLOY_ID} \
                       --auto-inactive \
                       --env-url http://${M8S_DOMAIN}/
+
+            notify --emoji=":ship:" --channel="#APP_NAME" --name="Skipper" "Deployed ${CIRCLE_SHA1} to m8s http://${M8S_DOMAIN}/" ${SLACK_WEBHOOK_URL}
 
   # Template for skipper deploy jobs
   deploy_skipper: &deploy_skipper
@@ -184,6 +190,7 @@ jobs:
             VERSION=$(git describe --tags --always)
             echo "Deploying version ${VERSION} to skipper"
             skpr deploy ${DEPLOY_ENV} ${VERSION}
+            notify --emoji=":ship:" --channel="#APP_NAME" --name="Skipper" "Deployed ${VERSION} to ${DEPLOY_ENV}" ${SLACK_WEBHOOK_URL}
 
   # Skipper deploy to dev env.
   deploy_dev:
@@ -264,10 +271,12 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build_and_test
+      - build_and_test:
+          context: org-global
       - build_image:
           requires:
             - build_and_test
+          context: org-global
           filters:
             branches:
               only:
@@ -276,6 +285,7 @@ workflows:
       - deploy_pr:
           requires:
             - build_and_test
+          context: org-global
           filters:
             branches:
               ignore:
@@ -284,12 +294,14 @@ workflows:
       - deploy_dev:
           requires:
             - build_image
+          context: org-global
           filters:
             branches:
               only: master
       - deploy_staging:
           requires:
             - build_image
+          context: org-global
           filters:
             branches:
               only: releases
@@ -300,6 +312,8 @@ workflows:
       - deploy_prod:
           requires:
             - approve_deploy_prod
+          context: org-global
+
   patchy:
     triggers:
       - schedule:
