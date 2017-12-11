@@ -1,0 +1,3 @@
+build:
+  - make init mkdirs
+  - make build
