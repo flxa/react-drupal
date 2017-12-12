@@ -32,6 +32,9 @@ $config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '102
 $config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: '';
 $config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
 
+// Solr Host
+$config['search_api.server.solr']['backend_config']['connector_config']['host'] = skpr_config('solr.host') ?: '127.0.0.1';
+
 $config_directories['sync'] = DRUPAL_ROOT . '/../config-export';
 
 // * Stops twig cache from being built on shared file storage.

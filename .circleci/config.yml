@@ -160,7 +160,6 @@ jobs:
                       --domains=${M8S_DOMAIN} \
                       --basic-auth-user='pnx' \
                       --basic-auth-pass='pnx!@#'
-            # m8s notify --slack-channel="APP_NAME" ${M8S_NAME}
 
             deploy-status create status \
                       --owner ${CIRCLE_PROJECT_USERNAME} \
@@ -170,7 +169,8 @@ jobs:
                       --auto-inactive \
                       --env-url http://${M8S_DOMAIN}/
 
-            notify --emoji=":ship:" --channel="#APP_NAME" --name="Skipper" "Deployed ${CIRCLE_SHA1} to m8s http://${M8S_DOMAIN}/" ${SLACK_WEBHOOK_URL}
+            VERSION=$(git rev-parse --short HEAD)
+            notify --channel="#APP_NAME" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *m8s* http://${M8S_DOMAIN}/"
 
   # Template for skipper deploy jobs
   deploy_skipper: &deploy_skipper
@@ -190,7 +190,7 @@ jobs:
             VERSION=$(git describe --tags --always)
             echo "Deploying version ${VERSION} to skipper"
             skpr deploy ${DEPLOY_ENV} ${VERSION}
-            notify --emoji=":ship:" --channel="#APP_NAME" --name="Skipper" "Deployed ${VERSION} to ${DEPLOY_ENV}" ${SLACK_WEBHOOK_URL}
+            notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":ship:" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *${DEPLOY_ENV}*"
 
   # Skipper deploy to dev env.
   deploy_dev:
