@@ -107,7 +107,7 @@ jobs:
   build_image:
 
     docker:
-      - image: previousnext/php:7.1-dev
+      - image: previousnext/pnx-packager
 
     working_directory: /data
 
@@ -116,10 +116,6 @@ jobs:
           at: /data
 
       - setup_remote_docker
-
-      - run:
-          name: Install Docker Command
-          command: make install-docker
 
       - run:
           name: Build image
