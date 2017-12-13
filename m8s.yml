@@ -1,4 +1,4 @@
 build:
   - make init mkdirs
   - make build
-  - chown -R www-data:www-data app/sites/default/files
+  - chown -R www-data:www-data app
