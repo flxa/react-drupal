@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 APP_ROOT=./app
-APP_URL=http://APP_NAME.dev
+APP_URL=http://127.0.0.1
 
 BUILD_LOGS_DIR=./build/logs
 
@@ -19,8 +19,6 @@ COMPOSER=composer
 YARN=yarn
 PHPCBF=./bin/phpcbf
 PHPCS=./bin/phpcs
-
-DOCKER_VERSION=17.06.2-ce
 
 .DEFAULT_GOAL := list
 
@@ -114,11 +112,6 @@ test-init:
 
 login:
 	$(DRUSH) uli
-
-install-docker:
-	curl -L -o /tmp/docker-${DOCKER_VERSION}.tgz https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz
-	tar -xz -C /tmp -f /tmp/docker-${DOCKER_VERSION}.tgz
-	mv /tmp/docker/* /usr/bin
 
 patchy:
 	echo '[PATCHY] Update composer dependencies\n\n' > /tmp/message.txt
