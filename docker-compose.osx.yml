@@ -24,6 +24,16 @@ services:
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
       - MINK_DRIVER_ARGS=["http:\/\/127.0.0.1:8510", "\/tmp"]
 
+  # This is a regularly scheduled job which enables local cron tasks.
+  #  * Gosu = Run as a user (www-data) to avoid permissions issues.
+  #  * Microcron = Our project which ensures cron will run every 5min.
+  cron-drush:
+    image: tfnsw/php:7.0-dev
+    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
+    network_mode: service:php
+    volumes:
+      - .:/data
+
   xdebug:
     image: nickschuch/d4m-tcp-forwarder
     network_mode: host
