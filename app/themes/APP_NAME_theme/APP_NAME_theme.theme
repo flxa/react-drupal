@@ -5,24 +5,49 @@
  * Theme file.
  */
 
-/**
- * Implements hook_preprocess_block() for block.html.twig.
- */
-function APP_NAME_theme_preprocess_block(&$vars) {
-  // Add the block name as a variable we can in the theme suggestions hook.
-  if (isset($vars['attributes']['id'])) {
-    $vars['content']['#attributes']['block'] = $vars['attributes']['id'];
-  }
-}
+use Drupal\block\Entity\Block;
 
 /**
  * Implements hook_theme_suggestions_block_alter().
  */
 function APP_NAME_theme_theme_suggestions_block_alter(&$hooks, &$vars) {
-  if (isset($vars['elements']['content']['#block_content'])) {
-    // We want to insert this theme suggestion above block__block-content but
-    // below block__block-content-[UUID].
-    array_splice($hooks, 2, 0, 'block__' . $vars['elements']['#configuration']['provider'] . '__' . $vars['elements']['content']['#block_content']->bundle());
+  if (isset($vars['elements']['#id'])) {
+    $block_id = $vars['elements']['#id'];
+    if (($block = Block::load($block_id)) && $block instanceof Block) {
+      $region = $block->getRegion();
+      $hooks[] = 'block__' . $region . '__' . $vars['elements']['#base_plugin_id'];
+      $hooks[] = 'block__' . $region . '__' . $block_id;
+      // Pass region through to hook_preprocess_block().
+      $vars['elements']['#region'] = $region;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_block() for block.html.twig.
+ */
+function APP_NAME_theme_preprocess_block(&$vars) {
+  // Pass the block_id through to the content.
+  if (isset($vars['attributes']['id'])) {
+    $vars['content']['#attributes']['block_id'] = $vars['attributes']['id'];
+  }
+  // Pass the region through to the content.
+  if (isset($vars['elements']['#region'])) {
+    $vars['content']['#attributes']['region'] = $vars['elements']['#region'];
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_menu_alter().
+ */
+function APP_NAME_theme_theme_suggestions_menu_alter(&$hooks, $vars) {
+  // These are present as we set them in hook_preprocess_block().
+  if (isset($vars['attributes']['region'])) {
+    $hooks[] = $vars['theme_hook_original'] . '__' . $vars['attributes']['region'];
+  }
+  if (isset($vars['attributes']['block_id'])) {
+    $block_id = str_replace(array('block-', '-'), array('', '_'), $vars['attributes']['block_id']);
+    $hooks[] = $vars['theme_hook_original'] . '__' . $block_id;
   }
 }
 
@@ -32,17 +57,6 @@ function APP_NAME_theme_theme_suggestions_block_alter(&$hooks, &$vars) {
 function APP_NAME_theme_preprocess_menu(&$vars) {
   // Add the menu label as a variable.
   $vars['menu_label'] = \Drupal::entityManager()->getStorage('menu')->load($vars['menu_name'])->label();
-}
-
-/**
- * Implements hook_theme_suggestions_menu_alter().
- */
-function APP_NAME_theme_theme_suggestions_menu_alter(&$hooks, $vars) {
-  // This is present as we set it in the preprocess block above.
-  if (isset($vars['attributes']['block'])) {
-    $block = str_replace(array('block-', '-'), array('', '_'), $vars['attributes']['block']);
-    $hooks[] = $vars['theme_hook_original'] . '__' . $block;
-  }
 }
 
 /**
