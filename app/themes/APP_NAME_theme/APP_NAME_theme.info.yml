@@ -10,6 +10,8 @@ core: 8.x
 
 libraries:
   - APP_NAME_theme/global
+  - APP_NAME_theme/breadcrumbs
+  - APP_NAME_theme/button
 
 ckeditor_stylesheets:
   - css/ckeditor.css
@@ -30,6 +32,12 @@ libraries-override:
 #        assets/vendor/jquery.ui/themes/base/core.css: false
 #      theme:
 #        assets/vendor/jquery.ui/themes/base/theme.css: false
+
+# Extend an existing library:
+# Ensures overrides are only added when the toolbar is available.
+libraries-extend:
+  toolbar/toolbar.menu:
+    - APP_NAME_theme/overrides
 
 # REGIONS
 # Specify the block regions required by this theme.
