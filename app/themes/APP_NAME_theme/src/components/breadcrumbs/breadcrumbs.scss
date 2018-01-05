@@ -1,3 +1,6 @@
+@import 'init/init';
+@import 'utils/mixins/mixins';
+
 // Breadcrumbs
 //
 // Appearing at the top of most pages, the breadcrumbs let users know the
@@ -11,7 +14,7 @@
 %breadcrumbs {
 
   &__menu {
-    @extend %reset--list;
+    @include reset-list;
     @include type-layout(14px, 24px);
   }
 

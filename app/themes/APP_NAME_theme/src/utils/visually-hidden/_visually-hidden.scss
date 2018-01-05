@@ -1,4 +1,4 @@
-// sass-lint:disable no-important
+@import 'utils/mixins/mixins';
 
 // Visually hidden
 //
@@ -15,28 +15,20 @@
 
 .visually-hidden,
 %visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
+  @include visually-hidden;
 
   &--off,
   &.off {
-    position: static !important;
-    clip: auto;
-    height: auto;
-    width: auto;
-    overflow: auto;
+    @include visually-hidden-off;
   }
 
   &--focusable,
   &.focusable {
-    @extend %visually-hidden;
+    @include visually-hidden;
 
     &:active,
     &:focus {
-      @extend %visually-hidden--off;
+      @include visually-hidden-off;
     }
   }
 }

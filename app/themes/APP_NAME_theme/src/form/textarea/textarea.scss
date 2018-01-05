@@ -1,4 +1,5 @@
-@import 'form/input/input';
+@import 'init/init';
+@import 'utils/form/input';
 
 // Textarea
 //
@@ -10,7 +11,7 @@
 
 %textarea,
 textarea {
-  @extend %input__text-base;
+  @include input-base;
   @include padding(10px 15px);
   height: line-height(4 * $form-element-height);
   width: 100%;

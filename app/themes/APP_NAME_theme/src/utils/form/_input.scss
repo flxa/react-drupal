@@ -1,0 +1,62 @@
+// sass-lint:disable mixins-before-declarations no-vendor-prefixes
+
+@import 'init/init';
+@import 'utils/mixins/mixins';
+
+$chroma: add-colors('primary', (
+  form-text:          'grey-mid',
+  form-border:        'grey-xlight',
+  form-placeholder:   'grey-mid',
+  form-bg:            'white',
+  form-error:         'red',
+  form-focus:         'grey-mid',
+));
+
+$form-element-padding:  16px;
+$form-element-height:   48px;
+$form-border-radius:    8px;
+
+@mixin input-base {
+  @include typeset(form);
+  @include typeface(base);
+  color: color(form-text);
+  background-color: color(form-bg);
+  border: $border-width solid color(form-border);
+  border-radius: $form-border-radius;
+  appearance: none;
+  max-width: 100%;
+
+  // Text input (placeholder)
+  //
+  // Although placeholder text should generally be avoided, the styling of this text
+  // is shown here.
+  //
+  // Markup: input-text-placeholder.twig
+  //
+  // Style guide: 5.1.2
+
+  @include placeholder(color(form-placeholder), normal);
+
+  &:focus {
+    border-color: color(form-focus);
+    outline: none;
+  }
+
+  // Override mozilla default invalid styling.
+  &:-moz-ui-invalid {
+    box-shadow: none;
+  }
+
+  // Text input (error)
+  //
+  // The error state with a red border and message.
+  //
+  // Markup: input-text-error.twig
+  //
+  // Style guide: 5.1.6
+
+  &.error {
+    border-color: color(form-error);
+    box-shadow: none;
+  }
+}

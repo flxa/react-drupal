@@ -1,4 +1,4 @@
-// sass-lint:disable no-vendor-prefixes
+// sass-lint:disable no-vendor-prefixes no-important
 
 // Mixins
 //
@@ -81,5 +81,108 @@ $include-rtl: true !default;
 
   @media print {
     display: block;
+  }
+}
+
+// image-replace()
+//
+// Modern image replacement technique from Zeldman.
+// See http://www.zeldman.com/2012/03/01/replacing-the-9999px-hack-new-image-replacement/
+//
+// Style guide: 2.7.5
+
+@mixin image-replace {
+  display: block;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@mixin image-replace-reset {
+  text-indent: 0;
+  white-space: normal;
+  overflow: auto;
+}
+
+// Reset list
+//
+// Safely reset `ul` and `ol` and their children `li` elements.
+//
+// Style guide: 2.7.6
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: none;
+
+  li {
+    margin-bottom: 0;
+  }
+}
+
+// Reset fieldset
+//
+// Safely reset `fieldset` and their children `legend` elements.
+//
+// Style guide: 2.7.7
+
+@mixin reset-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+
+  legend {
+    padding: 0;
+    display: table;
+  }
+}
+
+// Reset headings
+//
+// Safely reset `h1-h6` elements.
+//
+// Style guide: 2.7.8
+
+@mixin reset-heading {
+  @include typeset(default);
+  margin: 0;
+  font-weight: weight(normal);
+}
+
+// Visually hidden
+//
+// Make an element visually hidden, but accessible to screen readers.
+//
+// Style guide: 2.7.9
+
+@mixin visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@mixin visually-hidden-off {
+  position: static !important;
+  clip: auto;
+  height: auto;
+  width: auto;
+  overflow: auto;
+}
+
+// Clearfix
+//
+// Clear floated elements.
+//
+// Style guide: 2.7.10
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
   }
 }

@@ -1,3 +1,6 @@
+@import 'init/init';
+@import 'utils/mixins/mixins';
+
 // Grid system
 //
 // A simple 12 column grid system.
@@ -21,7 +24,7 @@ $column-count: 12;
 
 .grid__row,
 %grid__row {
-  @extend %clearfix;
+  @include clearfix;
   @include margin(0 (-$column-padding / 2));
 }
 

@@ -1,0 +1,24 @@
+@import 'init/init';
+
+$button-padding:  32px;
+$button-height:   48px;
+
+@mixin button-base {
+  @include typeset(button);
+  @include typeface(base);
+  text-decoration: none;
+  border-radius: $button-height / 2;
+  padding: 0 $button-padding;
+  height: $button-height;
+  line-height: $button-height - 4px;
+  text-align: center;
+  display: inline-block;
+  border: 0;
+  cursor: pointer;
+  vertical-align: middle;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}

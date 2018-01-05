@@ -1,0 +1,45 @@
+@import 'init/init';
+
+$chroma: add-colors('primary', (
+    form-error-message: 'red',
+));
+
+// Description
+//
+// Text that describes a form field. The form element must have an `aria-describedby` attribute that points to the
+// `id` of the description text.
+//
+// Markup: form-description.twig
+//
+// Style guide: 5.7
+
+.form__description,
+%form__description {
+  @include typeset(small);
+  margin: $spacing-xs 0;
+}
+
+.form__item,
+%form__item {
+  margin-bottom: $spacing-m;
+}
+
+// Error message
+//
+// The error state with a red border and message.
+//
+// Markup: form-error.twig
+//
+// Style guide: 5.7
+
+.form__error-message,
+%form__error-message {
+  @include typeset(small);
+  margin: $spacing-xs 0;
+  color: color(form-error-message);
+  padding-left: spacing(28px);
+  background-image: embed-svg('form/form/form-error.svg');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}

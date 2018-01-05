@@ -1,0 +1,40 @@
+@import 'init/init';
+@import 'utils/form/button';
+
+// Button
+//
+// `<button>` tag text and the spacing relationship with links.
+//
+// .button--primary - The primary blue button
+//
+// Markup: button.twig
+//
+// Style guide: 5.10
+
+$chroma: add-colors('primary', (
+    button-primary-bg:        'black',
+    button-primary-text:      'white',
+));
+
+.button,
+%button {
+  @include button-base;
+
+  &--primary {
+    @include button-base;
+    color: color(button-primary-text);
+    background-color: color(button-primary-bg);
+
+    &:hover,
+    &:focus {
+      color: color(button-primary-bg);
+      background-color: color(button-primary-text);
+    }
+  }
+}
+
+// Fugly.
+.form-submit,
+.more-link a {
+  @extend %button--primary;
+}
