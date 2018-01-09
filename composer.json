@@ -42,7 +42,7 @@
     "config": {
         "bin-dir": "bin/",
         "github-oauth": {
-            "github.com": "f780433bd0d4ea1d9a8517b84f6532a1af8bd8b5"
+            "github.com": "1f451f9b6702c85add8da955212152b6907ef96f"
         }
     },
     "repositories": [
