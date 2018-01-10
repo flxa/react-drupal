@@ -23,12 +23,13 @@ services:
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
       - MINK_DRIVER_ARGS=["http:\/\/127.0.0.1:8510", "\/tmp"]
+      - XDEBUG_CONFIG=remote_host=docker.for.mac.localhost
+      - PHP_IDE_CONFIG=serverName=localhost
 
   xdebug:
-    image: nickschuch/d4m-tcp-forwarder
+    # Will push to this by default: docker.for.mac.localhost:9000
+    image: nickschuch/d4m-tcp-forwarder:latest
     network_mode: host
-    environment:
-      - PORT=9000
 
   db:
     image: mariadb
@@ -38,8 +39,6 @@ services:
       - MYSQL_DATABASE=local
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
-    #    volumes:
-    #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
 
 #  varnish:
 #    image: previousnext/varnish:4.x-dev
