@@ -23,13 +23,8 @@ services:
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
       - MINK_DRIVER_ARGS=["http:\/\/127.0.0.1:8510", "\/tmp"]
-      - XDEBUG_CONFIG=remote_host=docker.for.mac.localhost
+      - XDEBUG_CONFIG=remote_host=docker.for.mac.localhost remote_connect_back=0
       - PHP_IDE_CONFIG=serverName=localhost
-
-  xdebug:
-    # Will push to this by default: docker.for.mac.localhost:9000
-    image: nickschuch/d4m-tcp-forwarder:latest
-    network_mode: host
 
   db:
     image: mariadb
