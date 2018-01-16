@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/data
       # This allows for developers to access the remote environment.
-      - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
+      - $HOME/.ssh:/root/.ssh
       # Mount skpr credentials.
       - $HOME/.skpr.yml:/root/.skpr.yml
     environment:
