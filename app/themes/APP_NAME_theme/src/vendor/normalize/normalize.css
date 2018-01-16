@@ -1,4 +1,8 @@
-/*! normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */
+/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
+
+/**
+ * Trimmed to reduce duplication with our base styles.
+ */
 
 /* Document
    ========================================================================== */
@@ -10,13 +14,20 @@
  */
 
 html {
-  line-height: 1.15; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
    ========================================================================== */
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
+body {
+  margin: 0;
+}
 
 /**
  * Add the correct display in IE 9-.
@@ -31,16 +42,6 @@ section {
   display: block;
 }
 
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
-}
-
 /* Grouping content
    ========================================================================== */
 
@@ -53,14 +54,6 @@ figcaption,
 figure,
 main { /* 1 */
   display: block;
-}
-
-/**
- * Add the correct margin in IE 8.
- */
-
-figure {
-  margin: 1em 40px;
 }
 
 /**
@@ -106,24 +99,6 @@ abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */
   text-decoration: underline dotted; /* 2 */
-}
-
-/**
- * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
- */
-
-b,
-strong {
-  font-weight: inherit;
-}
-
-/**
- * Add the correct font weight in Chrome, Edge, and Safari.
- */
-
-b,
-strong {
-  font-weight: bolder;
 }
 
 /**
@@ -225,7 +200,8 @@ svg:not(:root) {
    ========================================================================== */
 
 /**
- * Remove the margin in Firefox and Safari.
+ * 1. Change the font styles in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
  */
 
 button,
@@ -233,7 +209,7 @@ input,
 optgroup,
 select,
 textarea {
-  margin: 0;
+  margin: 0; /* 2 */
 }
 
 /**

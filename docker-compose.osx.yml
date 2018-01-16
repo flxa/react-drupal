@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  php:
+  app:
     image: previousnext/php:7.1-dev
     # You will notice that we are forwarding port which do not belong to PHP.
     # We have to declare them here because these "sidecar" services are sharing
@@ -23,22 +23,8 @@ services:
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
       - MINK_DRIVER_ARGS=["http:\/\/127.0.0.1:8510", "\/tmp"]
-
-  # This is a regularly scheduled job which enables local cron tasks.
-  #  * Gosu = Run as a user (www-data) to avoid permissions issues.
-  #  * Microcron = Our project which ensures cron will run every 5min.
-  cron-drush:
-    image: tfnsw/php:7.0-dev
-    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
-    network_mode: service:php
-    volumes:
-      - .:/data
-
-  xdebug:
-    image: nickschuch/d4m-tcp-forwarder
-    network_mode: host
-    environment:
-      - PORT=9000
+      - XDEBUG_CONFIG=remote_host=docker.for.mac.localhost remote_connect_back=0
+      - PHP_IDE_CONFIG=serverName=localhost
 
   db:
     image: mariadb
@@ -48,8 +34,6 @@ services:
       - MYSQL_DATABASE=local
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
-    #    volumes:
-    #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
 
 #  varnish:
 #    image: previousnext/varnish:4.x-dev
@@ -70,3 +54,20 @@ services:
 #  search:
 #    image: previousnext/solr:5.x
 #    network_mode: service:php
+
+#  blackfire:
+#    # See https://redmine.previousnext.com.au/projects/pnx-local/wiki/Docker_and_Blackfire
+#    image: blackfire/blackfire
+#    environment:
+#      BLACKFIRE_SERVER_ID: YOUR_SERVER_ID_HERE
+#      BLACKFIRE_SERVER_TOKEN: YOUR_SERVER_TOKEN_HERE
+
+  # This is a regularly scheduled job which enables local cron tasks.
+  #  * Gosu = Run as a user (www-data) to avoid permissions issues.
+  #  * Microcron = Our project which ensures cron will run every 5min.
+#  cron-drush:
+#    image: previousnext/php:7.1-dev
+#    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
+#    network_mode: service:php
+#    volumes:
+#      - .:/data

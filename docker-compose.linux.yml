@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  php:
+  app:
     image: previousnext/php:7.1-dev
     # This makes the container run on the same network stack as your
     # workstation. Meaning that you can interact on "localhost".
@@ -17,16 +17,6 @@ services:
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
       - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
 
-  # This is a regularly scheduled job which enables local cron tasks.
-  #  * Gosu = Run as a user (www-data) to avoid permissions issues.
-  #  * Microcron = Our project which ensures cron will run every 5min.
-  cron-drush:
-    image: previousnext/php:7.1-dev
-    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
-    network_mode: host
-    volumes:
-      - .:/data
-
   db:
     image: mariadb
     network_mode: host
@@ -35,8 +25,6 @@ services:
       - MYSQL_DATABASE=local
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
-    #    volumes:
-    #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql or sql.gz file(s) here.
 
   mail:
     image: mailhog/mailhog
@@ -57,3 +45,20 @@ services:
 #  search:
 #    image: previousnext/solr:5.x
 #    network_mode: host
+
+#  blackfire:
+#    # See https://redmine.previousnext.com.au/projects/pnx-local/wiki/Docker_and_Blackfire
+#    image: blackfire/blackfire
+#    environment:
+#      BLACKFIRE_SERVER_ID: YOUR_SERVER_ID_HERE
+#      BLACKFIRE_SERVER_TOKEN: YOUR_SERVER_TOKEN_HERE
+
+  # This is a regularly scheduled job which enables local cron tasks.
+  #  * Gosu = Run as a user (www-data) to avoid permissions issues.
+  #  * Microcron = Our project which ensures cron will run every 5min.
+#  cron-drush:
+#    image: previousnext/php:7.1-dev
+#    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
+#    network_mode: host
+#    volumes:
+#      - .:/data
