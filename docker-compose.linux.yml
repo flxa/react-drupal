@@ -12,6 +12,8 @@ services:
       - $HOME/.ssh/id_rsa:/root/.ssh/id_rsa
       # Mount skpr credentials.
       - $HOME/.skpr.yml:/root/.skpr.yml
+      # Mount composer cache.
+      - $HOME/.composer:/root/.composer
     environment:
       - SIMPLETEST_BASE_URL=http://127.0.0.1
       - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
