@@ -5,9 +5,6 @@ APP_URL=http://127.0.0.1
 
 BUILD_LOGS_DIR=./build/logs
 
-PHPCS_FOLDERS=./app/modules/custom
-PHPCS_EXTENSIONS=php,module,inc,install,test,profile,theme
-
 CONFIG_DIR=$(CURDIR)/config-export
 CONFIG_DELETE=$(CURDIR)/drush/config-delete.yml
 CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
@@ -80,10 +77,10 @@ config-export:
 	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
-	$(PHPCBF) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+	$(PHPCBF)
 
 lint-php: psalm
-	$(PHPCS) --report=full --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+	$(PHPCS)
 
 psalm:
 	./bin/psalm --show-info=0
@@ -93,7 +90,7 @@ lint-sass-js:
 
 ci-lint-php: ci-prepare psalm
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
-	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml --standard=vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml --extensions=$(PHPCS_EXTENSIONS) $(PHPCS_FOLDERS)
+	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml
 
 ci-prepare:
 	mkdir -p $(BUILD_LOGS_DIR)
