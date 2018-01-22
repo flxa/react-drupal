@@ -56,8 +56,8 @@ Thumbs.db
 #############
 /app/styleguide
 /node_modules
-/app/modules/custom/**/js/*.min.js
 /app/modules/custom/**/js/**/*.min.js
+/app/modules/custom/**/js/**/*.bundle.js
 /app/themes/APP_NAME_theme/js/**/*.min.js
 /app/themes/APP_NAME_theme/src/**/*.bundle.js
 /app/themes/APP_NAME_theme/css

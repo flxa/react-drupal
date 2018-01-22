@@ -134,7 +134,7 @@ const minify = () => (
 );
 
 minify.description = 'Minify theme javascript.';
-gulp.task('scripts:minify', gulp.series('clean:js', minify, 'modernizr'));
+gulp.task('scripts:minify', gulp.series(minify, 'modernizr'));
 
 /**
  * Minify a modules JS.
@@ -164,7 +164,7 @@ const minifyDev = () => (
 );
 
 minifyDev.description = 'Dev-minify javascript.';
-gulp.task('scripts:minify-dev', gulp.series('clean:js', minifyDev));
+gulp.task('scripts:minify-dev', minifyDev);
 
 /**
  * Development module JS.
@@ -180,7 +180,7 @@ minifyModuleDev.description = 'Dev-minify module javascript.';
 gulp.task('scripts:module-dev', minifyModuleDev);
 
 /**
- * Run both production scripts in series.
+ * Production and Development share the same babelify task.
  */
 const babelify = gulp.parallel('scripts:bundle', 'scripts:transpile');
 babelify.description = 'Transpile all js.';
@@ -189,14 +189,14 @@ gulp.task('scripts:babel', babelify);
 /**
  * Run both production scripts in series.
  */
-const scripts = gulp.series('scripts:babel', gulp.parallel('scripts:minify', 'scripts:module'));
+const scripts = gulp.series('clean:js', 'scripts:babel', gulp.parallel('scripts:minify', 'scripts:module'));
 scripts.description = 'Bundle, transpile and minify production js.';
 gulp.task('scripts:production', scripts);
 
 /**
  * Run both development scripts in series.
  */
-const scriptsDev = gulp.series('scripts:babel', gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
+const scriptsDev = gulp.series('clean:js', 'scripts:babel', gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
 scriptsDev.description = 'Bundle and transpile development js.';
 gulp.task('scripts:development', scriptsDev);
 
