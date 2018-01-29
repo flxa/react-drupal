@@ -40,10 +40,7 @@
         "vimeo/psalm": "^0.3.39"
     },
     "config": {
-        "bin-dir": "bin/",
-        "github-oauth": {
-            "github.com": "1f451f9b6702c85add8da955212152b6907ef96f"
-        }
+        "bin-dir": "bin/"
     },
     "repositories": [
         {
