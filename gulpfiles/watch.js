@@ -23,7 +23,7 @@ const watchFiles = {
 
   js: [
     `${config.js.src}/**/*.es6.js`,
-    `${config.js.modules}/**/js/*.es6.js`,
+    `${config.js.modules}/**/*.es6.js`,
     // Ignore already minified files.
     `!${config.js.src}/**/*.min.js`,
     `!${config.js.modules}/**/*.min.js`,
