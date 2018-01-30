@@ -1,23 +1,11 @@
-// sass-lint:disable mixins-before-declarations no-vendor-prefixes
+@import 'init/init';
+@import 'utils/form/input';
 
 // Input fields
 //
 // Input fields make up the majority of form fields, the most common types are details below.
 //
 // Style guide: 5.1
-
-$chroma: add-colors('primary', (
-    form-text:          'grey-mid',
-    form-border:        'grey-xlight',
-    form-placeholder:   'grey-mid',
-    form-bg:            'white',
-    form-error:         'red',
-    form-focus:         'grey-mid',
-));
-
-$form-element-padding:  15px;
-$form-element-height:   50px;
-$form-border-radius:    8px;
 
 // Text
 //
@@ -26,43 +14,6 @@ $form-border-radius:    8px;
 // Markup: input-text.twig
 //
 // Style guide: 5.1.1
-
-// Base styles for inputs/selects/etc.
-%input__text-base {
-  @include typeset(form);
-  @include typeface(base);
-  color: color(form-text);
-  background-color: color(form-bg);
-  border: $border-width solid color(form-border);
-  border-radius: $form-border-radius;
-  appearance: none;
-
-  // Text input (placeholder)
-  //
-  // Although placeholder text should generally be avoided, the styling of this text
-  // is shown here.
-  //
-  // Markup: input-text-placeholder.twig
-  //
-  // Style guide: 5.1.2
-
-  @include placeholder(color(form-placeholder), normal);
-
-  &:focus {
-    border-color: color(form-focus);
-    outline: none;
-  }
-
-  // Override mozilla default invalid styling.
-  &:-moz-ui-invalid {
-    box-shadow: none;
-  }
-
-  &.error {
-    border-color: color(form-error);
-    box-shadow: none;
-  }
-}
 
 .input__text,
 %input__text,
@@ -75,10 +26,9 @@ $form-border-radius:    8px;
 [type='date'],
 [type='time'],
 [type='number'] {
-  @extend %input__text-base;
+  @include input-base;
   @include padding(0 $form-element-padding 0 $form-element-padding / 2);
   height: spacing($form-element-height);
-  text-indent: spacing($form-element-padding / 2);
 }
 
 // Checkbox (multiple)

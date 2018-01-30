@@ -1,6 +1,7 @@
 // sass-lint:disable no-vendor-prefixes
 
-@import 'form/input/input';
+@import 'init/init';
+@import 'utils/form/input';
 
 // Select
 //
@@ -13,8 +14,7 @@
 
 %select,
 select {
-  @extend %input__text-base;
-  background-color: color(form-bg);
+  @include input-base;
   height: line-height($form-element-height);
   padding: 0 $form-element-height 0 15px;
   cursor: pointer;
@@ -23,9 +23,7 @@ select {
   background-size: 12px 7px;
   background-repeat: no-repeat;
 
-  // Hide the default select arrow.
-  appearance: none;
-
+  // Hide default arrow.
   &::-ms-expand {
     display: none;
   }

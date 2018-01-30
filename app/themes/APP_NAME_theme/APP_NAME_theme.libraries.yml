@@ -1,5 +1,60 @@
+#########
+## GLOBAL
+## Loaded via info.yml
+## Bump the verson number if having issues with aggregation.
+#########
+
 global:
-  version: VERSION
+  version: 1.0.0
   css:
-    theme:
-      css/styles.css: {}
+    base:
+      css/utils/utils.css: { minified: true }
+      css/base/text/text.css: { minified: true }
+      css/base/link/link.css: { minified: true }
+      css/base/hr/hr.css: { minified: true }
+      css/base/table/table.css: { minified: true }
+      css/base/media/media.css: { minified: true }
+    layout:
+      css/layout/layout.css: { minified: true }
+
+breadcrumbs:
+  version: 1.0.0
+  css:
+    component:
+      css/components/breadcrumbs/breadcumbs.css: { minifed: true }
+
+button:
+  version: 1.0.0
+  css:
+    component:
+      css/form/button/button.css: { minifed: true }
+
+##############
+## CONDITIONAL
+## Not guaranteed to be loaded - usually attached via twig.
+## Bump the verson number if having issues with aggregation.
+##############
+
+tab-list:
+  version: 1.0.0
+  css:
+    component:
+      css/components/tab-list/tab-list.css: { minifed: true, preprocess: false }
+
+pager:
+  version: 1.0.0
+  css:
+    component:
+      css/components/pager/pager.css: { minifed: true, preprocess: false }
+
+form:
+  version: 1.0.0
+  css:
+    component:
+      css/form/forms.css: { minifed: true, preprocess: false }
+
+overrides:
+  version: 1.0.0
+  css:
+    component:
+      css/overrides.css: { minifed: true, preprocess: false }

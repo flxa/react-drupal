@@ -1,3 +1,6 @@
+@import 'init/init';
+@import 'utils/mixins/mixins';
+
 // Pager
 //
 // Full pager.
@@ -16,14 +19,12 @@
   }
 
   &__menu {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+    @include reset-list;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
     li {
-      margin-bottom: 0;
       margin-right: 2px;
     }
   }

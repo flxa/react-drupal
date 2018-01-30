@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Theme override for a breadcrumb trail.
+ *
+ * Available variables:
+ * - breadcrumb: Breadcrumb trail items.
+ */
+#}
+{{ attach_library('APP_NAME_theme/breadcrumb') }}
+{%
+  include "@APP_NAME_theme/components/breadcrumbs/breadcrumbs.twig" with {
+    breadcrumb: breadcrumb
+  } only
+%}

@@ -1,5 +1,7 @@
 // sass-lint:disable no-vendor-prefixes
 
+@import 'init/init';
+
 // Typography
 //
 // Text in its default appearance.
@@ -190,4 +192,3 @@ blockquote {
   @include padding(0 0 0 1);
   border-left: 2px solid color(text-rule);
 }
-

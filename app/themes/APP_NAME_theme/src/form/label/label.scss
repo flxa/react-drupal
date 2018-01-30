@@ -1,3 +1,5 @@
+@import 'init/init';
+
 // Label
 //
 // The form `label` element must be present for all form elements, and have a `for` attribute that matches the `id` of the
@@ -12,7 +14,8 @@ $chroma: add-colors('primary', (
 ));
 
 %label,
-label {
+label,
+legend {
   @include typeset(label);
   color: color(label);
   display: block;

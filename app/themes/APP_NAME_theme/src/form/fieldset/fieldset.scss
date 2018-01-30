@@ -1,4 +1,6 @@
-@import 'form/label/label';
+
+@import 'init/init';
+@import 'utils/mixins/mixins';
 
 // Fieldset
 //
@@ -10,9 +12,5 @@
 // Style guide: 5.6
 
 fieldset {
-  @extend %reset--fieldset;
-}
-
-legend {
-  @extend %label;
+  @include reset-fieldset;
 }

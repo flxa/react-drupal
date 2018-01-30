@@ -1,3 +1,6 @@
+@import 'init/init';
+@import 'utils/mixins/mixins';
+
 // Clearfix
 //
 // Allows the bottom of an element to extend to the bottom of all floated child
@@ -10,9 +13,5 @@
 
 .clearfix,
 %clearfix {
-  &::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
+  @include clearfix;
 }
