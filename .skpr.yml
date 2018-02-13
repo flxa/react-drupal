@@ -58,9 +58,8 @@ jobs: &jobs
     workingDir: "/data/app"
     schedule:   "@daily"
     command:    |
-      drush sql-dump --structure-tables-key=common > /tmp/db.sql && \
-      tar -zcvf /tmp/db.tar.gz /tmp/db.sql && \
-      backup /tmp/db.tar.gz pnx-backups "%FREQUENCY%/APP_NAME/%TIMESTAMP%-$SKIPPER_ENV-db.tar.gz"
+      drush sql-dump --gzip --structure-tables-key=common --result-file=/tmp/db.sql && \
+      backup /tmp/db.sql.gz pnx-backups "%FREQUENCY%/APP_NAME/%TIMESTAMP%-$SKIPPER_ENV-db.sql.gz"
     minCPU:     100
 
   - name:       "backup-mount-public"
