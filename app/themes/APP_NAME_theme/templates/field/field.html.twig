@@ -29,30 +29,14 @@
     'field-label-' ~ label_display,
   ]
 %}
-{%
-  set title_classes = [
-    'field-label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
-  ]
-%}
 <div{{ attributes.addClass(classes) }}>
   {% if not label_hidden %}
     <h3{{ title_attributes.addClass(title_classes) }}>{{ label }}</h3>
   {% endif %}
 
-  {% if multiple %}
-    <div class="field-items">
-  {% endif %}
-
   {% for item in items %}
-    <div{{ item.attributes.addClass('field-item') }}>
-      {% block content %}
-        {{ item.content }}
-      {% endblock %}
-    </div>
+    {% block content %}
+      {{ item.content }}
+    {% endblock %}
   {% endfor %}
-
-  {% if multiple %}
-    </div>
-  {% endif %}
 </div>
