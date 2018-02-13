@@ -82,7 +82,7 @@ New tasks should follow the [API](https://github.com/gulpjs/gulp/blob/master/doc
 Using `gulp watch` will build the styleguide and watch for changes in _.scss_ and _.hbs_ files. You can access the styleguide through Browsersync at:
 
 ```
-http://APP_NAME.dev:3000/styleguide
+http://APP_NAME.test:3000/styleguide
 ```
 
 Please refer to the [KSS Node Documentation](https://github.com/kss-node/kss/blob/spec/SPEC.md) for details about how to format your Sass comments.
@@ -117,7 +117,7 @@ Browsersync will always be running when using `gulp watch`.
 The URL to access BS will popup when you first start watching. Use the _external_ url on your local machine.
 
 ```
-http://APP_NAME.dev:3000
+http://APP_NAME.test:3000
 ```
 
 ### Tunnel
@@ -136,7 +136,7 @@ chmod +x /usr/local/bin/tunnel
 Then in a new terminal window keep the tunnel command running whilst developing.
 
 ```bash
-sudo tunnel 3000,3001 APP_NAME.dev
+sudo tunnel 3000,3001 APP_NAME.test
 ```
 
 You can then access BS at http://your-local-ip:3000 on any device connected to your local network.

@@ -51,7 +51,7 @@ $settings['trusted_host_patterns'][] = '^localhost$';
 $settings['trusted_host_patterns'][] = '^APP_NAME\-pr[0-9]+\.ci\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^APP_NAME\-\w+\.cd\.pnx\.com\.au$';
 $settings['trusted_host_patterns'][] = '^.+\.pnxci\.io$';
-$settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.dev') . '$';
+$settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.test') . '$';
 $settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.qa.previousnext.com.au') . '$';
 $settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.staging.previousnext.com.au') . '$';
 
