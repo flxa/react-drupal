@@ -29,11 +29,11 @@ function APP_NAME_theme_theme_suggestions_block_alter(&$hooks, &$vars) {
 function APP_NAME_theme_preprocess_block(&$vars) {
   // Pass the block_id through to the content.
   if (isset($vars['attributes']['id'])) {
-    $vars['content']['#attributes']['block_id'] = $vars['attributes']['id'];
+    $vars['content']['#block_id'] = $vars['attributes']['id'];
   }
   // Pass the region through to the content.
   if (isset($vars['elements']['#region'])) {
-    $vars['content']['#attributes']['region'] = $vars['elements']['#region'];
+    $vars['content']['#region'] = $vars['elements']['#region'];
   }
 }
 
