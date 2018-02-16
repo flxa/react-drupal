@@ -15,6 +15,8 @@ jobs:
     docker:
       - image: previousnext/php:7.1-dev
         environment:
+          # Load nvm in each run command.
+          BASH_ENV: ~/.bashrc
           SIMPLETEST_BASE_URL: http://127.0.0.1
           SIMPLETEST_DB: mysql://root:root@127.0.0.1/local
           BROWSERTEST_OUTPUT_DIRECTORY: /tmp/browser_output
