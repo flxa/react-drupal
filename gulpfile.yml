@@ -56,8 +56,10 @@ browsers:
 # @see gulpfiles/modernizr.js
 # @see https://modernizr.com/docs
 modernizr:
+  # Only rebuild if needed.
+  cache: true
   # Modernizr is shipped as a precompiled, minified js file.
-  dest: app/themes/APP_NAME_theme/src/vendor/modernizr/
+  dest: app/themes/APP_NAME_theme/src/vendor/modernizr
   # Options to include.
   options:
     - prefixes

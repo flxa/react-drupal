@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp';
+import cached from 'gulp-cached';
 import sass from 'gulp-sass';
 import sassGlob from 'gulp-sass-glob';
 import cleanCSS from 'gulp-clean-css';
@@ -31,6 +32,7 @@ const sassFiles = [
  */
 const development = () => (
   gulp.src(sassFiles)
+    .pipe(cached('styles:development'))
     .pipe(sassGlob())
     .pipe(sourcemaps.init())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
@@ -41,7 +43,7 @@ const development = () => (
 );
 
 development.description = 'Output CSS and sourcemaps for development use only.';
-gulp.task('styles:development', gulp.series('clean:css', development));
+gulp.task('styles:development', development);
 
 /**
  * Outputs CSS only.
@@ -49,6 +51,7 @@ gulp.task('styles:development', gulp.series('clean:css', development));
  */
 const production = () => (
   gulp.src(sassFiles)
+    .pipe(cached('styles:production'))
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer({ browsers: config.browsers.sass }))

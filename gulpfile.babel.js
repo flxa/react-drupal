@@ -19,7 +19,7 @@ import * as svg from './gulpfiles/svg';
 /**
  * Build for production and fail on a linting error.
  */
-const build = gulp.series(gulp.parallel('styles:production', 'scripts:production'), 'styleguide');
+const build = gulp.series('styles:production', 'scripts:production', 'styleguide');
 build.description = 'Build all styles and styleguide (for production).';
 gulp.task('build', build);
 

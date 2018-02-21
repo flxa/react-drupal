@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp';
+import cached from 'gulp-cached';
 import size from 'gulp-size';
 import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
@@ -76,6 +77,7 @@ const minifyName = (file) => {
  */
 const bundle = () => (
   gulp.src(bundleFiles, { base: './' })
+    .pipe(cached('scripts:bundle'))
     .pipe(rollup({
       plugins: [
         resolve(),
@@ -111,6 +113,7 @@ gulp.task('scripts:bundle', bundle);
  */
 const transpile = () => (
   gulp.src(transpileFiles, { base: './' })
+    .pipe(cached('scripts:transpile'))
     .pipe(babel())
     .pipe(rename(file => (bundleName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
@@ -127,6 +130,7 @@ gulp.task('scripts:transpile', transpile);
  */
 const minify = () => (
   gulp.src(minifyFiles)
+    .pipe(cached('scripts:minify'))
     .pipe(uglify())
     .pipe(rename(file => (minifyName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
@@ -143,6 +147,7 @@ gulp.task('scripts:minify', gulp.series(minify, 'modernizr'));
  */
 const minifyModule = () => (
   gulp.src(moduleFiles, { base: './' })
+    .pipe(cached('scripts:minify'))
     .pipe(uglify())
     .pipe(rename(file => (minifyName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))
@@ -155,23 +160,26 @@ gulp.task('scripts:module', minifyModule);
 /**
  * Development JS.
  * Runs both without minification for easier debugging.
- * @return {object} themeDev
+ * @return {object} minifyDev
  */
 const minifyDev = () => (
   gulp.src(minifyFiles)
+    .pipe(cached('scripts:minify-dev'))
     .pipe(rename(file => (minifyName(file))))
     .pipe(gulp.dest(config.js.dest))
 );
 
 minifyDev.description = 'Dev-minify javascript.';
-gulp.task('scripts:minify-dev', minifyDev);
+gulp.task('scripts:minify-dev', gulp.series(minifyDev, 'modernizr'));
 
 /**
  * Development module JS.
  * Runs both without minification for easier debugging.
+ * @return {object} minifyModuleDev
  */
 const minifyModuleDev = () => (
   gulp.src(moduleFiles, { base: './' })
+    .pipe(cached('scripts:minify-dev'))
     .pipe(rename(file => (minifyName(file))))
     .pipe(gulp.dest('./'))
 );
@@ -182,23 +190,23 @@ gulp.task('scripts:module-dev', minifyModuleDev);
 /**
  * Production and Development share the same babelify task.
  */
-const babelify = gulp.parallel('scripts:bundle', 'scripts:transpile');
+const babelify = gulp.series('scripts:bundle', 'scripts:transpile');
 babelify.description = 'Transpile all js.';
 gulp.task('scripts:babel', babelify);
 
 /**
  * Run both production scripts in series.
  */
-const scripts = gulp.series('clean:js', 'scripts:babel', gulp.parallel('scripts:minify', 'scripts:module'));
+const scripts = gulp.series('clean:js', 'scripts:babel', 'scripts:minify', 'scripts:module');
 scripts.description = 'Bundle, transpile and minify production js.';
 gulp.task('scripts:production', scripts);
 
 /**
  * Run both development scripts in series.
  */
-const scriptsDev = gulp.series('clean:js', 'scripts:babel', gulp.parallel('scripts:minify-dev', 'scripts:module-dev'));
+const scriptsDev = gulp.series('scripts:babel', 'scripts:minify-dev', 'scripts:module-dev');
 scriptsDev.description = 'Bundle and transpile development js.';
 gulp.task('scripts:development', scriptsDev);
 
 // Export all functions.
-export { scripts, scriptsDev, bundle, transpile, minify, minifyDev, minifyModule, minifyModuleDev };
+export { scripts, scriptsDev, bundle, transpile, babelify, minify, minifyDev, minifyModule, minifyModuleDev };

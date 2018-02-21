@@ -11,7 +11,7 @@ CONFIG_IGNORE=$(CURDIR)/drush/config-ignore.yml
 CONFIG_INSTALL=$(CURDIR)/config-install
 
 DRUSH=./bin/drush -r $(APP_ROOT) -l $(APP_URL)
-GULP=./node_modules/.bin/gulp
+GULP=node --max-old-space-size=512 ./node_modules/.bin/gulp
 COMPOSER=composer
 YARN=yarn
 PHPCBF=./bin/phpcbf

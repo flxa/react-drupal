@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp';
+import cached from 'gulp-cached';
 import path from 'path';
 import kss from 'kss';
 import sass from 'gulp-sass';
@@ -14,7 +15,6 @@ import rename from 'gulp-rename';
 import replace from 'gulp-replace';
 
 import config from './config';
-import * as clean from './clean';
 
 // Ensure CSS paths are relative to the styleguide. Unless they are external.
 let cssFiles = [];
@@ -56,6 +56,7 @@ const kssSassFiles = [
  */
 const styles = () => (
   gulp.src(kssSassFiles)
+    .pipe(cached('styleguide'))
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer(config.autoprefixer))
@@ -92,7 +93,7 @@ gulp.task('styleguide:build', build);
 /**
  * Run all styleguide tasks in the correct order.
  */
-const styleguide = gulp.series('clean:styleguide', 'styleguide:chroma-kss-markup', gulp.parallel('styleguide:styles', 'styleguide:build'));
+const styleguide = gulp.series('styleguide:chroma-kss-markup', 'styleguide:styles', 'styleguide:build');
 styleguide.description = 'Builds the style guide and compiles sass/styleguide and Chroma markup.';
 gulp.task('styleguide', styleguide);
 

@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp';
+import cached from 'gulp-cached';
 import sassLint from 'gulp-sass-lint';
 import eslint from 'gulp-eslint';
 
@@ -24,6 +25,7 @@ const lintFiles = {
 
   sass: [
     `${config.sass.src}/**/*.scss`,
+    `!${config.sass.src}/**/vendor/*.scss`,
   ],
 
   gulp: [
@@ -38,6 +40,7 @@ const lintFiles = {
  */
 const js = () => (
   gulp.src(lintFiles.js)
+    .pipe(cached('lint'))
     .pipe(eslint())
     .pipe(eslint.format())
 );
@@ -51,6 +54,7 @@ gulp.task('lint:js', js);
  */
 const jsWithFail = () => (
   gulp.src(lintFiles.js)
+    .pipe(cached('lint'))
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError())
@@ -79,6 +83,7 @@ gulp.task('lint:js-fix', fixJs);
  */
 const sass = () => (
   gulp.src(lintFiles.sass)
+    .pipe(cached('lint'))
     .pipe(sassLint())
     .pipe(sassLint.format())
 );
@@ -92,6 +97,7 @@ gulp.task('lint:sass', sass);
  */
 const sassWithFail = () => (
   gulp.src(lintFiles.sass)
+    .pipe(cached('lint'))
     .pipe(sassLint())
     .pipe(sassLint.format())
     .pipe(sassLint.failOnError())

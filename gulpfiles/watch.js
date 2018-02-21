@@ -55,9 +55,7 @@ const watchOptions = {
  * won't automatically reload even though the html has changed. You'll need
  * to manually reload in those cases.
  */
-const sass = () => {
-  gulp.watch(watchFiles.sass, watchOptions, gulp.series('styles:development', 'styleguide', 'lint:sass'));
-};
+const sass = () => gulp.watch(watchFiles.sass, watchOptions, gulp.series('styles:development', 'styleguide', 'lint:sass'));
 
 sass.description = 'Watch scss files and rebuild styles and the styleguide, with linting.';
 gulp.task('watch:sass', sass);
@@ -67,9 +65,7 @@ gulp.task('watch:sass', sass);
  *
  * Reload browserSync automatically after a change to a js file.
  */
-const js = () => {
-  gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'scripts:development', 'browsersync:reload'));
-};
+const js = () => gulp.watch(watchFiles.js, watchOptions, gulp.series('lint:js', 'scripts:development', 'browsersync:reload'));
 
 js.description = 'Watch js files and lint and bundle them.';
 gulp.task('watch:js', js);
@@ -79,9 +75,7 @@ gulp.task('watch:js', js);
  *
  * Reload browserSync automatically after a change to a twig file.
  */
-const styleguide = () => {
-  gulp.watch(watchFiles.styleguide, watchOptions, gulp.series('styleguide', 'browsersync:reload'));
-};
+const styleguide = () => gulp.watch(watchFiles.styleguide, watchOptions, gulp.series('styleguide', 'browsersync:reload'));
 
 styleguide.description = 'Watch twig files and rebuild the styleguide.';
 gulp.task('watch:styleguide', styleguide);

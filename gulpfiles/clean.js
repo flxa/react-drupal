@@ -4,6 +4,7 @@
  */
 
 import gulp from 'gulp';
+import cached from 'gulp-cached';
 import del from 'del';
 
 import config from './config';
@@ -60,5 +61,21 @@ const styleguide = () => del(cleanFiles.styleguide, { force: true });
 styleguide.description = 'Clean the styleguide directory and remove any related styleguide files.';
 gulp.task('clean:styleguide', styleguide);
 
+/**
+ * Clean the cache.
+ * @return {object} cache
+ */
+const cache = () => (cached.caches === {});
+
+cache.description = 'Clean the cache.';
+gulp.task('clean:cache', cache);
+
+/**
+ * Clean everything.
+ */
+const clean = gulp.series('clean:js', 'clean:css', 'clean:styleguide');
+clean.description = 'Clean everything.';
+gulp.task('clean', clean);
+
 // Export all functions.
-export { css, js, styleguide };
+export { css, js, styleguide, cache };

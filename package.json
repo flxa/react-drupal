@@ -24,6 +24,7 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^3",
     "gulp-babel": "^7.0.0",
+    "gulp-cached": "^1.1.1",
     "gulp-clean-css": "^3",
     "gulp-eslint": "^3",
     "gulp-modernizr": "^1.0.0-alpha",
