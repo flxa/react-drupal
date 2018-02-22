@@ -28,16 +28,8 @@
         "grasmash/drupal-security-warning": "^1.1"
     },
     "require-dev": {
-        "behat/mink": "1.7.x-dev",
-        "behat/mink-goutte-driver": "~1.2",
-        "drupal/coder": "~8",
-        "jcalderonzumba/gastonjs": "~1.0.2",
-        "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
-        "mikey179/vfsStream": "~1.2",
-        "phpunit/phpunit": ">=4.8.28 <5",
-        "symfony/browser-kit": ">=2.8.13 <3.0",
-        "symfony/css-selector": "~2.8",
-        "vimeo/psalm": "^0.3.39"
+        "vimeo/psalm": "^0.3.39",
+        "webflo/drupal-core-require-dev": "~8.4"
     },
     "config": {
         "bin-dir": "bin/"
