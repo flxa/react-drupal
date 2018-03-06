@@ -26,11 +26,12 @@ $settings['install_profile'] = 'APP_NAME_profile';
 
 // Default to Mailhog.
 $config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: '127.0.0.1';
-$config['swiftmailer.transport']['smtp_username'] = skpr_config('smtp.username') ?: '';
-$config['swiftmailer.transport']['smtp_password'] = skpr_config('smtp.password') ?: '';
 $config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '1025';
 $config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: '';
 $config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
+$config['swiftmailer.transport']['smtp_credential_provider'] = 'swiftmailer';
+$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['username'] = skpr_config('smtp.username') ?: '';
+$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['password'] = skpr_config('smtp.password') ?: '';
 
 // Solr Host
 $config['search_api.server.solr']['backend_config']['connector_config']['host'] = skpr_config('solr.host') ?: '127.0.0.1';
