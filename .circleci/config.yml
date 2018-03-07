@@ -44,8 +44,7 @@ jobs:
       - run:
           name: "Install dependencies"
           command: |
-            make init
-            make mkdirs
+            make ci-init
 
       - save_cache:
           key: APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
@@ -97,7 +96,7 @@ jobs:
           path: build/logs
 
       - store_artifacts:
-          path: /tmp/browser_output
+          path: app/sites/simpletest/browser_output
           destination: tr1
 
       - persist_to_workspace:

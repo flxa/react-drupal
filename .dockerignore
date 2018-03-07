@@ -1,6 +1,8 @@
 vendor/bundle
 node_modules
 .git
+*.sql
+app/sites/simpletest
 
 # Ignore drupal text files
 app/core/CHANGELOG.txt

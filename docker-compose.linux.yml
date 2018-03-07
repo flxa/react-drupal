@@ -14,10 +14,6 @@ services:
       - $HOME/.skpr.yml:/root/.skpr.yml
       # Mount composer cache.
       - $HOME/.composer:/root/.composer
-    environment:
-      - SIMPLETEST_BASE_URL=http://127.0.0.1
-      - SIMPLETEST_DB=mysql://root:root@127.0.0.1/d8_testing
-      - BROWSERTEST_OUTPUT_DIRECTORY=/data/app/sites/simpletest/browser_output
 
   db:
     image: mariadb

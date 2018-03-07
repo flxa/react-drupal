@@ -32,10 +32,6 @@ init:
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	$(YARN) install --non-interactive --no-progress
 
-init-ci:
-	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
-	. /home/pnx/.nvm/nvm.sh && nvm install && nvm alias default 8 && $(YARN) install --non-interactive --no-progress
-
 init-package:
 	$(COMPOSER) install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	$(YARN) install --non-interactive --no-progress
@@ -92,20 +88,20 @@ ci-lint-php: ci-prepare psalm
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
 	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml
 
-ci-prepare:
-	mkdir -p $(BUILD_LOGS_DIR)
-
-ci-test:
-	mkdir -p $(APP_ROOT)/sites/simpletest
-	-./bin/phpunit -c app/core app/modules/custom --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
+test-init:
+	mkdir -p $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files/simpletest
+	chmod 2775 $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files/simpletest
+	touch $(APP_ROOT)/test-output.html;
+	chmod 775 $(APP_ROOT)/test-output.html;
+	chown -R www-data:www-data $(APP_ROOT)
 
 test:
-	./bin/phpunit -c app/core $(APP_ROOT)/modules/custom/$(folder);cat $(APP_ROOT)/test-output.html;echo "" > $(APP_ROOT)/test-output.html
+	./bin/phpunit --stop-on-fail $(APP_ROOT)/modules/custom/$(folder)
 
-test-init:
-	touch $(APP_ROOT)/test-output.html;
-	chmod 777 $(APP_ROOT)/test-output.html;
-	echo "create database d8_testing;" | sudo mysql
+ci-init: init test-init
+
+ci-test:
+	./bin/phpunit --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
 
 login:
 	$(DRUSH) uli
