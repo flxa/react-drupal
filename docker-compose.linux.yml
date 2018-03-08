@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    image: previousnext/php:7.1-dev
+    image: previousnext/php:7.2-dev
     # This makes the container run on the same network stack as your
     # workstation. Meaning that you can interact on "localhost".
     network_mode: host
@@ -55,7 +55,7 @@ services:
   #  * Gosu = Run as a user (www-data) to avoid permissions issues.
   #  * Microcron = Our project which ensures cron will run every 5min.
 #  cron-drush:
-#    image: previousnext/php:7.1-dev
+#    image: previousnext/php:7.2-dev
 #    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
 #    network_mode: host
 #    volumes:

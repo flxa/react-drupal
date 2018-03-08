@@ -10,7 +10,7 @@
         "cweagans/composer-patches": "~1.5",
         "drupal/admin_toolbar": "~1.19",
         "drupal/components": "~1.0",
-        "drupal/core": "~8.4",
+        "drupal/core": "~8.5",
         "drupal/ctools": "~3.0",
         "drupal/drush-cmi-tools": "dev-8.x-1.x",
         "drupal/ds": "~3.1",
@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "vimeo/psalm": "^0.3.39",
-        "webflo/drupal-core-require-dev": "~8.4"
+        "webflo/drupal-core-require-dev": "~8.5"
     },
     "config": {
         "bin-dir": "bin/"
