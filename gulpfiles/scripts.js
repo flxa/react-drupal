@@ -5,6 +5,7 @@
 
 import gulp from 'gulp';
 import cached from 'gulp-cached';
+import dependents from 'gulp-dependents';
 import size from 'gulp-size';
 import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
@@ -78,6 +79,7 @@ const minifyName = (file) => {
 const bundle = () => (
   gulp.src(bundleFiles, { base: './' })
     .pipe(cached('scripts:bundle'))
+    .pipe(dependents(config.dependents))
     .pipe(rollup({
       plugins: [
         resolve(),
@@ -114,6 +116,7 @@ gulp.task('scripts:bundle', bundle);
 const transpile = () => (
   gulp.src(transpileFiles, { base: './' })
     .pipe(cached('scripts:transpile'))
+    .pipe(dependents(config.dependents))
     .pipe(babel())
     .pipe(rename(file => (bundleName(file))))
     .pipe(size({ showFiles: true, showTotal: false }))

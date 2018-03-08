@@ -26,6 +26,7 @@
     "gulp-babel": "^7.0.0",
     "gulp-cached": "^1.1.1",
     "gulp-clean-css": "^3",
+    "gulp-dependents": "^1.2.3",
     "gulp-eslint": "^3",
     "gulp-modernizr": "^1.0.0-alpha",
     "gulp-rename": "^1",

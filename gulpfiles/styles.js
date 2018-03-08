@@ -5,6 +5,7 @@
 
 import gulp from 'gulp';
 import cached from 'gulp-cached';
+import dependents from 'gulp-dependents';
 import sass from 'gulp-sass';
 import sassGlob from 'gulp-sass-glob';
 import cleanCSS from 'gulp-clean-css';
@@ -33,6 +34,7 @@ const sassFiles = [
 const development = () => (
   gulp.src(sassFiles)
     .pipe(cached('styles:development'))
+    .pipe(dependents(config.dependents))
     .pipe(sassGlob())
     .pipe(sourcemaps.init())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
@@ -52,6 +54,7 @@ gulp.task('styles:development', development);
 const production = () => (
   gulp.src(sassFiles)
     .pipe(cached('styles:production'))
+    .pipe(dependents(config.dependents))
     .pipe(sassGlob())
     .pipe(sass(eyeglass(config.sassOptions)).on('error', sass.logError))
     .pipe(autoprefixer({ browsers: config.browsers.sass }))

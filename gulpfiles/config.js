@@ -35,6 +35,40 @@ try {
       },
     },
   };
+
+  // Config for gulp-dependents to include imported/dependent
+  // files in our watch stream. Used in conjunction with gulp-cached
+  // means we're only watching files that need to change.
+  config.dependents = {
+    '.scss': {
+      parserSteps: [
+        // Find everything inside single quotes from lines
+        // starting with '@import' and ending in ';'.
+        /^\s*@import\s*.*'(.+?)';$/gm,
+        (str) => {
+          if (!str.match(/^[\.]/gm)) {
+            // Sass file imports assume the sass src path is already attached.
+            const src = path.resolve(config.sass.src);
+            str = path.join(src, str);
+          }
+          return [str];
+        },
+      ],
+      prefixes: ['_'],
+      postfixes: ['.scss'],
+      basePaths: [],
+    },
+    '.js': {
+      parserSteps: [
+        // Find everything inside single quotes from lines
+        // starting with 'import' and ending in ';'.
+        /^\s*import\s*.*'(.+?)';$/gm,
+      ],
+      prefixes: [],
+      postfixes: ['.js'],
+      basePaths: [],
+    },
+  };
 }
 catch (e) {
   console.log('gulpfile.yml not found!');
