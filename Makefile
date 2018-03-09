@@ -43,20 +43,20 @@ mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/simpletest
 
 sql-drop:
-	$(DRUSH) sql-drop -y
+	$(DRUSH) sql:drop -y
 
 db-dump:
 	mkdir mariadb-init
-	$(DRUSH) sql-dump > mariadb-init/db.sql
+	$(DRUSH) sql:dump > mariadb-init/db.sql
 
 updb:
-	$(DRUSH) updb -y
+	$(DRUSH) updatedb -y
 
 entity-updates:
-	$(DRUSH) entity-updates -y
+	$(DRUSH) entity:updates -y
 
 cache-rebuild:
-	$(DRUSH) cr
+	$(DRUSH) cache:rebuild
 
 styleguide:
 	$(GULP) build
@@ -64,13 +64,13 @@ styleguide:
 db-sync:
 	skpr exec dev "drush sql-dump --structure-tables-key=common --gzip | base64" | base64 -di > /tmp/db.sql.gz
 	gunzip /tmp/db.sql.gz -f
-	$(DRUSH) sql-cli < /tmp/db.sql
+	$(DRUSH) sql:cli < /tmp/db.sql
 
 config-import:
-	$(DRUSH) cimy -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
+	$(DRUSH) config-import-plus -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
 
 config-export:
-	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	$(DRUSH) config-export-plus -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 
 fix-php:
 	$(PHPCBF)
@@ -104,7 +104,7 @@ ci-test:
 	./bin/phpunit --log-junit $(BUILD_LOGS_DIR)/phpunit/phpunit.xml
 
 login:
-	$(DRUSH) uli
+	$(DRUSH) user:login
 
 patchy:
 	echo '[PATCHY] Update composer dependencies\n\n' > /tmp/message.txt
@@ -115,9 +115,9 @@ patchy:
 	git diff -U0 --word-diff --no-index -- /tmp/before.txt /tmp/after.txt | grep -v ^@@ | tail -n +5 >> /tmp/message.txt
 	git add composer.json composer.lock
 	git commit -F /tmp/message.txt
-	$(DRUSH) updb -y
-	$(DRUSH) entity-updates -y
-	$(DRUSH) cexy -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	$(DRUSH) updatedb -y
+	$(DRUSH) entity:updates -y
+	$(DRUSH) config-export-plus -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
 	git add config-export
 	git commit -m "[PATCHY] Update config"
 
