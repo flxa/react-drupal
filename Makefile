@@ -24,9 +24,9 @@ default: list;
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-build: sql-drop db-sync deploy login
+build: db-drop db-sync deploy login
 
-deploy: updb entity-updates import cache-rebuild
+deploy: updb entity-updates config-import cache-rebuild
 
 init:
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
@@ -42,7 +42,7 @@ init-local: init
 mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/simpletest
 
-sql-drop:
+db-drop:
 	$(DRUSH) sql:drop -y
 
 db-dump:
@@ -61,10 +61,16 @@ cache-rebuild:
 styleguide:
 	$(GULP) build
 
-db-sync:
-	skpr exec dev "drush sql-dump --structure-tables-key=common --gzip | base64" | base64 -di > /tmp/db.sql.gz
-	gunzip /tmp/db.sql.gz -f
-	$(DRUSH) sql:cli < /tmp/db.sql
+db-dump:
+	$(DRUSH) sql:dump --structure-tables-key=common --skip-tables-key=common > db.sql
+
+db-pull:
+	skpr exec dev "$(DRUSH) sql:dump --structure-tables-key=common --skip-tables-key=common" > db.sql
+
+db-import:
+	$(DRUSH) sql:cli < db.sql
+
+db-sync: db-pull db-import
 
 config-import:
 	$(DRUSH) config-import-plus -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
@@ -123,6 +129,12 @@ patchy:
 
 check-expire:
 	./scripts/check-expire.sh
+
+sql-drop: db-drop
+	echo "WARNING: 'sql-drop' is deprecated. Use db-drop instead"
+
+import: config-import
+	echo "WARNING: 'import' is deprecated. Use config-import instead"
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
 

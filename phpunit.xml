@@ -54,8 +54,6 @@
   <listeners>
     <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener">
     </listener>
-    <listener class="\Drupal\Tests\Listeners\DrupalStandardsListener">
-    </listener>
   </listeners>
   <!-- Filter for coverage reports. -->
   <filter>

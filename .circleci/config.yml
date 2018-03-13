@@ -90,7 +90,7 @@ jobs:
       - run:
           name: Test
           command: |
-            make test-ci
+            make test-init ci-test
 
       - store_test_results:
           path: build/logs
