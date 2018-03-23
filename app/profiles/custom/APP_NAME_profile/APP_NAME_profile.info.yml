@@ -6,7 +6,6 @@ core: 8.x
 dependencies:
   - admin_toolbar
   - admin_toolbar_tools
-  - automated_cron
   - big_pipe
   - block
   - block_content
@@ -26,7 +25,6 @@ dependencies:
   - file
   - filter
   - help
-  - history
   - image
   - link
   - linkit
