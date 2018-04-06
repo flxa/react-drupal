@@ -21,8 +21,6 @@ import * as clean from './clean';
 // The scss files we are compiling.
 const sassFiles = [
   `${config.sass.src}/**/*.scss`,
-  // Ignore partials.
-  `!${config.sass.src}/**/_*.scss`,
   // Ignore styleguide sass files.
   `!${config.sass.src}/style-guide/**/*.scss`,
 ];
