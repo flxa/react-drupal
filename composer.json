@@ -21,7 +21,6 @@
         "drupal/pathauto": "~1.0",
         "drupal/redirect": "^1.0@alpha",
         "drupal/skipper_affinity": "dev-8.x-1.x",
-        "drupal/slushi_cache": "~1.0",
         "drupal/swiftmailer": "^1.0@beta",
         "drupal/token": "~1.0",
         "drush/drush": "~9.2",
