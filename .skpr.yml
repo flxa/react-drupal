@@ -53,32 +53,3 @@ jobs: &jobs
     workingDir: "/data/app"
     schedule:   "@hourly"
     command:    "drush cron"
-
-  - name:       "backup-db"
-    workingDir: "/data/app"
-    schedule:   "@daily"
-    command:    |
-      drush sql-dump --gzip --structure-tables-key=common --result-file=/tmp/db.sql && \
-      backup /tmp/db.sql.gz pnx-backups "%FREQUENCY%/APP_NAME/%TIMESTAMP%-$SKIPPER_ENV-db.sql.gz"
-    minCPU:     100
-
-  - name:       "backup-mount-public"
-    workingDir: "/data/app/sites/default/files"
-    schedule:   "@daily"
-    command:    |
-      tar -czf /tmp/files-public.tar.gz \
-        --exclude=css \
-        --exclude=js \
-        --exclude=styles \
-        --exclude=xmlsitemap \
-        . && \
-      backup /tmp/files-public.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-public.tar.gz"
-    minCPU:     100
-
-  - name:       "backup-mount-private"
-    workingDir: "/private"
-    schedule:   "@daily"
-    command:    |
-      tar -czf /tmp/files-private.tar.gz . && \
-      backup /tmp/files-private.tar.gz pnx-backups "APP_NAME/%FREQUENCY%/%TIMESTAMP%-$SKIPPER_ENV-files-private.tar.gz"
-    minCPU:     100
