@@ -5,7 +5,6 @@
 APP_NAME=$1
 
 TEMPLATE_FILES=".circleci/config.yml \
-.pnxci.yml \
 .skpr.yml \
 .gitignore \
 app/profiles/custom/APP_NAME_profile/* \
