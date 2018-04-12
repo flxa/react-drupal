@@ -16,6 +16,7 @@ dependencies:
   - contextual
   - ctools
   - datetime
+  - dashboard_connector
   - dynamic_page_cache
   - ds
   - editor
