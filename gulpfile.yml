@@ -32,6 +32,9 @@ styleguide:
   # Directory the style guide builds to.
   dest: app/styleguide
   builder: node_modules/kss-offscreen-twig
+  showMarkup: false
+  markupClass: 'language-html'
+  highlightSyntax: false
   # Add .css files for the style guide here.
   cssFiles:
     - app/themes/APP_NAME_theme/css/styles.css
