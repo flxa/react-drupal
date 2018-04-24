@@ -42,6 +42,9 @@ const kssOptions = {
   title: config.styleguide.title,
   namespace: `${config.theme}:${config.sass.src}`,
   'extend-drupal8': true,
+  showMarkup: config.styleguide.showMarkup,
+  markupClass: config.styleguide.markupClass,
+  highlightSyntax: config.styleguide.highlightSyntax,
 };
 
 // The Kss scss files to compile.
