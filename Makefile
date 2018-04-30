@@ -45,10 +45,6 @@ mkdirs:
 db-drop:
 	$(DRUSH) sql:drop -y
 
-db-dump:
-	mkdir mariadb-init
-	$(DRUSH) sql:dump > mariadb-init/db.sql
-
 updb:
 	$(DRUSH) updatedb -y
 
@@ -90,7 +86,7 @@ psalm:
 lint-sass-js:
 	$(GULP) lint:with-fail
 
-ci-lint-php: ci-prepare psalm
+ci-lint-php: ci-init psalm
 	rm -rf $(BUILD_LOGS_DIR)/checkstyle.xml
 	./bin/phpcs --report=checkstyle --report-file=$(BUILD_LOGS_DIR)/checkstyle.xml
 
