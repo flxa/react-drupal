@@ -33,7 +33,11 @@
         "webflo/drupal-core-require-dev": "~8.5"
     },
     "config": {
-        "bin-dir": "bin/"
+        "bin-dir": "bin/",
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     },
     "repositories": [
         {
