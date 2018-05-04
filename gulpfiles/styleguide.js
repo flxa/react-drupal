@@ -42,10 +42,12 @@ const kssOptions = {
   title: config.styleguide.title,
   namespace: `${config.theme}:${config.sass.src}`,
   'extend-drupal8': true,
-  showMarkup: config.styleguide.showMarkup,
-  markupClass: config.styleguide.markupClass,
-  highlightSyntax: config.styleguide.highlightSyntax,
 };
+
+// Map all builderOptions to the kssOptions object.
+Object.keys(config.styleguide.builderOptions).map((key) => {
+  kssOptions[key] = config.styleguide.builderOptions[key];
+});
 
 // The Kss scss files to compile.
 const kssSassFiles = [
