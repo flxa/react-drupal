@@ -28,7 +28,7 @@ build: db-drop db-sync deploy login
 
 deploy: updb entity-updates config-import cache-rebuild
 
-init:
+init: mkdirs
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
 	$(YARN) install --non-interactive --no-progress
 

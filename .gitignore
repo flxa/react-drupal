@@ -50,7 +50,7 @@ Thumbs.db
 /bin
 /vendor
 /app/test-output.html
-/build/logs
+/build
 
 # Front end #
 #############
