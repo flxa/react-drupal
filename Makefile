@@ -30,7 +30,7 @@ deploy: updb entity-updates config-import cache-rebuild
 
 init: mkdirs
 	$(COMPOSER) install --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
-	$(YARN) install --non-interactive --no-progress
+	$(YARN) install --ignore-optional --non-interactive --no-progress
 
 init-package:
 	$(COMPOSER) install --no-dev --prefer-dist --no-progress --no-suggest --no-interaction --optimize-autoloader
@@ -133,4 +133,3 @@ import: config-import
 	echo "WARNING: 'import' is deprecated. Use config-import instead"
 
 .PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
-
