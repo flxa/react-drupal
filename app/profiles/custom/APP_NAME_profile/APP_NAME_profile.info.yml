@@ -33,7 +33,6 @@ dependencies:
   - metatag
   - node
   - options
-  - page_cache
   - path
   - pathauto
   - rdf
