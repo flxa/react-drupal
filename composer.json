@@ -82,6 +82,11 @@
                 ".htaccess"
             ]
         },
+        "patches": {
+            "drupal/monolog": {
+                "Mitigate huge values for $context ": "https://www.drupal.org/files/issues/2018-03-19/2954130-2.patch"
+            }
+        },
         "enable-patching": true,
         "composer-exit-on-patch-failure": true
     }
