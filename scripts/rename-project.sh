@@ -4,7 +4,7 @@
 # Default to the current directory name.
 APP_NAME=$1
 
-TEMPLATE_FILES=".circleci/config.yml \
+TEMPLATE_FILES=".circleci/config.dist.yml \
 .skpr.yml \
 .gitignore \
 app/profiles/custom/APP_NAME_profile/* \
@@ -23,6 +23,9 @@ README.md"
 # String replace APP_NAME in templates.
 echo "Running find and replace using APP_NAME:" $APP_NAME
 find $TEMPLATE_FILES -type f -exec sed -i '' -e "s/APP_NAME/$APP_NAME/g" {} \;
+
+# Rename circle config
+mv .circleci/config.dist.yml .circleci/config.yml
 
 # Rename profile files
 mv app/profiles/custom/APP_NAME_profile/APP_NAME_profile.install app/profiles/custom/APP_NAME_profile/${APP_NAME}_profile.install
