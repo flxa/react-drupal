@@ -188,7 +188,7 @@ jobs:
             echo "Deploying version ${VERSION} to skipper"
             skpr deploy ${DEPLOY_ENV} ${VERSION}
             notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":ship:" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *${DEPLOY_ENV}*"
-            if [[ -v NOTIFY_UPCOMING_APPROVAL ]] ; then notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":k8s:" --message="Approve deployment of \`${VERSION}\` to *${NOTIFY_UPCOMING_APPROVAL}*: https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/workflows/${CIRCLE_PROJECT_REPONAME}" ; fi
+            if [[ -v NOTIFY_UPCOMING_APPROVAL ]] ; then notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":k8s:" --message="Approve deployment of \`${VERSION}\` to *${NOTIFY_UPCOMING_APPROVAL}*: https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}" ; fi
 
   # Skipper deploy to dev env.
   deploy_dev:
