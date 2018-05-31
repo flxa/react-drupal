@@ -323,4 +323,5 @@ workflows:
               only:
                 - master
     jobs:
-      - patchy
+      - patchy:
+          context: org-global
