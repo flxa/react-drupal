@@ -24,7 +24,7 @@ default: list;
 list:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1n}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-build: db-drop db-sync deploy login
+build: db-sync deploy login
 
 deploy: updb entity-updates config-import cache-rebuild
 
@@ -41,9 +41,6 @@ init-local: init
 
 mkdirs:
 	mkdir -p $(APP_ROOT)/sites/default/files/tmp $(APP_ROOT)/sites/default/private build/logs/simpletest
-
-db-drop:
-	$(DRUSH) sql:drop -y
 
 updb:
 	$(DRUSH) updatedb -y
@@ -66,7 +63,8 @@ db-pull:
 db-import:
 	$(DRUSH) sql:cli < db.sql
 
-db-sync: db-pull db-import
+db-sync:
+	echo "WARNING: 'db-sync' is deprecated. Use 'docker-compose pull db' instead"
 
 config-import:
 	$(DRUSH) config-import-plus -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
@@ -126,10 +124,7 @@ patchy:
 check-expire:
 	./scripts/check-expire.sh
 
-sql-drop: db-drop
-	echo "WARNING: 'sql-drop' is deprecated. Use db-drop instead"
-
 import: config-import
 	echo "WARNING: 'import' is deprecated. Use config-import instead"
 
-.PHONY: list build init mkdirs sql-drop updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
+.PHONY: list build init mkdirs updb entity-updates cache-rebuild styleguide db-sync config-import config-export phpcbf phpcs ci-lint-php ci-prepare ci-test test test-init login default patchy
