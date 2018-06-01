@@ -1,4 +1,8 @@
 # Drush 9 configuration.
+drush:
+  paths:
+    config:
+      - /data/drush/skpr/${env.SKIPPER_ENV}/drush.yml
 
 sql:
   # An explicit list of tables which should be included in sql-dump and sql-sync.
