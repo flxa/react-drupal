@@ -23,6 +23,9 @@ jobs:
           MINK_DRIVER_ARGS: '["http:\/\/127.0.0.1:8510", "\/tmp"]'
 
       - image: previousnext/APP_NAME-db:dev-latest
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
       - image: previousnext/gastonjs:1.0.2
 
     working_directory: /data
@@ -188,6 +191,9 @@ jobs:
     docker:
       - image: previousnext/php:7.2-dev
       - image: previousnext/APP_NAME-db:dev-latest
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
 
     working_directory: /data
 
