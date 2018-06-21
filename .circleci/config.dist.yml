@@ -6,126 +6,166 @@
 # Most environment variables are set at the org level. You need to explicitly
 # set the following per project:
 #   - SLACK_WEBHOOK_URL
-#
+
 version: 2
+
+defaults: &defaults
+  context: org-global
+
+workflows:
+  version: 2
+  # When pushed to "master", deploy to "dev".
+  # When pushed to "releases", deploy to "staging".
+  # Promote deploy from "staging" to "production".
+  deploy:
+    jobs:
+      - deploy_dev:
+          <<: *defaults
+          filters:
+            branches:
+              only: master
+      - deploy_staging:
+          <<: *defaults
+          filters:
+            branches:
+              only: releases
+      - approve:
+          type: approval
+          requires:
+            - deploy_staging
+      - deploy_prod:
+          <<: *defaults
+          requires:
+            - approve
+  # When pushed to a topic branch, run the following in parrallel:
+  #  * Run the test suite
+  #  * Deploy the temp environment
+  test:
+    jobs:
+      - test:
+          <<: *defaults
+          filters:
+            branches:
+              ignore:
+                - master
+                - releases
+      - deploy_temp:
+          <<: *defaults
+          filters:
+            branches:
+              ignore:
+                - master
+                - releases
+  # Run security patching every Thursday morning.
+  patchy:
+    jobs:
+      - patchy:
+          <<: *defaults
+    triggers:
+      - schedule:
+          cron: "0 22 * * 3" # Wed 22:00 UTC
+          filters:
+            branches:
+              only:
+                - master
+
 jobs:
-
-  # Run the build and test steps.
-  build_and_test:
-    docker:
-      - image: previousnext/php:7.2-dev
-        environment:
-          # Load nvm in each run command.
-          BASH_ENV: ~/.bashrc
-          SIMPLETEST_BASE_URL: http://127.0.0.1
-          SIMPLETEST_DB: mysql://drupal:drupal@127.0.0.1/local
-          BROWSERTEST_OUTPUT_DIRECTORY: /tmp/browser_output
-          MINK_DRIVER_ARGS: '["http:\/\/127.0.0.1:8510", "\/tmp"]'
-
-      - image: previousnext/APP_NAME-db:dev-latest
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASS
-      - image: previousnext/gastonjs:1.0.2
-
-    working_directory: /data
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
-            - APP_NAME-v1-{{ arch }}
-
-      - run:
-          name: "Install dependencies"
-          command: |
-            make ci-init
-
-      - save_cache:
-          key: APP_NAME-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
-          paths:
-            - /root/.composer
-            - /usr/local/share/.cache/yarn
-
-      - run:
-          name: Lint
-          command: |
-            make ci-lint-php
-            make lint-sass-js
-
-      - run:
-          name: Styleguide
-          command: |
-            make styleguide
-
-      - run:
-          name: Update Database and Import Config
-          command: |
-            make updb entity-updates config-import cache-rebuild
-
-      - run:
-          name: Test
-          command: |
-            make test-init ci-test
-
-      - store_test_results:
-          path: build/logs
-
-      - store_artifacts:
-          path: app/sites/simpletest/browser_output
-          destination: tr1
-
-      - persist_to_workspace:
-          root: /data
-          paths:
-            - .
-
-  # Build a docker image for deployment.
-  build_image:
-
+  deploy: &deploy
     docker:
       - image: previousnext/pnx-packager
-
     working_directory: /data
-
     steps:
-      - attach_workspace:
-          at: /data
-
+      - checkout
       - setup_remote_docker
-
+      - restore_cache:
+          keys:
+            - deps-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
       - run:
-          name: Build image
+          name: Build and Deploy
           command: |
             VERSION=$(git describe --tags --always)
             echo "Building version: ${VERSION}"
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             skpr package --delete $(pwd) ${VERSION}
+            skpr deploy ${SKPR_ENV} ${VERSION}
+            notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":k8s:" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *${SKPR_ENV}*"
 
-  # Deploy to a PR environment.
-  deploy_pr:
+  deploy_dev:
+    <<: *deploy
+    environment:
+      - SKPR_ENV: dev
 
+  deploy_staging:
+    <<: *deploy
+    environment:
+      - SKPR_ENV: staging
+
+  deploy_prod:
+    docker:
+      - image: previousnext/pnx-packager
+    working_directory: /data
+    steps:
+      - checkout
+      - run:
+          name: Build and Deploy
+          command: |
+            skpr deploy ${SKPR_ENV} $(git describe --tags --always)
+
+  test:
     docker:
       - image: previousnext/php:7.2-dev
-
+      - image: previousnext/APP_NAME-db:dev-latest
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
     working_directory: /data
-
     steps:
-
       - checkout
+      - restore_cache:
+          keys:
+            - deps-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: "Setup: Dependencies"
+          command: |
+            make init mkdirs
+            echo "Node version:" `node -v`
+            cp app/sites/default/ci.settings.php app/sites/default/settings.ci.php
+      # This populates our cache for deployments and patching executions.
+      - save_cache:
+          key: deps-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - /root/.composer
+            - /usr/local/share/.cache/yarn
+      - run:
+          name: "Test: Lint"
+          command: make ci-lint-php lint-sass-js
+      - run:
+          name: "Build: Styleguide"
+          command: make styleguide
+      - run:
+          name: "Setup: Application"
+          command: |
+            make updb entity-updates config-import cache-rebuild
+            service apache2 restart
+      - run:
+          name: "Test: Application"
+          command:  make test-init ci-test
+      - store_test_results:
+          path: build/logs
+      - store_artifacts:
+          path: app/sites/simpletest
+          destination: tr1
 
-
+  deploy_temp:
+    docker:
+      - image: previousnext/php:7.2-dev
+    working_directory: /data
+    steps:
+      - checkout
       - deploy:
           name: Deploy to PR env
           command: |
-            DEPLOY_ID=$(deploy-status create deployment \
-                      --owner ${CIRCLE_PROJECT_USERNAME} \
-                      --repo ${CIRCLE_PROJECT_REPONAME} \
-                      --ref ${CIRCLE_BRANCH} \
-                      --env m8s \
-                      --desc "PR environment for ${CIRCLE_BRANCH}")
+            DEPLOY_ID=$(deploy-status create deployment --env m8s --desc "PR environment for ${CIRCLE_BRANCH}")
 
             M8S_NAME=APP_NAME-${CIRCLE_BRANCH}
             M8S_DOMAIN=${M8S_NAME}.pnxci.io
@@ -136,56 +176,9 @@ jobs:
                       --basic-auth-user='pnx' \
                       --basic-auth-pass='pnx!@#'
 
-            deploy-status create status \
-                      --owner ${CIRCLE_PROJECT_USERNAME} \
-                      --repo ${CIRCLE_PROJECT_REPONAME} \
-                      --state success \
-                      --id ${DEPLOY_ID} \
-                      --auto-inactive \
-                      --env-url http://${M8S_DOMAIN}/
-
             VERSION=$(git rev-parse --short HEAD)
-            notify --channel="#APP_NAME" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *m8s* http://${M8S_DOMAIN}/"
-
-  # Template for skipper deploy jobs
-  deploy_skipper: &deploy_skipper
-
-    docker:
-      - image: previousnext/php:7.2-dev
-
-    working_directory: /data
-
-    steps:
-
-      - checkout
-
-      - deploy:
-          name: Deploy to dev env
-          command: |
-            VERSION=$(git describe --tags --always)
-            echo "Deploying version ${VERSION} to skipper"
-            skpr deploy ${DEPLOY_ENV} ${VERSION}
-            notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":ship:" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *${DEPLOY_ENV}*"
-            if [[ -v NOTIFY_UPCOMING_APPROVAL ]] ; then notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":k8s:" --message="Approve deployment of \`${VERSION}\` to *${NOTIFY_UPCOMING_APPROVAL}*: https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}" ; fi
-
-  # Skipper deploy to dev env.
-  deploy_dev:
-    <<: *deploy_skipper
-    environment:
-      - DEPLOY_ENV: dev
-
-  # Skipper deploy to staging env.
-  deploy_staging:
-    <<: *deploy_skipper
-    environment:
-      - DEPLOY_ENV: staging
-      - NOTIFY_UPCOMING_APPROVAL: prod
-
-  # Skipper deploy to prod env.
-  deploy_prod:
-    <<: *deploy_skipper
-    environment:
-      - DEPLOY_ENV: prod
+            deploy-status create status --state success --id ${DEPLOY_ID} --auto-inactive --env-url https://${M8S_DOMAIN}/
+            notify --channel="#APP_NAME" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *m8s* https://${M8S_DOMAIN}/"
 
   patchy:
     docker:
@@ -194,27 +187,18 @@ jobs:
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASS
-
     working_directory: /data
-
     steps:
-
       - add-ssh-keys:
           fingerprints:
             - "3c:07:15:32:37:12:93:52:40:89:58:53:23:19:5c:05"
       - checkout
-
       - restore_cache:
           keys:
-            - pnx-d8-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
-            - pnx-d8-v1-{{ arch }}
-
+            - deps-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
       - run:
           name: "Install dependencies"
-          command: |
-            make init
-            make mkdirs
-
+          command: make init mkdirs
       - run:
           name: Patchy
           command: |
@@ -228,69 +212,3 @@ jobs:
             make patchy
             git push -f origin $PATCHY_BRANCH
             hub pull-request -m "Automated patching" -b master -h $PATCHY_BRANCH || true
-
-      - save_cache:
-          key: pnx-d8-v1-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
-          paths:
-            - /root/.composer
-            - /usr/local/share/.cache/yarn
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build_and_test:
-          context: org-global
-      - build_image:
-          requires:
-            - build_and_test
-          context: org-global
-          filters:
-            branches:
-              only:
-                - master
-                - releases
-      - deploy_pr:
-          requires:
-            - build_and_test
-          context: org-global
-          filters:
-            branches:
-              ignore:
-                - master
-                - releases
-      - deploy_dev:
-          requires:
-            - build_image
-          context: org-global
-          filters:
-            branches:
-              only: master
-      - deploy_staging:
-          requires:
-            - build_image
-          context: org-global
-          filters:
-            branches:
-              only: releases
-      - approve_deploy_prod:
-          type: approval
-          requires:
-            - deploy_staging
-      - deploy_prod:
-          requires:
-            - approve_deploy_prod
-          context: org-global
-
-  patchy:
-    triggers:
-      - schedule:
-          # Wed 23:00 UTC
-          cron: "0 23 * * 3"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - patchy:
-          context: org-global
