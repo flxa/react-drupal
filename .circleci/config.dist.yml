@@ -113,7 +113,7 @@ jobs:
 
   test:
     docker:
-      - image: previousnext/php:7.2-dev
+      - image: previousnext/php-apache:7.2-3.x-dev
       - image: previousnext/APP_NAME-db:dev-latest
         auth:
           username: $DOCKER_USER
@@ -146,7 +146,7 @@ jobs:
           name: "Setup: Application"
           command: |
             make updb entity-updates config-import cache-rebuild
-            service apache2 restart
+            httpd
       - run:
           name: "Test: Application"
           command:  make test-init ci-test
@@ -158,7 +158,7 @@ jobs:
 
   deploy_temp:
     docker:
-      - image: previousnext/php:7.2-dev
+      - image: previousnext/php-apache:7.2-3.x-dev
     working_directory: /data
     steps:
       - checkout
@@ -182,7 +182,7 @@ jobs:
 
   patchy:
     docker:
-      - image: previousnext/php:7.2-dev
+      - image: previousnext/php-apache:7.2-3.x-dev
       - image: previousnext/APP_NAME-db:dev-latest
         auth:
           username: $DOCKER_USER
