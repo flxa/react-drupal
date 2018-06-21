@@ -93,7 +93,7 @@ test-init:
 	chmod 2775 $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files/simpletest
 	touch $(APP_ROOT)/test-output.html;
 	chmod 775 $(APP_ROOT)/test-output.html;
-	chown -R www-data:www-data $(APP_ROOT)
+	chown -R apache:apache $(APP_ROOT)
 
 test:
 	./bin/phpunit --stop-on-fail $(APP_ROOT)/modules/custom/$(folder)
