@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    image: previousnext/php:7.2-dev
+    image: previousnext/php-apache:7.2-3.x-dev
     # You will notice that we are forwarding port which do not belong to PHP.
     # We have to declare them here because these "sidecar" services are sharing
     # THIS containers network stack.
@@ -65,7 +65,7 @@ services:
   #  * Gosu = Run as a user (www-data) to avoid permissions issues.
   #  * Microcron = Our project which ensures cron will run every 5min.
 #  cron-drush:
-#    image: previousnext/php:7.2-dev
+#    image: previousnext/php-apache:7.2-3.x-dev
 #    entrypoint: ['gosu', 'www-data', 'microcron', '5m', 'drush cron']
 #    network_mode: service:app
 #    volumes:

@@ -13,7 +13,7 @@ jobs:
   # Run the build and test steps.
   build_and_test:
     docker:
-      - image: previousnext/php:7.2-dev
+      - image: previousnext/php-apache:7.2-3.x-dev
         environment:
           # Load nvm in each run command.
           BASH_ENV: ~/.bashrc

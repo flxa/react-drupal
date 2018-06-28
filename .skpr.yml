@@ -3,7 +3,7 @@ cluster: "pnx.cd.pnx.com.au"
 channel: '#APP_NAME'
 
 package:
-  image: previousnext/php:7.2-dev
+  image: previousnext/php-apache:7.2-3.x-dev
   steps: []
 
 deploySteps:
