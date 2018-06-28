@@ -1,4 +1,8 @@
-FROM previousnext/php-apache:7.2-3.x-apache
+FROM previousnext/php-apache:7.2-3.x-dev as build
+ADD . /data
+RUN make init styleguide
+RUN rm -fR node_modules
 
-# Add custom Docker commmands here. e.g.:
-# RUN echo 'apc.shm_size = 96M' >> /usr/local/etc/php/conf.d/apcu.ini
+FROM previousnext/php-apache:7.2-3.x
+COPY --from=build /data /data
+RUN chown -R apache:apache /data
