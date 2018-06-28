@@ -109,7 +109,7 @@ jobs:
       - run:
           name: Build and Deploy
           command: |
-            skpr deploy ${SKPR_ENV} $(git describe --tags --always)
+            skpr deploy prod $(git describe --tags --always)
 
   test:
     docker:
