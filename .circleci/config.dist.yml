@@ -129,7 +129,6 @@ jobs:
           command: |
             make init mkdirs
             echo "Node version:" `node -v`
-            cp app/sites/default/ci.settings.php app/sites/default/settings.ci.php
       # This populates our cache for deployments and patching executions.
       - save_cache:
           key: deps-{{ arch }}-{{ checksum "composer.lock" }}-{{ checksum "yarn.lock" }}
