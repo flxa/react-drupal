@@ -26,6 +26,7 @@ dependencies:
   - filter
   - help
   - image
+  - imageapi_optimize
   - link
   - linkit
   - menu_ui
