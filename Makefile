@@ -90,9 +90,9 @@ ci-lint-php: ci-init psalm
 
 test-init:
 	mkdir -p $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files/simpletest
-	chmod 2775 $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files/simpletest
+	chmod 2775 $(APP_ROOT)/sites/simpletest $(APP_ROOT)/sites/default/files $(APP_ROOT)/sites/default/private
 	touch $(APP_ROOT)/test-output.html;
-	chmod 775 $(APP_ROOT)/test-output.html;
+	chmod 664 $(APP_ROOT)/test-output.html;
 	chown -R apache:apache $(APP_ROOT)
 
 test:
