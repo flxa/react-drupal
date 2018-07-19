@@ -111,7 +111,10 @@ jobs:
       - run:
           name: Build and Deploy
           command: |
-            skpr deploy prod $(git describe --tags --always)
+            VERSION=$(git describe --tags --always)
+            SKPR_ENV=prod
+            skpr deploy ${SKPR_ENV} ${VERSION}
+            notify --channel="#APP_NAME" --username="Skipper" --icon-emoji=":k8s:" --message="Deployed \`${VERSION}\` from \`${CIRCLE_BRANCH}\` to *${SKPR_ENV}*"
 
   test:
     docker:
