@@ -14,6 +14,14 @@ services:
       - $HOME/.skpr.yml:/root/.skpr.yml
       # Mount composer cache.
       - $HOME/.composer:/root/.composer
+    deploy:
+      resources:
+        reservations:
+          cpus:   '50m'
+          memory: '512Mi'
+        limits:
+          cpus:   '500m'
+          memory: '768Mi'
 
   db:
     image: mariadb
@@ -23,6 +31,14 @@ services:
       - MYSQL_DATABASE=local
       - MYSQL_USER=drupal
       - MYSQL_PASSWORD=drupal
+    deploy:
+      resources:
+        reservations:
+          cpus:   '150m'
+          memory: '256Mi'
+        limits:
+          cpus:   '150m'
+          memory: '256Mi'
 
   mail:
     image: mailhog/mailhog
