@@ -47,7 +47,6 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
                 - releases
       - deploy_temp:
           <<: *defaults
