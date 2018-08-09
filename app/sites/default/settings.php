@@ -1,86 +1,19 @@
 <?php
-
-use Drupal\Core\Config\BootstrapConfigStorageFactory;
-use Drupal\Core\Database\Database;
-
-require_once __DIR__ . '/settings.skpr.php';
-
-$settings['container_yamls'][] = __DIR__ . '/services.yml';
-
-// Disables installing modules via browser.
-$settings['allow_authorize_operations'] = FALSE;
-
-$databases['default']['default'] = array(
+/**
+ * Created by PhpStorm.
+ * User: flxa
+ * Date: 9/8/18
+ * Time: 2:29 PM
+ */
+$settings['hash_salt'] = '2NTY3ShvMtI7DFqNrwvFJcvruVtQ6LoYUyEHA7M9Hy9XXHtKOuCZ8go4gQh3sQNdpBv6LgJRkg';$databases['default']['default'] = array (
+  'database' => 'drupal',
+  'username' => 'root',
+  'password' => 'root',
+  'prefix' => '',
+  'host' => '0.0.0.0',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
-  'database' => skpr_config('mysql.database') ?: 'local',
-  'username' => skpr_config('mysql.username') ?: 'drupal',
-  'password' => skpr_config('mysql.password') ?: 'drupal',
-  'host' => skpr_config('mysql.hostname') ?: '127.0.0.1',
 );
-$config['cron_safe_threshold'] = '0';
-$settings['file_public_path'] = skpr_config('file.public') ?: 'sites/default/files';
-$config['system.file']['path']['temporary'] = skpr_config('file.tmp') ?: '/tmp';
-$settings['file_private_path'] = skpr_config('file.private') ?: 'sites/default/files/private';
-
-$settings['install_profile'] = 'APP_NAME_profile';
-
-// Default to Mailhog.
-$config['swiftmailer.transport']['smtp_host'] = skpr_config('smtp.host') ?: '127.0.0.1';
-$config['swiftmailer.transport']['smtp_port'] = skpr_config('smtp.port') ?: '1025';
-$config['swiftmailer.transport']['smtp_encryption'] = skpr_config('smtp.encryption') ?: '';
-$config['swiftmailer.transport']['transport'] = skpr_config('smtp.transport') ?: 'smtp';
-$config['swiftmailer.transport']['smtp_credential_provider'] = 'swiftmailer';
-$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['username'] = skpr_config('smtp.username') ?: '';
-$config['swiftmailer.transport']['smtp_credentials']['swiftmailer']['password'] = skpr_config('smtp.password') ?: '';
-
-// Solr Host
-$config['search_api.server.solr']['backend_config']['connector_config']['host'] = skpr_config('solr.host') ?: '127.0.0.1';
-
-$config_directories['sync'] = DRUPAL_ROOT . '/../config-export';
-
-// * Stops twig cache from being built on shared file storage.
-// * In the project root to avoid collisions and for security.
-$settings['php_storage']['twig'] = array(
-  'directory' => DRUPAL_ROOT . '/../.php',
-);
-
-$settings['hash_salt'] = !empty($settings['hash_salt']) ? $settings['hash_salt'] : '2MRTupNXITYmtP7eRB58';
-
-// PreviousNext domains (local / dev)
-$settings['trusted_host_patterns'][] = '^127\.0\.0\.1$';
-$settings['trusted_host_patterns'][] = '^localhost$';
-$settings['trusted_host_patterns'][] = '^APP_NAME\-pr[0-9]+\.ci\.pnx\.com\.au$';
-$settings['trusted_host_patterns'][] = '^APP_NAME\-\w+\.cd\.pnx\.com\.au$';
-$settings['trusted_host_patterns'][] = '^.+\.pnxci\.io$';
-$settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.test') . '$';
-$settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.qa.previousnext.com.au') . '$';
-$settings['trusted_host_patterns'][] = '^' . preg_quote('APP_NAME.staging.previousnext.com.au') . '$';
-
-
-// Reverse proxy address range on dev05.
-$settings['reverse_proxy_addresses'][] = '172.17.42.0/24';
-
-if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-  $settings['reverse_proxy'] = TRUE;
-  $settings['reverse_proxy_proto_header'] = 'HTTP_CLOUDFRONT_FORWARDED_PROTO';
-  $settings['reverse_proxy_port_header'] = 'SERVER_PORT';
-
-  // We take all the headers which are provided to us from upstream.
-  // This looks like: 0.0.0.0, 1.1.1.1, 2.2.2.2
-  $proxies = explode(", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
-
-  // 0.0.0.0 is the users IP address, so we remove it from the list
-  // of reverse proxies.
-  array_shift($proxies);
-
-  // The X-Forwarded-For header might not cover the last reverse proxy
-  // so we ensure that is on the list as well.
-  $proxies[] = $_SERVER['REMOTE_ADDR'];
-
-  $settings['reverse_proxy_addresses'] = array_unique(array_merge($settings['reverse_proxy_addresses'], $proxies));
-}
-
-// Allow local settings overrides.
-foreach (glob(__DIR__ . '/settings.*.php') as $filename) {
-  include_once $filename;
-}
+$settings['install_profile'] = 'standard';
+$config_directories['sync'] = 'sites/default/files/config_6aFfq0EGPpjW4VLbS4x31DEvbUAhhdMy_1iJAMeVAxjavYB27FeCOI1U0C5Uf7nqBJbix5Ampg/sync';
