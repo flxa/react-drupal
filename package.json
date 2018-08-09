@@ -38,11 +38,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "storybook": "say starting storybook; start-storybook -p 9001 -c .storybook",
-    "build-storybook": "say exporting storybook; build-storybook -c .storybook -o .out; say serving export on port 8000; cd .out; python -m SimpleHTTPServer"
+    "start": "say starting storybook; start-storybook -p 9001 -c .storybook",
+    "build": "say exporting storybook; build-storybook -c .storybook -o .out; say serving export on port 8000; cd .out; python -m SimpleHTTPServer"
   }
 }

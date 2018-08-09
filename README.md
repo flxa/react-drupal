@@ -10,10 +10,6 @@ APP_NAME
 * **Staging** - http://APP_NAME.staging.previousnext.com.au
 * **Prod** - TBD
 
-## Important
-
-Important project notes go here...
-
 ## Local Development
 
 Local development is run via Docker Compose.
@@ -23,29 +19,18 @@ Documentation for this approach is documented in a series of blog posts.
 - [How our services talk to each other](https://www.previousnext.com.au/blog/composing-docker-local-development-networking)
 - [How Xdebug works in OSX](https://www.previousnext.com.au/blog/composing-docker-local-development-xdebug-osx)
 
-### Install dependencies
+### Install storybook
 
 ```bash
-# Uses the default make target.
-$ make init
-$ make build
+nvm install
+npm i -g @storybook/cli
+npm install
+npm run storybook
 ```
 
-### Front-end workflow
-
-- Read about [setup and documentation](docs/front-end.md)
-- Build the styleguide
+### Install React App
 
 ```bash
-$ make styleguide
-```
-
-- Review the [javascript documentation](docs/javascript.md)
-
-### Git Hooks
-
-To utilise the default pre-commit hooks, run the following command:
-
-```
-git config core.hooksPath .git-hooks
+npm install
+npm start
 ```
