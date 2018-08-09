@@ -3,32 +3,6 @@
     color: var(--text);
 }
 
-.App-logo {
-    animation: App-logo-spin infinite 20s linear;
-    height: var(--appLogoHeight);
-}
-
-.App-header {
-    background-color: var(--headerBackground);
-    height: var(--headerHeight);
-    padding: 1.5rem;
-    color: white;
-}
-
-.App-title {
-    font-size: 1.5em;
-}
-
-.App-intro {
-    font-size: large;
-}
-
-.App-loader {
-    animation: App-logo-spin infinite 1s linear;
-    height: var(--loaderHeight);
-    margin: auto;
-}
-
 .App-error {
     text-align: center;
     width: 100%;

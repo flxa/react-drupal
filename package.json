@@ -23,7 +23,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.10.0",
     "react-storybook-addon-chapters": "^2.1.5",
-    "storybook-readme": "^3.3.0"
+    "storybook-readme": "^3.3.0",
+    "svg-inline-loader": "^0.8.0"
   },
   "dependencies": {
     "apollo-boost": "^0.1.12",

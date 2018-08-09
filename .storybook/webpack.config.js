@@ -14,6 +14,15 @@ module.exports = {
         ],
         enforce: 'pre',
       },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loaders: ['style-loader', 'css-loader'],
+      },
     ],
   },
 };

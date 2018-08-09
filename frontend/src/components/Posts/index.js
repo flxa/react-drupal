@@ -11,6 +11,10 @@ const Posts = ({ posts, errors }) => {
     );
   }
 
+  if (!posts) {
+    return <div className='error'>No post data</div>;
+  }
+
   return posts.nodeQuery.entities.map(post => {
     return <Post post={post} key={post.entityUuid} />;
   });

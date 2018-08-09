@@ -1,0 +1,5 @@
+.App-loader {
+    animation: App-logo-spin infinite 1s linear;
+    height: var(--loaderHeight);
+    margin: auto;
+}

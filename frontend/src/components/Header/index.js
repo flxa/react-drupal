@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../Logo/logo.svg';
-import Menu from '../Menu'
+import Menu from '../Menu';
+import './Header.css';
 
 const Header = ({ appName = 'React GraphQL app', children, refetch }) => {
   return <header className="App-header">
