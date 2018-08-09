@@ -70,7 +70,7 @@ config-import:
 	$(DRUSH) config-import-plus -y --source=$(CONFIG_DIR) --install=$(CONFIG_INSTALL) --delete-list=$(CONFIG_DELETE)
 
 config-export:
-	$(DRUSH) config-export-plus -y --destination=$(CONFIG_DIR) --ignore-list=$(CONFIG_IGNORE)
+	$(DRUSH) config-export -y --destination=$(CONFIG_DIR)
 
 fix-php:
 	$(PHPCBF)

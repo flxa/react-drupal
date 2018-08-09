@@ -1,0 +1,14 @@
+uuid: d6e51250-734e-40ec-a8d8-f1783b1616d6
+name: 'Headless Drupal / React'
+mail: nick.fletcher@previousnext.com.au
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
