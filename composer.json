@@ -52,6 +52,10 @@
         {
             "type": "git",
             "url": "https://github.com/previousnext/skipper_affinity.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/fubhy/graphql-drupal"
         }
     ],
     "extra": {

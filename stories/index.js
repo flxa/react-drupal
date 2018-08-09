@@ -31,7 +31,7 @@ stories.add('wit knobs', withNotes('Finally some notes are working')(() =>
 
 stories.add(
   'wit issues',
-  withNotes('Finally some notes are working')(
+  withNotes('Finally some notes are working. This is continued.')(
     () => <Button onClick={action('slapped')} disabled={boolean('Disabled', false)} />,
   ),
 );

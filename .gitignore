@@ -55,6 +55,7 @@ Thumbs.db
 # Front end #
 #############
 /node_modules
+/frontend/node_modules
 
 # Dev files #
 #############

@@ -229,6 +229,9 @@ AddEncoding gzip svgz
   Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
   Header set Content-Security-Policy upgrade-insecure-requests env=HTTPS
 
+  Header set Access-Control-Allow-Origin "*"
+  Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+
 </IfModule>
 
 ####################################################

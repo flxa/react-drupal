@@ -11,8 +11,8 @@ const Posts = ({ posts, errors }) => {
     );
   }
 
-  return posts.posts.edges.map(post => {
-    return <Post post={post.node} key={post.node.id} />;
+  return posts.nodeQuery.entities.map(post => {
+    return <Post post={post} key={post.entityUuid} />;
   });
 };
 
