@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+a:hover,
+a:visited {
+    color: var(--text);
+}
+
+a:focus {
+    outline: 2px solid var(--text);
+    outline-offset: -.5rem;
+}
+
+.container {
+    width: 100%;
+}

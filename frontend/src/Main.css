@@ -1,0 +1,6 @@
+@import "css/variables.css";
+@import "css/init.css";
+@import "css/animations.css";
+@import "components/App/App.css";
+@import "components/Post/Post.css";
+@import "components/Menu/Menu.css";

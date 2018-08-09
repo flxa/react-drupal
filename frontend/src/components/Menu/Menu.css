@@ -1,0 +1,12 @@
+.Menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.Menu li {
+    padding: 0 .25rem;
+}

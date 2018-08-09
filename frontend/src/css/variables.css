@@ -1,0 +1,17 @@
+:root {
+    --site-max-width: 960px;
+    --text: dodgerblue;
+    --Postborder: #1e8fff80;
+    --PostborderHover: dodgerblue;
+    --postBackground: white;
+    --headerHeight: 190px;
+    --headerBackground: #222;
+    --appLogoHeight: 80px;
+    --loaderHeight: 3rem;
+    --lightText: #a2a2a2;
+    --smallText: 14px;
+    --fontAlt: monospace;
+    --boxShadow: 0 0 1rem rgba(0, 0, 0, .1);
+    --boxShadowHover: 0 0 2rem rgba(0, 0, 0, .1);
+    --errorRed: #d61818;
+}
